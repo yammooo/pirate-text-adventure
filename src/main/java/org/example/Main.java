@@ -1,7 +1,13 @@
 package org.example;
 
+import org.example.facade.AppFacade;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        // Instantiate the facade
+        AppFacade facade = new AppFacade();
+
+        // Call the facade methods
+        facade.start();
     }
 }
