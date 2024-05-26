@@ -1,0 +1,220 @@
+@startuml
+' Interfaces
+interface JFrame
+interface JPanel
+
+interface Observer {
+    + update(event: Event): void
+}
+
+interface Observable {
+    + addObserver(observer: Observer): void
+    + removeObserver(observer: Observer): void
+    + notifyObservers(event: Event): void
+}
+
+' Event Classes
+class Event {}
+class UIEvent extends Event {}
+class SaveEvent extends Event {}
+
+' WindowState
+enum WindowState {
+    MENU
+    GAME
+}
+
+' Main Frame and Panels
+class MainFrame {
+    - commandPanel: CommandPanel
+    - graphicsPanel: GraphicsPanel
+    + switchToMenu(): void
+    + switchToGame(): void
+}
+
+MainFrame -|> JFrame
+MainFrame --> CommandPanel
+MainFrame --> GraphicsPanel
+
+class CommandPanel {
+    - commandPanelHandler: CommandPanelHandler
+    + executeCommand(command: String): void
+}
+
+
+
+CommandPanel -|> JPanel
+CommandPanel --- CommandPanelHandler
+
+class CommandPanelHandler implements Observer {
+    - commandPanel: CommandPanel
+    + createCommand(input: String): Command
+    + handleCommand(command: Command): void
+    + update(event: Event): void
+}
+
+CommandPanelHandler ------> AppHandler
+
+class GraphicsPanel {
+    - graphicsPanelHandler: GraphicsPanelHandler
+    + draw(): void
+}
+
+GraphicsPanel -|> JPanel
+GraphicsPanel --- GraphicsPanelHandler
+
+class GraphicsPanelHandler implements Observer {
+    - graphicsPanel: GraphicsPanel
+    + update(event: Event): void
+}
+
+GraphicsPanelHandler ------> AppHandler
+
+' Facade and Game State
+class AppFacade {
+    - appHandler: AppHandler
+    - awsHandler: AWSHandler
+    - mainFrame: MainFrame
+    + main(args: String[]): void
+    + startNewGame(): void
+    + loadGame(): void
+    + saveGame(): void
+    + exitToMenu(): void
+}
+
+class AppHandler implements Observable {
+    - AppHandler instance
+    + getInstance(): AppHandler
+    + startGame(): void
+    + exitToMenu(): void
+    + move(locationID: int): void
+    + pickUpItem(entityID: int): void
+    + useItem(entityID: int): void
+    + dropItem(entityID: int): void
+    + getHelp(): String
+    + getDialogue(entityID: int): String
+    + getDescription(entityID: int): String
+    + notifyUI(): void
+    + notifySave(): void
+}
+
+AppHandler --> AppState
+AppFacade --> AWSHandler
+AppFacade ---> MainFrame
+
+class AppState {
+    - AppState instance
+    + getInstance(): AppState
+    - gameState: GameState
+    - currentWindow: WindowState
+    + getGameState(): void
+    + getCurrentWindow(): WindowState
+}
+
+
+AppFacade ------> AppHandler
+AppState --> WindowState
+AppState --> GameState
+
+
+class GameState {
+    - GameState instance
+    + getInstance(): GameState
+    - pirate: Pirate
+    - map: Map
+    + getPirate(): Pirate
+    + getMap(): Map
+}
+
+class AWSHandler implements Observer {
+    + saveToS3(data: String): void
+    + loadFromS3(): String
+    + update(event: Event): void
+    + jsonToObject(): void
+}
+
+AWSHandler ------> AppHandler
+
+' Game Entities
+class Pirate {
+    - lives: int
+    - backpack: Backpack
+    + getMaxLives(): int
+    + getcurrentLives(): int
+    + getBackpack(): Backpack
+}
+
+Pirate --> Backpack
+
+class Backpack {
+    - maxWeight: int
+    - items: ArrayList<CollectableItem>
+    + addItem(item: CollectableItem): void
+    + removeItem(id: int): void
+    + getMaxWeight(): int
+    + getTotalWeight(): int
+}
+
+class Map {
+    - locations: ArrayList<Location>
+    - obstacles: Map<Pair<int, int>, Obstacle>
+    - currentPirateLocationID: int
+    + getLocationById(id: int): Location
+    + getObstacleByLocationsID(int, int): Obstacle
+    + getPirateLocationID(id: int): int
+}
+
+Map--> Obstacle
+
+GameState --> Pirate
+GameState --> Map
+
+class Location {
+    - id: int
+    - name: String
+    - description: String
+    - entities: ArrayList<Entity>
+    - adjacentLocations: ArrayList<int>
+    + getID(): int
+    + getName(): String
+    + getDescription(): String
+    + getEntities(): List<Entity>
+    + getAdjacentLocationIDs(): List<int>
+}
+
+Map --> Location
+
+interface Entity {
+    - ID: int
+    - name: String
+    - description: String
+    + getID(): int
+    + getName(): String
+    + getDescription(): String
+}
+
+class CollectableItem implements Entity {
+    - weight: int
+    - requiredEntityID: int
+    + getWeight(): int
+    + getRequiredEntityID(): int
+}
+
+class ViewableItem implements Entity {
+}
+
+class NPC implements Entity {
+    - dialogue: String
+    + getDialogue(): int
+}
+
+class Obstacle implements Entity {
+    - itemToDefeatID: int
+    + getItemToDefeatID(): int
+}
+
+Location --> Entity
+
+class InvalidRequestException implements Exception {
+}
+@enduml
