@@ -7,7 +7,7 @@ public class Main {
         // Instantiate the facade
         AppFacade facade = new AppFacade();
 
-        // Call the facade methods
+        // Start the application
         facade.start();
     }
 }
