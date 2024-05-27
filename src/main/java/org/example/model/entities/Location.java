@@ -12,7 +12,7 @@ public class Location {
     private ArrayList<CollectableItem> items;
     private ArrayList<NPC> npcs;
     private Map<String, Location> adjacentLocations;
-    private int locationId;
+    private int id;
 
     public Location(String name, String description) {
         this.name = name;
@@ -22,11 +22,11 @@ public class Location {
     }
 
     public int getID(){
-        return locationId;
+        return id;
     }
 
     public void setID( int id){
-        this.locationId = id;
+        this.id = id;
     }
 
     public String getName() {
@@ -45,14 +45,11 @@ public class Location {
         this.description = description;
     }
 
-    public ArrayList<CollectableItem> getItems() {
-        return items;
-    }
 
     public void removeItem(int id) throws ItemNotFoundException {
         boolean itemRemoved = items.removeIf(item -> item.getID() == id);
         if (!itemRemoved) {
-            throw new ItemNotFoundException("Item not found in the backpack.");
+            throw new ItemNotFoundException(this.name+" does not have this item ");
         }
     }
 

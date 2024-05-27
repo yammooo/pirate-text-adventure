@@ -16,6 +16,8 @@ public class Map{
         this.currentPirateLocationID = currentPirateLocationID;
     }
 
+    //Getters
+
     public Location getLocationById(int id) {
         for (Location location : locations) {
             if (location.getID() == id) {
@@ -32,6 +34,8 @@ public class Map{
     public int getPirateLocationID() {
         return currentPirateLocationID;
     }
+
+    //Setters
 
     public void setPirateLocationID(int id) {
         this.currentPirateLocationID = id;

@@ -38,5 +38,27 @@ public class CollectableItem implements iEntity {
     public int getRequiredEntityID() {
         return requiredEntityID;
     }
+
+    public void setID(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setweight(int weight) {
+        this.weight = weight;
+    }
+
+    public void setrequiredEntityID(int  requiredEntityID) {
+        this.requiredEntityID = requiredEntityID;
+    }
+
+
 }
 

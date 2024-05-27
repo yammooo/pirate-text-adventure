@@ -39,6 +39,13 @@ public class Backpack {
 
         public int getTotalWeight() {
             //Gippi : return items.stream().mapToInt(CollectableItem::getWeight).sum();
+            // Salamino :
+            /*
+                for( CollectableItem item : items ){
+                    totalWeight += item.getWeight();
+                }
+            */
+
             // Io :
             int totalWeight = 0;
             int i = 0;
@@ -47,7 +54,11 @@ public class Backpack {
                 i++;
             }
             return totalWeight;
+
+
         }
+
+
 
 
 }
