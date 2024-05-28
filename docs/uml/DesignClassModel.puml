@@ -4,7 +4,7 @@ interface JFrame
 interface JPanel
 
 interface Observer {
-    + update(event: Event): void
+    + update(): void
 }
 
 interface Observable {
@@ -28,16 +28,15 @@ enum WindowState {
 class MainFrame {
     - commandPanel: CommandPanel
     - graphicsPanel: GraphicsPanel
-    + switchToMenu(): void
-    + switchToGame(): void
 }
 
 MainFrame -|> JFrame
 MainFrame --> CommandPanel
 MainFrame --> GraphicsPanel
 
-class CommandPanel {
+class CommandPanel implements Observer {
     - commandPanelHandler: CommandPanelHandler
+    + setHandler(handler: CommandPanelHandler): void
     + executeCommand(command: String): void
 }
 
@@ -46,29 +45,18 @@ class CommandPanel {
 CommandPanel -|> JPanel
 CommandPanel --- CommandPanelHandler
 
-class CommandPanelHandler implements Observer {
+class CommandPanelHandler {
     - commandPanel: CommandPanel
-    + createCommand(input: String): Command
     + handleCommand(command: Command): void
-    + update(event: Event): void
 }
 
 CommandPanelHandler ------> AppHandler
 
-class GraphicsPanel {
-    - graphicsPanelHandler: GraphicsPanelHandler
+class GraphicsPanel implements Observer {
     + draw(): void
 }
 
 GraphicsPanel -|> JPanel
-GraphicsPanel --- GraphicsPanelHandler
-
-class GraphicsPanelHandler implements Observer {
-    - graphicsPanel: GraphicsPanel
-    + update(event: Event): void
-}
-
-GraphicsPanelHandler ------> AppHandler
 
 ' Facade and Game State
 class AppFacade {

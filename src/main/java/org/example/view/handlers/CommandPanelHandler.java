@@ -1,19 +1,16 @@
 package org.example.view.handlers;
 
+import org.example.view.panels.CommandPanel;
+
 public class CommandPanelHandler {
 
-    // TODO: Implement Observer interface
+    private CommandPanel commandPanel;
 
-    public CommandPanelHandler() {
-
+    public CommandPanelHandler(CommandPanel commandPanel) {
+        this.commandPanel = commandPanel;
     }
 
     public void handleCommand(String command) {
         // TODO
     }
-
-//    @Override
-//    public void update(Event event) {
-//        // TODO
-//    }
 }

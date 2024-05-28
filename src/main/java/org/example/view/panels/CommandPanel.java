@@ -6,11 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import org.example.observer.Observer;
 import org.example.view.handlers.CommandPanelHandler;
 
-public class CommandPanel extends JPanel {
+public class CommandPanel extends JPanel implements Observer {
     private JTextArea displayArea;
-    private JTextField inputField;
+//    private JTextField inputField;
     private Timer timer;
     private String currentMessage;
     private int currentCharIndex;
@@ -27,9 +28,14 @@ public class CommandPanel extends JPanel {
         displayArea.setForeground(Color.GREEN);
         displayArea.setWrapStyleWord(true);
         displayArea.setLineWrap(true);
-        add(displayArea, BorderLayout.CENTER);
+        //add(displayArea, BorderLayout.CENTER);
 
-        inputField = new JTextField();
+        JScrollPane scrollPane = new JScrollPane(displayArea);
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+
+        add(scrollPane, BorderLayout.CENTER);
+
+        JTextField inputField = new JTextField();
         inputField.setFont(new Font("Monospaced", Font.PLAIN, 14));
         inputField.addActionListener(new ActionListener() {
             @Override
@@ -41,8 +47,15 @@ public class CommandPanel extends JPanel {
             }
         });
         add(inputField, BorderLayout.SOUTH);
+    }
 
-        commandPanelHandler = new CommandPanelHandler();
+    @Override
+    public void update() {
+        // TODO
+    }
+
+    public void setHandler(CommandPanelHandler handler) {
+        commandPanelHandler = handler;
     }
 
     private void showMessage(String message) {
