@@ -1,6 +1,6 @@
 package org.example.facade;
 
-import org.example.view.panels.MainFrame;
+import org.example.view.MainFrame;
 
 public class AppFacade {
 
