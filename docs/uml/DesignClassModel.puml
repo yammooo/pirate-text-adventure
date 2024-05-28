@@ -37,7 +37,7 @@ MainFrame --> GraphicsPanel
 class CommandPanel implements Observer {
     - commandPanelHandler: CommandPanelHandler
     + setHandler(handler: CommandPanelHandler): void
-    + executeCommand(command: String): void
+    awsHandler
 }
 
 
@@ -64,15 +64,14 @@ class AppFacade {
     - awsHandler: AWSHandler
     - mainFrame: MainFrame
     + start(): void
-    + startNewGame(): void
-    + loadGame(): void
-    + saveGame(): void
 }
 
 class AppHandler implements Observable {
     - AppHandler instance
-    + getInstance(): AppHandler
-    + startGame(): void
+    + {static} getInstance(): AppHandler
+    + startNewGame(): void
+    + startSavedGame(gameID: int): void
+    + getSavedGames(): int
     + exitToMenu(): void
     + move(locationID: int): void
     + pickUpItem(entityID: int): void
@@ -90,6 +89,7 @@ AppFacade --> AWSHandler
 AppFacade ---> MainFrame
 
 class AppState {
+    + {static} getInstance(): AppState
     - AppState instance
     - gameState: GameState
     - currentWindow: WindowState
@@ -104,8 +104,6 @@ AppState --> GameState
 
 
 class GameState {
-    - GameState instance
-    + getInstance(): GameState
     - pirate: Pirate
     - map: Map
     + getPirate(): Pirate
@@ -113,13 +111,20 @@ class GameState {
 }
 
 class AWSHandler implements Observer {
-    + saveToS3(data: String): void
+    + saveToS3(json: String): void
     + loadFromS3(): String
-    + update(event: Event): void
-    + jsonToObject(): void
 }
 
 AWSHandler ------> AppHandler
+
+' Translator
+class GameStateTranslator {
+    + {static} jsonToGameState(json: String): GameState
+    + {static} gameStateToJson(gameState: GameState): String
+}
+
+AppHandler --> GameStateTranslator
+AWSHandler --> GameStateTranslator
 
 ' Game Entities
 class Pirate {
