@@ -63,11 +63,10 @@ class AppFacade {
     - appHandler: AppHandler
     - awsHandler: AWSHandler
     - mainFrame: MainFrame
-    + main(args: String[]): void
+    + start(): void
     + startNewGame(): void
     + loadGame(): void
     + saveGame(): void
-    + exitToMenu(): void
 }
 
 class AppHandler implements Observable {
@@ -92,7 +91,6 @@ AppFacade ---> MainFrame
 
 class AppState {
     - AppState instance
-    + getInstance(): AppState
     - gameState: GameState
     - currentWindow: WindowState
     + getGameState(): void
