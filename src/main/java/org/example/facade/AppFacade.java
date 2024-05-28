@@ -1,9 +1,13 @@
 package org.example.facade;
 
+import org.example.view.panels.MainFrame;
+
 public class AppFacade {
 
-    public void start() {
+    private MainFrame mainFrame;
 
+    public void start() {
+        mainFrame = new MainFrame();
     }
 
     public void startNewGame() {
