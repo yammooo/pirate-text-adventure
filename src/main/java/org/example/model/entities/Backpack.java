@@ -6,16 +6,17 @@ import org.example.exceptions.ItemNotFoundException;
 
 public class Backpack {
 
-        // Rappresento lo zaino come un arraylist di oggetti collezionabili
-        // Lo zaino ha un peso dato dato dalla somma degli item
+        // The Backpack class is represented as an ArrayList of CollectableItem objects.
+        // The weight of the Backpack is determined by the sum of the weights of the items it contains.
 
-        private int maxWeight;
-        private ArrayList<CollectableItem> items;
+        private final int maxWeight;
+        private final ArrayList<CollectableItem> items;
 
         public Backpack(int maxWeight) {
             this.maxWeight = maxWeight;
             this.items = new ArrayList<>();
         }
+
 
         public void addItem(CollectableItem item) throws BackpackWeightExceededException {
             if (getTotalWeight() + item.getWeight() <= maxWeight) {
@@ -33,20 +34,14 @@ public class Backpack {
         }
 
 
+        // Getters
+
         public int getMaxWeight() {
                 return maxWeight;
         }
 
         public int getTotalWeight() {
-            //Gippi : return items.stream().mapToInt(CollectableItem::getWeight).sum();
-            // Salamino :
-            /*
-                for( CollectableItem item : items ){
-                    totalWeight += item.getWeight();
-                }
-            */
 
-            // Io :
             int totalWeight = 0;
             int i = 0;
             while (i < items.size()) {
@@ -55,10 +50,6 @@ public class Backpack {
             }
             return totalWeight;
 
-
         }
-
-
-
 
 }

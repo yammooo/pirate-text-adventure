@@ -1,4 +1,6 @@
 package org.example.model.entities.enums;
 
-public class WindowState {
+public enum WindowState {
+    MENU,
+    GAME
 }

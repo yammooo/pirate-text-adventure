@@ -1,12 +1,11 @@
 package org.example.model.entities;
 
-
-public class CollectableItem implements iEntity {
-    private int id;
-    private String name;
-    private String description;
-    private int weight;
-    private int requiredEntityID;
+public class CollectableItem implements Entity {
+    private final int id;
+    private final String name;
+    private final String description;
+    private final int weight;
+    private final int requiredEntityID;
 
     public CollectableItem(int id, String name, String description, int weight, int requiredEntityID) {
         this.id = id;
@@ -15,6 +14,9 @@ public class CollectableItem implements iEntity {
         this.weight = weight;
         this.requiredEntityID = requiredEntityID;
     }
+
+
+    // Getters
 
     @Override
     public int getID() {
@@ -38,27 +40,6 @@ public class CollectableItem implements iEntity {
     public int getRequiredEntityID() {
         return requiredEntityID;
     }
-
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setweight(int weight) {
-        this.weight = weight;
-    }
-
-    public void setrequiredEntityID(int  requiredEntityID) {
-        this.requiredEntityID = requiredEntityID;
-    }
-
 
 }
 

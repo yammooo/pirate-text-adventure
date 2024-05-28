@@ -1,10 +1,10 @@
 package org.example.model.entities;
 
-public class NPC implements iEntity {
-    private int id;
-    private String name;
-    private String description;
-    private String dialogue;
+public class NPC implements Entity {
+    private final int id;
+    private final String name;
+    private final String description;
+    private final String dialogue;
 
     public NPC(int id, String name, String description, String dialogue) {
         this.id = id;
@@ -12,6 +12,9 @@ public class NPC implements iEntity {
         this.description = description;
         this.dialogue = dialogue;
     }
+
+
+    // Getters
 
     @Override
     public int getID() {
@@ -30,22 +33,6 @@ public class NPC implements iEntity {
 
     public String getDialogue() {
         return dialogue;
-    }
-
-    public void setDialogue(String dialogue) {
-        this.dialogue = dialogue;
-    }
-
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
 }

@@ -6,13 +6,13 @@ import java.util.HashMap;
 import org.example.pair.Pair;
 
 public class Map{
-    private ArrayList<Location> locations;
-    private HashMap<Pair<Integer, Integer>, Obstacle> obstacles;
+    private final ArrayList<Location> locations;
+    private final HashMap<Pair<Integer, Integer>, Obstacle> obstacles;
     private int currentPirateLocationID;
 
     public Map(ArrayList<Location> locations, HashMap<Pair<Integer, Integer>, Obstacle> obstacles, int currentPirateLocationID) {
-        this.locations = locations;
-        this.obstacles = obstacles;
+        this.locations = locations != null ? new ArrayList<>(locations) : new ArrayList<>();
+        this.obstacles = obstacles != null ? new HashMap<>(obstacles) : new HashMap<>();
         this.currentPirateLocationID = currentPirateLocationID;
     }
 
@@ -35,19 +35,11 @@ public class Map{
         return currentPirateLocationID;
     }
 
+
     //Setters
 
     public void setPirateLocationID(int id) {
         this.currentPirateLocationID = id;
     }
-
-    public void addLocation(Location location) {
-        locations.add(location);
-    }
-
-    public void addObstacle(int id1, int id2, Obstacle obstacle) {
-        obstacles.put(new Pair<>(id1, id2), obstacle);
-    }
-
 
 }

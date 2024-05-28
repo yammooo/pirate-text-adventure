@@ -1,10 +1,10 @@
 package org.example.model.entities;
 
-public class Obstacle implements iEntity {
-    private int id;
-    private String name;
-    private String description;
-    private int itemToDefeatID;
+public class Obstacle implements Entity {
+    private final int id;
+    private final String name;
+    private final String description;
+    private final int itemToDefeatID;
 
     public Obstacle(int id, String name, String description, int itemToDefeatID) {
         this.id = id;
@@ -12,6 +12,8 @@ public class Obstacle implements iEntity {
         this.description = description;
         this.itemToDefeatID = itemToDefeatID;
     }
+
+    // Getters
 
     @Override
     public int getID() {

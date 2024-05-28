@@ -2,37 +2,37 @@ package org.example.model.entities;
 
 public class Pirate {
     private int lives;
-    private Backpack backpack;
-    private int max_lives;
+    private final Backpack backpack;
+    private final int maxLives;
 
-    public Pirate(int lives, Backpack backpack, int max_lives) {
+    public Pirate(int lives, Backpack backpack, int maxLives) {
         this.lives = lives;
         this.backpack = backpack;
-        this.max_lives = max_lives;
+        this.maxLives = maxLives;
     }
 
+    // Getters
+
     public int getMaxLives() {
-        return this.max_lives;
+        return this.maxLives;
     }
 
     public int getCurrentLives() {
         return lives;
     }
 
+    public Backpack getBackpack() {
+        return backpack;
+    }
+
+
+    // Setters
+
     public void setCurrentLives(int lives) {
-        if(lives > this.max_lives){
+        if(lives > this.maxLives){
             throw new IllegalArgumentException("max lives exception");
         }
         this.lives = lives;
     }
 
-    public void setMaxLives(int max_lives) {
-        this.max_lives = max_lives;
-    }
-
-    public Backpack getBackpack() {
-        return backpack;
-    }
-
 }
-

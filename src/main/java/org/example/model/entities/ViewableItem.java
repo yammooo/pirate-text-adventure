@@ -1,16 +1,18 @@
 package org.example.model.entities;
 
-public class ViewableItem implements iEntity{
+public class ViewableItem implements Entity {
 
-    private int id;
-    private String name;
-    private String description;
+    private final int id;
+    private final String name;
+    private final String description;
 
     public ViewableItem(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
+
+    // Getters
 
     @Override
     public int getID() {
@@ -26,21 +28,5 @@ public class ViewableItem implements iEntity{
     public String getDescription() {
         return description;
     }
-
-
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-
 
 }

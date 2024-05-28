@@ -7,42 +7,19 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Location {
-    private String name;
-    private String description;
-    private ArrayList<CollectableItem> items;
-    private ArrayList<NPC> npcs;
+    private final int id;
+    private final String name;
+    private final String description;
+    private final ArrayList<CollectableItem> items;
+    private final ArrayList<NPC> npcs;
     private Map<String, Location> adjacentLocations;
-    private int id;
 
-    public Location(String name, String description) {
-        this.name = name;
-        this.description = description;
-        this.items = new ArrayList<>();
-        this.npcs = new ArrayList<>();
-    }
-
-    public int getID(){
-        return id;
-    }
-
-    public void setID( int id){
+    public Location(int id, String name, String description, ArrayList<CollectableItem> items, ArrayList<NPC> npcs) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
         this.description = description;
+        this.items = items != null ? new ArrayList<>(items) : new ArrayList<>();
+        this.npcs = npcs != null ? new ArrayList<>(npcs) : new ArrayList<>();
     }
 
 
@@ -58,30 +35,33 @@ public class Location {
     }
 
 
+    //Getters
+
+    public int getID(){
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public List<NPC> getNpcs() {
         return npcs;
-    }
-
-    public void addNpc(NPC npc) {
-        npcs.add(npc);
-    }
-
-    public void removeNpc(NPC npc) {
-        npcs.remove(npc);
     }
 
     public Map<String, Location> getAdjacentLocations() {
         return adjacentLocations;
     }
 
+
+    // Setters
+
     public void setAdjacentLocations(Map<String, Location> adjacentLocations) {
         this.adjacentLocations = adjacentLocations;
     }
 
-    public void addAdjacentLocation(String direction, Location location) {
-        adjacentLocations.put(direction, location);
-    }
-
-
 }
-
