@@ -69,6 +69,7 @@ class AppFacade {
 class AppHandler implements Observable {
     - AppHandler instance
     + {static} getInstance(): AppHandler
+    + getAppState(): AppState
     + startNewGame(): void
     + startSavedGame(gameID: int): void
     + getSavedGames(): int
@@ -91,6 +92,7 @@ AppFacade ---> MainFrame
 class AppState {
     + {static} getInstance(): AppState
     - AppState instance
+    - lastUserQueryResult: UserQueryResult
     - gameState: GameState
     - currentWindow: WindowState
     + getGameState(): void
@@ -101,6 +103,17 @@ class AppState {
 AppFacade ------> AppHandler
 AppState --> WindowState
 AppState --> GameState
+
+class UserQueryResult {
+    - result: String
+    - success: boolean
+    + getResult(): String
+    + getSuccess(): boolean
+    + setResult(result: String): void
+    + setSuccess(success: boolean): void
+}
+
+AppState --> UserQueryResult
 
 
 class GameState {

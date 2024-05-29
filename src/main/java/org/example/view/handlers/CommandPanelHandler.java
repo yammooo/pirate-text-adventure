@@ -2,13 +2,14 @@ package org.example.view.handlers;
 
 import org.example.commandparser.CommandParser;
 import org.example.commandparser.ParsedCommand;
+import org.example.model.entities.enums.Action;
 import org.example.view.panels.CommandPanel;
 import org.example.command.*;
 
 public class CommandPanelHandler {
 
-    private CommandPanel commandPanel;
-    private CommandParser parser = new CommandParser();
+    private final CommandPanel commandPanel;
+    private final CommandParser parser = new CommandParser();
 
 
     public CommandPanelHandler(CommandPanel commandPanel) {
@@ -19,37 +20,25 @@ public class CommandPanelHandler {
         try {
             ParsedCommand parsedCommand = parser.parse(command);
             Command cmd = createCommand(parsedCommand);
-            cmd.execute(this);
+            cmd.execute();
         } catch (IllegalArgumentException e) {
             showMessage("Invalid command: " + e.getMessage());
         }
     }
 
     private Command createCommand(ParsedCommand parsedCommand) {
-        switch (parsedCommand.action) {
-            case "move":
-                return new MoveCommand(parsedCommand.id);
-            case "pick":
-                return new PickUpItemCommand(parsedCommand.id);
-            case "use":
-                return new UseItemCommand(parsedCommand.id);
-            case "drop":
-                return new DropItemCommand(parsedCommand.id);
-            case "start new game":
-                return new StartNewGameCommand();
-            case "load game":
-                return new LoadGameCommand(parsedCommand.id);
-            case "exit to menu":
-                return new ExitToMenuCommand();
-            case "get help":
-                return new GetHelpCommand();
-            case "get description":
-                return new GetDescriptionCommand(parsedCommand.id);
-            case "get dialogue":
-                return new GetDialogueCommand(parsedCommand.id);
-            default:
-                throw new IllegalArgumentException("Unknown action: " + parsedCommand.action);
-        }
+        return switch (parsedCommand.action) {
+            case Action.MOVE -> new MoveCommand(parsedCommand.id);
+            case Action.PICK -> new PickUpItemCommand(parsedCommand.id);
+            case Action.USE -> new UseItemCommand(parsedCommand.id);
+            case Action.DROP -> new DropItemCommand(parsedCommand.id);
+            case Action.START_NEW_GAME -> new StartNewGameCommand();
+            case Action.LOAD_GAME -> new LoadGameCommand(parsedCommand.id);
+            case Action.EXIT_TO_MENU -> new ExitToMenuCommand();
+            case Action.GET_HELP -> new GetHelpCommand();
+            case Action.GET_DESCRIPTION -> new GetDescriptionCommand(parsedCommand.id);
+            case Action.GET_DIALOGUE -> new GetDialogueCommand(parsedCommand.id);
+        };
     }
 
     public void showMessage(String message) {

@@ -26,7 +26,7 @@ public class GraphicsPanel extends JPanel implements Observer {
         setDoubleBuffered(true);
         setFocusable(true);
 
-        setImage("C:\\Repos\\pirate-text-adventure\\src\\main\\resources\\assets\\images\\menu-background-image.png");
+        setImage("src/main/resources/assets/images/menu-background-image.png");
 
     }
 

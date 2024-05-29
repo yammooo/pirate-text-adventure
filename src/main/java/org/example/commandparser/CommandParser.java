@@ -1,5 +1,7 @@
 package org.example.commandparser;
 
+import org.example.model.entities.enums.Action;
+
 public class CommandParser {
     public ParsedCommand parse(String command) {
         if (command == null) {
@@ -7,45 +9,49 @@ public class CommandParser {
         }
 
         String[] parts = command.split(" ");
-        if (parts.length < 2) {
+        if (parts.length < 2 || parts.length > 3) {
             throw new IllegalArgumentException("Invalid command format");
         }
 
         String action = parts[0];
         int id = -1;
-        if (parts.length > 1 && isNumeric(parts[1])) {
+        if (isNumeric(parts[1])) {
             id = Integer.parseInt(parts[1]);
         } else if (parts.length > 2 && isNumeric(parts[2])) {
             id = Integer.parseInt(parts[2]);
         }
 
         switch (action.toLowerCase()) {
-            case "move", "drop", "pick", "use":
-                return new ParsedCommand(action, id);
+            case "move":
+                return new ParsedCommand(Action.MOVE, id);
+            case "pick":
+                return new ParsedCommand(Action.PICK, id);
+            case "use":
+                return new ParsedCommand(Action.USE, id);
+            case "drop":
+                return new ParsedCommand(Action.DROP, id);
             case "start":
                 if (parts[1].equalsIgnoreCase("new") && parts[2].equalsIgnoreCase("game")) {
-                    return new ParsedCommand("start new game", -1);
+                    return new ParsedCommand(Action.START_NEW_GAME, -1);
                 }
                 break;
             case "load":
                 if (parts[1].equalsIgnoreCase("game")) {
-                    return new ParsedCommand("load game", id);
+                    return new ParsedCommand(Action.LOAD_GAME, id);
                 }
                 break;
-            case "save":
-                return new ParsedCommand("save game", -1);
             case "exit":
                 if (parts[1].equalsIgnoreCase("to") && parts[2].equalsIgnoreCase("menu")) {
-                    return new ParsedCommand("exit to menu", -1);
+                    return new ParsedCommand(Action.EXIT_TO_MENU, -1);
                 }
                 break;
             case "get":
                 if (parts[1].equalsIgnoreCase("help")) {
-                    return new ParsedCommand("get help", -1);
+                    return new ParsedCommand(Action.GET_HELP, -1);
                 } else if (parts[1].equalsIgnoreCase("description")) {
-                    return new ParsedCommand("get description", id);
+                    return new ParsedCommand(Action.GET_DESCRIPTION, id);
                 } else if (parts[1].equalsIgnoreCase("dialogue")) {
-                    return new ParsedCommand("get dialogue", id);
+                    return new ParsedCommand(Action.GET_DIALOGUE, id);
                 }
                 break;
         }

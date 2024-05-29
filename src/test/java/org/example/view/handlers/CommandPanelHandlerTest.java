@@ -56,24 +56,24 @@ public class CommandPanelHandlerTest {
     @Test
     public void handleInvalidCommand() {
         commandPanelHandler.handleCommand("invalid command");
-        verify(commandPanel, times(1)).showMessage("Invalid command: Unknown command");
+        verify(commandPanel, times(1)).showMessage("System\t> Invalid command: Unknown command\n");
     }
 
     @Test
     public void handleCommandWithInvalidFormat() {
         commandPanelHandler.handleCommand("move");
-        verify(commandPanel, times(1)).showMessage("Invalid command: Invalid command format");
+        verify(commandPanel, times(1)).showMessage("System\t> Invalid command: Invalid command format\n");
     }
 
     @Test
     public void handleCommandWithNullString() {
         commandPanelHandler.handleCommand(null);
-        verify(commandPanel, times(1)).showMessage("Invalid command: Command cannot be null");
+        verify(commandPanel, times(1)).showMessage("System\t> Invalid command: Command cannot be null\n");
     }
 
     @Test
     public void handleCommandWithEmptyString() {
         commandPanelHandler.handleCommand("");
-        verify(commandPanel, times(1)).showMessage("Invalid command: Invalid command format");
+        verify(commandPanel, times(1)).showMessage("System\t> Invalid command: Invalid command format\n");
     }
 }
