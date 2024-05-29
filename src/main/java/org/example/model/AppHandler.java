@@ -71,8 +71,17 @@ public class AppHandler implements Observable {
         }
     }
 
-    public void startGame() {
-        // TODO
+    public void startNewGame() {
+        // TODO: Implement the logic to start a new game
+    }
+
+    public void startSavedGame(int gameID) {
+        // TODO: Implement the logic to start a saved game
+    }
+
+    public int getSavedGames() {
+        // TODO: Implement the logic to get saved games
+        return 0;
     }
 
     public void exitToMenu() {
