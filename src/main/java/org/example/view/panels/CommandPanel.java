@@ -58,7 +58,7 @@ public class CommandPanel extends JPanel implements Observer {
         commandPanelHandler = handler;
     }
 
-    private void showMessage(String message) {
+    public void showMessage(String message) {
         messageQueue.add(message);
         if (timer == null || !timer.isRunning()) {
             currentMessage = messageQueue.poll();
