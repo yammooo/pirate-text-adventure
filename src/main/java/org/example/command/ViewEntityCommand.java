@@ -3,15 +3,15 @@ package org.example.command;
 import org.example.model.AppHandler;
 
 // Command to get the description of an entity
-public class GetDescriptionCommand implements Command {
+public class ViewEntityCommand implements Command {
     private final int entityID;
 
-    public GetDescriptionCommand(int entityID) {
+    public ViewEntityCommand(int entityID) {
         this.entityID = entityID;
     }
 
     @Override
     public void execute() {
-        AppHandler.getInstance().getDescription(entityID);
+        AppHandler.getInstance().viewEntity(entityID);
     }
 }

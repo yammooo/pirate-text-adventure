@@ -76,11 +76,10 @@ class AppHandler implements Observable {
     + exitToMenu(): void
     + move(locationID: int): void
     + pickUpItem(entityID: int): void
-    + useItem(entityID: int): void
     + dropItem(entityID: int): void
     + getHelp(): String
     + getDialogue(entityID: int): String
-    + getDescription(entityID: int): String
+    + viewEntity(entityID: int): String
     + notifyUI(): void
     + notifySave(): void
 }

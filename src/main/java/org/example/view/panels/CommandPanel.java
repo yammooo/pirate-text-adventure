@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import org.example.model.AppHandler;
+import org.example.model.AppState;
+import org.example.model.GameState;
+import org.example.model.entities.enums.Action;
 import org.example.observer.Observer;
 import org.example.view.handlers.CommandPanelHandler;
 
@@ -51,7 +55,7 @@ public class CommandPanel extends JPanel implements Observer {
 
     @Override
     public void update() {
-        // TODO
+        // TODO: Implement
     }
 
     public void setHandler(CommandPanelHandler handler) {

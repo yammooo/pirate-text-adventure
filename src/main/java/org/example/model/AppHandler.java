@@ -96,10 +96,6 @@ public class AppHandler implements Observable {
         //TODO
     }
 
-    public void useItem(int entityID) {
-        //TODO
-    }
-
     public void dropItem(int entityID) {
         //TODO
     }
@@ -114,8 +110,12 @@ public class AppHandler implements Observable {
         return null;
     }
 
-    public String getDescription(int entityID) {
+    public String viewEntity(int entityID) {
         //TODO
         return null;
+    }
+
+    public AppState getAppState() {
+        return appState;
     }
 }
