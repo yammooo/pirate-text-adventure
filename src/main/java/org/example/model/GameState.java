@@ -7,7 +7,7 @@ public class GameState {
     private final Pirate pirate;
     private final Map map;
 
-    private GameState(Pirate pirate, Map map) {
+    public GameState(Pirate pirate, Map map) {
         this.pirate = pirate;
         this.map = map;
     }
