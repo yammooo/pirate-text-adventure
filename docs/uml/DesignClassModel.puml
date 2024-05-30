@@ -68,6 +68,8 @@ class AppFacade {
 
 class AppHandler implements Observable {
     - AppHandler instance
+    - notifyUI(): void
+    - notifySave(): void
     + {static} getInstance(): AppHandler
     + startNewGame(): void
     + startSavedGame(gameID: int): void
@@ -80,8 +82,6 @@ class AppHandler implements Observable {
     + getHelp(): String
     + getDialogue(entityID: int): String
     + getDescription(entityID: int): String
-    + notifyUI(): void
-    + notifySave(): void
 }
 
 AppHandler --> AppState
@@ -112,7 +112,9 @@ class GameState {
 
 class AWSHandler implements Observer {
     + saveToS3(json: String): void
-    + loadFromS3(): String
+    + loadFromS3(): ArrayList<String>
+    + {static} countSavedGames(): int
+    + {static} getSavedGame(gameID: int): String
 }
 
 AWSHandler ------> AppHandler
