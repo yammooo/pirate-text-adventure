@@ -11,14 +11,16 @@ public class Location {
     private final String name;
     private final String description;
     private final ArrayList<CollectableItem> items;
+    private final ArrayList<ViewableItem> viewables;
     private final ArrayList<NPC> npcs;
     private Map<String, Location> adjacentLocations;
 
-    public Location(int id, String name, String description, ArrayList<CollectableItem> items, ArrayList<NPC> npcs) {
+    public Location(int id, String name, String description, ArrayList<CollectableItem> items, ArrayList<ViewableItem> viewableitems, ArrayList<NPC> npcs) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.items = items != null ? new ArrayList<>(items) : new ArrayList<>();
+        this.viewables = viewableitems != null ? new ArrayList<>(viewableitems) : new ArrayList<>();
         this.npcs = npcs != null ? new ArrayList<>(npcs) : new ArrayList<>();
     }
 
@@ -34,8 +36,6 @@ public class Location {
         items.add(item);
     }
 
-
-    //Getters
 
     public int getID(){
         return id;
@@ -58,10 +58,28 @@ public class Location {
     }
 
 
-    // Setters
-
     public void setAdjacentLocations(Map<String, Location> adjacentLocations) {
         this.adjacentLocations = adjacentLocations;
     }
+
+    public ArrayList<ViewableItem> getViewableItems() {
+        return viewables;
+    }
+
+    public ArrayList<CollectableItem> getCollectableItems() {
+        return items;
+    }
+
+    public ArrayList<NPC> getNPC() {
+        return npcs;
+    }
+
+
+    public void addCollectableItem(CollectableItem item) {
+        items.add(item);
+    }
+
+
+
 
 }
