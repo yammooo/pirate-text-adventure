@@ -52,4 +52,13 @@ public class Backpack {
 
         }
 
+        public boolean findItemById(int id) {
+            for (CollectableItem item : items) {
+                if (item.getID() == id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 }
