@@ -18,6 +18,7 @@ import software.amazon.awssdk.services.s3.model.*;
 
 
 public class AWSHandler implements Observer {
+
     // Configuration file path
     private final String CREDENTIALS_FILE_PATH = "src/main/resources/assets.AWS/credentials.properties";
     private String bucketName = "pirateprojectbucket"; // The bucket name
