@@ -37,16 +37,18 @@ public class AWSHandler implements Observer {
     //Update method
     @Override
     public void update() throws AWSException {
-        String json = GameStateTranslator.gameStateToJson(AppState.getInstance().getGameState());
+
 
         if (AppState.getInstance().getGameState().getTitle() == "") {
             //Save a new instance
             try {
-                saveAsNewGame(json);
+                saveAsNewGame();
             } catch (AWSException e) {
                 throw new AWSException("Error occurred: Failed to communicate to AWS.");
             }
         } else {
+            String json = GameStateTranslator.gameStateToJson(AppState.getInstance().getGameState());
+
             //Overwrite an existed instance
             saveAnExistingGame(json, AppState.getInstance().getGameState().getTitle());
         }
@@ -54,9 +56,7 @@ public class AWSHandler implements Observer {
     }
 
     // Save a new instance in S3
-    private void saveAsNewGame(String json) throws AWSException {
-
-        String jsonContent = json; // The JSON content is passed as an argument
+    private void saveAsNewGame() throws AWSException {
 
         Region region = Region.EU_NORTH_1;
 
@@ -83,13 +83,16 @@ public class AWSHandler implements Observer {
         // Generate a unique name for the JSON file
         String keyName = "game-" + UUID.randomUUID() + ".json";
 
+        AppState.getInstance().getGameState().setTitle(keyName);
+        String jsonContent = GameStateTranslator.gameStateToJson(AppState.getInstance().getGameState()); // The JSON content
+
         // Upload the JSON content to S3
         try (InputStream inputStream = new ByteArrayInputStream(jsonContent.getBytes(StandardCharsets.UTF_8))) {
             s3Client.putObject(PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(keyName)
                     .build(), software.amazon.awssdk.core.sync.RequestBody.fromInputStream(inputStream, jsonContent.length()));
-            AppState.getInstance().getGameState().setTitle(keyName);
+
             //System.out.println("JSON file successfully uploaded to S3 in " + bucketName + "/" + keyName);
         } catch (Exception e) {
             throw new AWSException("Error occurred: Failed to communicate to AWS.");
