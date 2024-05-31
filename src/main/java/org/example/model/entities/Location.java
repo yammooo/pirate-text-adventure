@@ -86,4 +86,23 @@ public class Location {
         return false;
     }
 
+    // get a specific collectableItem by its ID
+    public CollectableItem getCollectableItemByID(int id) throws ItemNotFoundException {
+        for(CollectableItem item : this.items) {
+            if(item.getID() == id)
+                return item;
+        }
+        throw new ItemNotFoundException(this.name+" does not have this item ");
+    }
+
+    // return a list containing all entities in the location
+    public ArrayList<Entity> getAllEntities() {
+        ArrayList<Entity> entities = new ArrayList<>();
+        entities.addAll(this.items);
+        entities.addAll(this.viewables);
+        entities.addAll(this.npcs);
+
+        return entities;
+    }
+
 }

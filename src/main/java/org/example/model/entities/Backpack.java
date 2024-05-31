@@ -26,11 +26,13 @@ public class Backpack {
             }
         }
 
-        public void removeItem(int id) throws ItemNotFoundException {
+        public CollectableItem removeItem(int id) throws ItemNotFoundException {
+            CollectableItem itemToRemove = getItem(id);
             boolean itemRemoved = items.removeIf(item -> item.getID() == id);
             if (!itemRemoved) {
                 throw new ItemNotFoundException("Item not found in the backpack.");
             }
+            return itemToRemove;
         }
 
 
@@ -52,13 +54,26 @@ public class Backpack {
 
         }
 
-        public boolean findItemById(int id) {
+        public boolean isItemEquipped(int id) {
             for (CollectableItem item : items) {
                 if (item.getID() == id) {
                     return true;
                 }
             }
             return false;
+        }
+
+        public ArrayList<CollectableItem> getItems() {
+            return new ArrayList<>(items);
+        }
+
+        private CollectableItem getItem(int id) {
+            for (CollectableItem item : items) {
+                if (item.getID() == id) {
+                    return item;
+                }
+            }
+            return null;
         }
 
 }

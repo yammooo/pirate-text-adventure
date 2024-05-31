@@ -1,12 +1,8 @@
 package org.example.model;
 
 import org.example.exceptions.BackpackWeightExceededException;
-import org.example.exceptions.InvalidRequestException;
 import org.example.exceptions.ItemNotFoundException;
-import org.example.model.entities.CollectableItem;
-import org.example.model.entities.Entity;
-import org.example.model.entities.Location;
-import org.example.model.entities.NPC;
+import org.example.model.entities.*;
 import org.example.observer.Observable;
 import org.example.observer.Observer;
 import org.example.util.AWSHandler;
@@ -17,14 +13,13 @@ import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.handlers.GraphicsPanelHandler;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /*
- * This class aims to handle the entire game loop by coordinating different
+ * This class aims to handle the entire game interactions process by coordinating different
  * game's components.
  * Observable and Singleton design patterns are implemented.
  */
@@ -45,6 +40,10 @@ public class AppHandler implements Observable {
             instance = new AppHandler();
         }
         return instance;
+    }
+
+    public AppState getAppState() {
+        return appState;
     }
 
     @Override
@@ -80,12 +79,6 @@ public class AppHandler implements Observable {
                 try{
                     o.update();
                 } catch(AWSException e) {
-                    /*
-                    modificare lastUserQuery oppure no? --> si entra in questo scope solo per fare gli autosaves: poichè sono operazioni indpendenti dall'interazione utente-gioco, non ha poi così senso segnalaro in output all'utente e tanto meno vanno notificati il commandPanel/graphicsPanel
-
-                    appState.getLastUserQueryResult().setResult(e.getMessage());
-                    appState.getLastUserQueryResult().setSuccess(false);
-                     */
                     System.err.println(e.getMessage());
                 }
             }
@@ -98,19 +91,16 @@ public class AppHandler implements Observable {
             if(o instanceof CommandPanelHandler || o instanceof GraphicsPanelHandler) {
                 try{
                     o.update();
-                } catch(AWSException e) {
-                    /*
-                    modificare lastUserQuery oppure no? --> si entra in questo scope solo per fare gli autosaves: poichè sono operazioni indpendenti dall'interazione utente-gioco, non ha poi così senso segnalaro in output all'utente e tanto meno vanno notificati il commandPanel/graphicsPanel
-
-                    appState.getLastUserQueryResult().setResult(e.getMessage());
-                    appState.getLastUserQueryResult().setSuccess(false);
-                     */
+                } catch(AWSException e) {   // Exception handled also here because thrown by Observer.update()
                     System.err.println(e.getMessage());
                 }
             }
         }
     }
 
+    /*
+     * create a new game using a default game template saved in the defaultGameState.json file and then start it if all correctly happened
+     */
     public void startNewGame() {
         String fileName = "src/main/resources/assets.json/defaultGameState.json";
 
@@ -129,37 +119,56 @@ public class AppHandler implements Observable {
 
             appState.setGameState(GamesStateTranslator.jsonToGameState(fileContent));
 
-            appState.getLastUserQueryResult().setResult("New Game started.");
+            appState.getLastUserQueryResult().setResult("New Game has started.");
             appState.getLastUserQueryResult().setSuccess(true);
 
-            appState.setWindowToGame();
+            appState.setWindowToGame(); // turn state to GAME for let the graphics handler know about window status
 
-            notifyObservers(new SaveEvent());   // autosave when a new game starts
+            notifyObservers(new SaveEvent());   // trigger an autosave to the AWS
 
         } catch (IOException e) {
             appState.getLastUserQueryResult().setResult("Error occurred: Failed to open a file.");
             appState.getLastUserQueryResult().setSuccess(false);
 
-            appState.setWindowToMenu();
+            appState.setWindowToMenu(); // turn state to MENU for let the graphics handler know about window status
         }
 
         notifyObservers(new UIEvent());
     }
 
+    /*
+     * load a saved game from the AWS and then start it if all correctly happened
+     */
     public void startSavedGame(int gameID) {
-        // TODO: comunicare con AWSHandler (metodi statici)
-        // (capire se è un controllo da gestire qui o nel panelHandler) controllare che il numero sia valido (tra 1 e n dove n è il numero di istanze sull'AWS) --> sono controlli gesititi sull'AWS
-        // settare ID del game in GameState a gameID
-        // TODO: gestire eccezione e modificare lastUserQuery
-        appState.setWindowToGame(); // change only if correctly received the json from the AWS
+        try{
+            String savedGameJson = AWSHandler.getInstance().getSavedGames(gameID);
+            appState.setGameState(GameStateTranslator.jsonToGameState(savedGameJson));
+
+            appState.getLastUserQueryResult().setResult("Saved Game loaded.");
+            appState.getLastUserQueryResult().setSuccess(true);
+
+            appState.setWindowToGame(); // turn state to GAME for let the graphics handler know about window status
+
+        } catch(AWSException e) {
+            System.err.println(e.getMessage());
+            appState.getLastUserQueryResult().setResult(e.getMessage());
+            appState.getLastUserQueryResult().setSuccess(false);
+
+            appState.setWindowToMenu(); // turn state to MENU for let the graphics handler know about window status
+        }
+
+        notifyObservers(new UIEvent());
     }
 
+    /*
+     * create a list of all saved games in the AWS showing their titles associated to a number starting from 1
+     */
     public void getSavedGames() {
         try{
-            ArrayList<String> gamesAvailable = AWSHandler.getGameTitles();
+            ArrayList<String> gamesAvailable = AWSHandler.getInstance().getGameTitles();
 
             String message = "";
-            int counter = 0;
+            int counter = 1;    // if the user want to load the first saved game in the AWS should enter 1 as argument
             for (String title : gamesAvailable) {
                 message += counter + ". " + title + "\n";
                 counter++;
@@ -176,13 +185,21 @@ public class AppHandler implements Observable {
         notifyObservers(new UIEvent());
     }
 
+    /*
+     * turn the window state from GAME to MENU
+     */
     public void exitToMenu() {
         appState.setWindowToMenu();
+
         appState.getLastUserQueryResult().setResult("Exiting the game.");
         appState.getLastUserQueryResult().setSuccess(true);
+
         notifyObservers(new UIEvent());
     }
 
+    /*
+     * handle the logic behind pirate's movements between locations
+     */
     public void move(int locationID) {
         Location source = appState.getGameState().getMap().getLocationById(appState.getGameState().getMap().getPirateLocationID());
         Location destination = appState.getGameState().getMap().getLocationById(locationID);
@@ -194,37 +211,54 @@ public class AppHandler implements Observable {
         }
         // if moving on an adjacent location
         else if(source.isAdjacentLocation(destination)) {
-            // TODO:
-            // if obstacles
-                // if pirate sconfigge obstacle (controllare nel backpack se c'è weapon)
-                    // muovere pirate to new location
-                    // ? rimuovere obstacle tra le due location ?
+            Obstacle obstacle = appState.getGameState().getMap().getObstacleByLocationsID(source.getID(), destination.getID());
+
+            boolean isValid = true;
+            // if trying to move on the treasure island (id = 0), then check if the legendary key (id = 4) is in the backpack
+            if(destination.getID() == 0 && !appState.getGameState().getPirate().getBackpack().isItemEquipped(4)) {
+                appState.getLastUserQueryResult().setResult("To reach the treasure island you have to collect all 3 keys in order to pass through the portal.");
+                appState.getLastUserQueryResult().setSuccess(false);
+            }
+            // if there are obstacles during transit from source to destination
+            else if(obstacle != null) {
+                // if pirate has the object to defeat the obstacle in the backpack
+                if(appState.getGameState().getPirate().getBackpack().isItemEquipped(obstacle.getItemToDefeatID())) {
+                    appState.getGameState().getMap().setPirateLocationID(destination.getID());
+                    appState.getGameState().getMap().removeObstacleByLocationsID(source.getID(), destination.getID());  // remove obstacle in the path source-destination
+
                     appState.getLastUserQueryResult().setResult("Obstacle warning: you won the fight.\nNew location reached.");
                     appState.getLastUserQueryResult().setSuccess(true);
-                    // triggerare l'autosave
-                // else (non sconfigge)
+
+                    notifyObservers(new SaveEvent());
+                }
+                // losing fight against obstacle
+                else {
                     try{
-                        // pirate perde vita
+                        appState.getGameState().getPirate().setCurrentLives(appState.getGameState().getPirate().getCurrentLives() - 1);
+
                         appState.getLastUserQueryResult().setResult("Obstacle warning: you lost the fight.\nYou remain on the same location.");
                         appState.getLastUserQueryResult().setSuccess(false);
-                        // triggerare l'autosave
-                    } catch(IllegalArgumentException e) {
+
+                        notifyObservers(new SaveEvent());
+
+                    } catch(IllegalArgumentException e) {   // exception thrown if the pirate ends its lives
                         GameOver();
                     }
-            // else (no obstacles)
-                // muovere pirate to new location
+                }
+            }
+            else {
+                appState.getGameState().getMap().setPirateLocationID(destination.getID());
+
                 appState.getLastUserQueryResult().setResult("New location reached.");
                 appState.getLastUserQueryResult().setSuccess(true);
-                // triggerare l'autosave
 
+                notifyObservers(new SaveEvent());
+            }
 
-            // if pirateCurrentLocationID is (id della stanza viola)
-                // se nel backpck ci sono le chiavi (servono i 3 ID delle chiavi)
-                    // muovere user automaticamente nella treasure island
-                    Win();
-                // se non ha tutte e 3 le chiavi non serve fare nulla
-
-
+            // if pirate reaches the treasure island (location with id = 0)
+            if(appState.getGameState().getMap().getPirateLocationID() == 0) {
+                Win();
+            }
         }
         // if trying to move on locations not directly reachable from the current one
         else {
@@ -235,28 +269,63 @@ public class AppHandler implements Observable {
         notifyObservers(new UIEvent());
     }
 
-    public void pickUpItem(int entityID) {
-        // TODO: serve la modifica del metodo in Backpack.java
-        // TODO: appState.getGameState().getPirate().getBackpack().addItem(entityID);
-        // TODO: prima di raccoglire l'oggetto, controllare che si abbia il requestedItemID nel backpack
-
+    /*
+     * collect the desired item if it is possible
+     */
+    public void pickUpItem(int itemID) {
         try {
-            // ...
+            Location currentLocation = appState.getGameState().getMap().getLocationById(appState.getGameState().getMap().getPirateLocationID());
+            CollectableItem itemToPickUp = currentLocation.getCollectableItemByID(itemID);
 
-            appState.getLastUserQueryResult().setResult("Item equipped in the backpack.");
-            appState.getLastUserQueryResult().setSuccess(true);
+            // check if the item to pick up requires an item to have in the backpack
+            if(itemToPickUp.getRequiredEntityID() == 0 || appState.getGameState().getPirate().getBackpack().isItemEquipped(itemToPickUp.getRequiredEntityID())) {
+                // add to the backpack the item to pick up
+                appState.getGameState().getPirate().getBackpack().addItem(itemToPickUp);
+                currentLocation.removeItem(itemID);
 
-        } catch(BackpackWeightExceededException e) {
-            appState.getLastUserQueryResult().setResult("Item too heavy. Drop something from the backpack before pick up this object.");
+                // check if all 3 keys are in the backpack
+                if(checkKeys() == 3) {
+                    // merge 3 keys into the unique legendary key, i.e. remove from the backpack the 3 keys and add the legendary one
+                    CollectableItem legendaryKey = new CollectableItem(4, "legendary key", "the legendary key just wants to meet the portal", 1, 0);
+
+                    appState.getGameState().getPirate().getBackpack().removeItem(1);
+                    appState.getGameState().getPirate().getBackpack().removeItem(2);
+                    appState.getGameState().getPirate().getBackpack().removeItem(3);
+
+                    appState.getGameState().getPirate().getBackpack().addItem(legendaryKey);
+
+                    appState.getLastUserQueryResult().setResult("All keys found... They are merging together... You now have the legendary key!");
+                    appState.getLastUserQueryResult().setSuccess(true);
+                }
+                else {
+                    appState.getLastUserQueryResult().setResult("Item equipped");
+                    appState.getLastUserQueryResult().setSuccess(true);
+                }
+            }
+            else {
+                appState.getLastUserQueryResult().setResult("Before pick up this item, you need to equip the item " + itemToPickUp.getRequiredEntityID());
+                appState.getLastUserQueryResult().setSuccess(false);
+            }
+
+        } catch(BackpackWeightExceededException | ItemNotFoundException e) {
+            appState.getLastUserQueryResult().setResult(e.getMessage());
             appState.getLastUserQueryResult().setSuccess(false);
         }
 
         notifyObservers(new UIEvent());
     }
 
+    /*
+     * remove the desired item from the pirate's backpack and leave it in the current location
+     */
     public void dropItem(int entityID) {
         try {
-            appState.getGameState().getPirate().getBackpack().removeItem(entityID);
+            // remove from backpack the item
+            CollectableItem droppedItem = appState.getGameState().getPirate().getBackpack().removeItem(entityID);
+
+            // adding the dropped item to the current location
+            Location currentLocation = appState.getGameState().getMap().getLocationById(appState.getGameState().getMap().getPirateLocationID());
+            currentLocation.addItem(droppedItem);
 
             appState.getLastUserQueryResult().setResult("Item dropped from the backpack.");
             appState.getLastUserQueryResult().setSuccess(true);
@@ -268,10 +337,9 @@ public class AppHandler implements Observable {
         notifyObservers(new UIEvent());
     }
 
+    // not useful anymore
+    /*
     public void getHelp() {
-
-        // TODO: edit help.txt
-
         String fileName = "src/main/resources/assets.help/help.txt";
 
         try {
@@ -282,7 +350,7 @@ public class AppHandler implements Observable {
 
             while (line != null) {
                 fileContent += line + "\n";
-                line = bufferedReader.readLine(); // Read the next line of the file
+                line = bufferedReader.readLine();
             }
 
             bufferedReader.close();
@@ -297,7 +365,11 @@ public class AppHandler implements Observable {
 
         notifyObservers(new UIEvent());
     }
+    */
 
+    /*
+     * to talk with desired NPC, i.e. get the text of what it wants to say
+     */
     public void getDialogue(int entityID) {
         int currentPirateLocation = appState.getGameState().getMap().getPirateLocationID();
         List<NPC> npcs = appState.getGameState().getMap().getLocationById(currentPirateLocation).getNpcs();
@@ -313,17 +385,19 @@ public class AppHandler implements Observable {
         }
 
         if(!isValidRequest) {
-            appState.getLastUserQueryResult().setResult("Invalid ID: You can only interact with entities in the current location.");
+            appState.getLastUserQueryResult().setResult("Invalid ID: You can only interact with NPCs in the current location.");
             appState.getLastUserQueryResult().setSuccess(false);
         }
 
         notifyObservers(new UIEvent());
     }
 
+    /*
+     * to get the description of the desired entity
+     */
     public void viewEntity(int entityID) {
-        int currentPirateLocation = appState.getGameState().getMap().getPirateLocationID();
-        // TODO: serve un metodo in Location che ritorni tutti gli items/entities nella location, cosìcche poi posso cercare se c'è entityID
-        // TODO: nella location corrente e chiamarne il getDescription()
+        Location currentLocation = appState.getGameState().getMap().getLocationById(appState.getGameState().getMap().getPirateLocationID());
+        ArrayList<Entity> entities = currentLocation.getAllEntities();
 
         boolean isValidRequest = false;
 
@@ -336,25 +410,55 @@ public class AppHandler implements Observable {
         }
 
         if(!isValidRequest) {
-            appState.getLastUserQueryResult().setResult("Invalid ID: You can only interact with entities in the current location.");
+            appState.getLastUserQueryResult().setResult("Invalid ID: You can only view entities in the current location.");
             appState.getLastUserQueryResult().setSuccess(false);
         }
 
         notifyObservers(new UIEvent());
     }
 
+    /*
+     * when a pirate dies, then the user loses: game instance saved in the AWS will be deleted
+     */
     private void GameOver() {
-        // TODO: eliminare istanza di gioco da AWS; aggiornare lastUserQuery ("GameOver: you've died."); set to menu del windowState (in base a cosa mi dice Gian)
-        // non server il notify() perchè questo metodo viene chiamato dentro il metodo move che ha già il notify() alla fine
+        try{
+            AWSHandler.getInstance().deleteGame(appState.getGameState().getTitle());
+        } catch(AWSException e) {
+            System.err.println(e.getMessage());
+        }
+        appState.getLastUserQueryResult().setResult("GameOver: you've died.");
+        appState.getLastUserQueryResult().setSuccess(false);
+
+        appState.setWindowToMenu();
     }
 
+    /*
+     * when a pirate reaches the treasure island, then the user wins: game instance saved in the AWS will be deleted
+     */
     private void Win() {
-        // TODO: eliminare istanza di gioco da AWS; aggiornare lastUserQuery ("You won!"); set to menu del windowState (in base a cosa mi dice Gian)
-        // non server il notify() perchè questo metodo viene chiamato dentro il metodo move che ha già il notify() alla fine
+        try{
+            AWSHandler.getInstance().deleteGame(appState.getGameState().getTitle());
+        } catch(AWSException e) {
+            System.err.println(e.getMessage());
+        }
+        appState.getLastUserQueryResult().setResult("Congrats! You won!");
+        appState.getLastUserQueryResult().setSuccess(true);
+
+        appState.setWindowToMenu();
     }
 
-    public AppState getAppState() {
-        return appState;
+    // return the number of currently collected keys in the backpack
+    private int checkKeys() {
+        ArrayList<CollectableItem> backpackItems = appState.getGameState().getPirate().getBackpack().getItems();
+
+        int keyCounter = 0; // number of total keys
+        for (CollectableItem backpackItem : backpackItems) {
+            // keys have got following IDs: 1, 2, 3
+            if(backpackItem.getID() >= 1 && backpackItem.getID() <= 3)
+                keyCounter++;
+        }
+
+        return keyCounter;
     }
 
 }

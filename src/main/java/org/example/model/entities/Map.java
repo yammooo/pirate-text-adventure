@@ -27,8 +27,12 @@ public class Map{
         return null;
     }
 
+    // id1->id2 path is the same of id2->id1
     public Obstacle getObstacleByLocationsID(int id1, int id2) {
-        return obstacles.get(new Pair<>(id1, id2));
+        Obstacle obstacle = obstacles.get(new Pair<>(id1, id2));
+        if(obstacle == null)
+            obstacle = obstacles.get(new Pair<>(id2, id1));
+        return obstacle;
     }
 
     public int getPirateLocationID() {
@@ -40,6 +44,15 @@ public class Map{
 
     public void setPirateLocationID(int id) {
         this.currentPirateLocationID = id;
+    }
+
+
+
+    public Obstacle removeObstacleByLocationsID(int id1, int id2) {
+        Obstacle obstacle = obstacles.remove(new Pair<>(id1, id2));
+        if(obstacle == null)
+            obstacle = obstacles.remove(new Pair<>(id2, id1));
+        return obstacle;
     }
 
 }
