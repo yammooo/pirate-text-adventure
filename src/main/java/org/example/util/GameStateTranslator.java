@@ -1,15 +1,16 @@
 package org.example.util;
 
+import com.google.gson.GsonBuilder;
 import org.example.model.GameState;
 import com.google.gson.Gson;
 
 public class GameStateTranslator {
 
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     //JSON ----->>>>> GAMESTATE
 
     public GameState jsonToGameState(String json) {
-
-        Gson gson = new Gson();
 
         if (json != null) {
             return gson.fromJson(json, GameState.class);
@@ -21,8 +22,6 @@ public class GameStateTranslator {
     //GAMESTATE ----->>>> JSON
 
     public static String gameStateToJson(GameState gameState) {
-
-        Gson gson = new Gson();
 
         String json = gson.toJson(gameState);
 
