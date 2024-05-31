@@ -224,6 +224,7 @@ public class AppHandler implements Observable {
                     Win();
                 // se non ha tutte e 3 le chiavi non serve fare nulla
 
+
         }
         // if trying to move on locations not directly reachable from the current one
         else {

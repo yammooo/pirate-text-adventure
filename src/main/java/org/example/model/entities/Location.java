@@ -57,7 +57,6 @@ public class Location {
         return adjacentLocations;
     }
 
-
     public void setAdjacentLocations(Map<String, Location> adjacentLocations) {
         this.adjacentLocations = adjacentLocations;
     }
@@ -74,13 +73,9 @@ public class Location {
         return npcs;
     }
 
-
     public void addCollectableItem(CollectableItem item) {
         items.add(item);
     }
-
-
-
 
     // find if a location is adjacent or not
     public boolean isAdjacentLocation(Location adjLocation) {

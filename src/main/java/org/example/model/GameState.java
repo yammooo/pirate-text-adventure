@@ -24,4 +24,5 @@ public class GameState {
     public String getTitle() { return title; }
 
     public void setTitle(String newTitle) { title = newTitle; }
+
 }
