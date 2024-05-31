@@ -38,14 +38,11 @@ public class AWSHandler implements Observer {
     @Override
     public void update() throws AWSException {
 
-
         if (AppState.getInstance().getGameState().getTitle() == "") {
+
             //Save a new instance
-            try {
-                saveAsNewGame();
-            } catch (AWSException e) {
-                throw new AWSException("Error occurred: Failed to communicate to AWS.");
-            }
+            saveAsNewGame();
+
         } else {
             String json = GameStateTranslator.gameStateToJson(AppState.getInstance().getGameState());
 
