@@ -26,8 +26,6 @@ public class CommandParser {
                 return new ParsedCommand(Action.MOVE, id);
             case "pick":
                 return new ParsedCommand(Action.PICK, id);
-            case "use":
-                return new ParsedCommand(Action.USE, id);
             case "drop":
                 return new ParsedCommand(Action.DROP, id);
             case "start":
@@ -48,10 +46,13 @@ public class CommandParser {
             case "get":
                 if (parts[1].equalsIgnoreCase("help")) {
                     return new ParsedCommand(Action.GET_HELP, -1);
-                } else if (parts[1].equalsIgnoreCase("description")) {
-                    return new ParsedCommand(Action.GET_DESCRIPTION, id);
                 } else if (parts[1].equalsIgnoreCase("dialogue")) {
                     return new ParsedCommand(Action.GET_DIALOGUE, id);
+                }
+                break;
+            case "view":
+                if (parts[1].equalsIgnoreCase("entity")) {
+                    return new ParsedCommand(Action.VIEW_ENTITY, id);
                 }
                 break;
         }

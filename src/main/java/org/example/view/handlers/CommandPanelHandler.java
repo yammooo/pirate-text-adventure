@@ -30,13 +30,12 @@ public class CommandPanelHandler {
         return switch (parsedCommand.action) {
             case Action.MOVE -> new MoveCommand(parsedCommand.id);
             case Action.PICK -> new PickUpItemCommand(parsedCommand.id);
-            case Action.USE -> new UseItemCommand(parsedCommand.id);
             case Action.DROP -> new DropItemCommand(parsedCommand.id);
             case Action.START_NEW_GAME -> new StartNewGameCommand();
             case Action.LOAD_GAME -> new LoadGameCommand(parsedCommand.id);
             case Action.EXIT_TO_MENU -> new ExitToMenuCommand();
             case Action.GET_HELP -> new GetHelpCommand();
-            case Action.GET_DESCRIPTION -> new GetDescriptionCommand(parsedCommand.id);
+            case Action.VIEW_ENTITY -> new ViewEntityCommand(parsedCommand.id);
             case Action.GET_DIALOGUE -> new GetDialogueCommand(parsedCommand.id);
         };
     }
