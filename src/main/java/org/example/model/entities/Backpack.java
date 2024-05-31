@@ -52,4 +52,17 @@ public class Backpack {
 
         }
 
+        public ArrayList<CollectableItem> getItems() {
+            return new ArrayList<>(items);
+        }
+
+        public CollectableItem getItemById(int id) throws ItemNotFoundException {
+            for (CollectableItem item : items) {
+                if (item.getID() == id) {
+                    return item;
+                }
+            }
+            throw new ItemNotFoundException("Item not found in the backpack.");
+        }
+
 }
