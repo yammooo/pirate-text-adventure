@@ -64,4 +64,13 @@ public class Location {
         this.adjacentLocations = adjacentLocations;
     }
 
+    // find if a location is adjacent or not
+    public boolean isAdjacentLocation(Location adjLocation) {
+        for(Location location : this.adjacentLocations.values()) {
+            if(location.getID() == adjLocation.getID())
+                return true;
+        }
+        return false;
+    }
+
 }

@@ -5,6 +5,7 @@ import org.example.exceptions.InvalidRequestException;
 import org.example.exceptions.ItemNotFoundException;
 import org.example.model.entities.CollectableItem;
 import org.example.model.entities.Entity;
+import org.example.model.entities.Location;
 import org.example.model.entities.NPC;
 import org.example.observer.Observable;
 import org.example.observer.Observer;
@@ -76,23 +77,73 @@ public class AppHandler implements Observable {
     private void notifySave() {
         for (Observer o : observers) {
             if(o instanceof AWSHandler) {
-                o.update(); // TODO: gestire eccezione e modificare lastUserQuery
+                try{
+                    o.update();
+                } catch(AWSException e) {
+                    /*
+                    modificare lastUserQuery oppure no? --> si entra in questo scope solo per fare gli autosaves: poichè sono operazioni indpendenti dall'interazione utente-gioco, non ha poi così senso segnalaro in output all'utente e tanto meno vanno notificati il commandPanel/graphicsPanel
+
+                    appState.getLastUserQueryResult().setResult(e.getMessage());
+                    appState.getLastUserQueryResult().setSuccess(false);
+                     */
+                    System.err.println(e.getMessage());
+                }
             }
         }
     }
 
     private void notifyUI() {
+
         for (Observer o : observers) {
             if(o instanceof CommandPanelHandler || o instanceof GraphicsPanelHandler) {
-                o.update();
+                try{
+                    o.update();
+                } catch(AWSException e) {
+                    /*
+                    modificare lastUserQuery oppure no? --> si entra in questo scope solo per fare gli autosaves: poichè sono operazioni indpendenti dall'interazione utente-gioco, non ha poi così senso segnalaro in output all'utente e tanto meno vanno notificati il commandPanel/graphicsPanel
+
+                    appState.getLastUserQueryResult().setResult(e.getMessage());
+                    appState.getLastUserQueryResult().setSuccess(false);
+                     */
+                    System.err.println(e.getMessage());
+                }
             }
         }
     }
 
     public void startNewGame() {
-        // TODO: caricare il gamestate di default usando il file json "template"
-        // fare un getCount dall'AWS per sapere ID del game corrente ??? (salvataggio solo quando cambia stanza)
-        appState.setWindowToGame();
+        String fileName = "src/main/resources/assets.json/defaultGameState.json";
+
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
+
+            String fileContent = "";
+            String line = bufferedReader.readLine();
+
+            while (line != null) {
+                fileContent += line + "\n";
+                line = bufferedReader.readLine(); // Read the next line of the file
+            }
+
+            bufferedReader.close();
+
+            appState.setGameState(GamesStateTranslator.jsonToGameState(fileContent));
+
+            appState.getLastUserQueryResult().setResult("New Game started.");
+            appState.getLastUserQueryResult().setSuccess(true);
+
+            appState.setWindowToGame();
+
+            notifyObservers(new SaveEvent());   // autosave when a new game starts
+
+        } catch (IOException e) {
+            appState.getLastUserQueryResult().setResult("Error occurred: Failed to open a file.");
+            appState.getLastUserQueryResult().setSuccess(false);
+
+            appState.setWindowToMenu();
+        }
+
+        notifyObservers(new UIEvent());
     }
 
     public void startSavedGame(int gameID) {
@@ -105,14 +156,20 @@ public class AppHandler implements Observable {
 
     public void getSavedGames() {
         try{
+            ArrayList<String> gamesAvailable = AWSHandler.getGameTitles();
 
-            // TODO: chiedere all'AWSHandler l'elenco delle istanze salvate e creare l'output da stampare sul panel all'utente --> getGameTitles()
+            String message = "";
+            int counter = 0;
+            for (String title : gamesAvailable) {
+                message += counter + ". " + title + "\n";
+                counter++;
+            }
 
-            appState.getLastUserQueryResult().setResult(renderizedOutput);
+            appState.getLastUserQueryResult().setResult(message);
             appState.getLastUserQueryResult().setSuccess(true);
 
-        } catch(eccezione_generata_dall_AWS e) {
-            appState.getLastUserQueryResult().setResult("Error occurred: Failed to communicate with AWS.");
+        } catch(AWSException e) {
+            appState.getLastUserQueryResult().setResult(e.getMessage());
             appState.getLastUserQueryResult().setSuccess(false);
         }
 
@@ -127,15 +184,60 @@ public class AppHandler implements Observable {
     }
 
     public void move(int locationID) {
-        // TODO: gestire interazione con Obstacles
-        appState.getGameState().getMap().setPirateLocationID(locationID);
-        notifyObservers();  // notify also Save only if room has changed
+        Location source = appState.getGameState().getMap().getLocationById(appState.getGameState().getMap().getPirateLocationID());
+        Location destination = appState.getGameState().getMap().getLocationById(locationID);
+
+        // if trying to move on the current location
+        if(source.getID() == destination.getID()) {
+            appState.getLastUserQueryResult().setResult("You're already on this location.");
+            appState.getLastUserQueryResult().setSuccess(false);
+        }
+        // if moving on an adjacent location
+        else if(source.isAdjacentLocation(destination)) {
+            // TODO:
+            // if obstacles
+                // if pirate sconfigge obstacle (controllare nel backpack se c'è weapon)
+                    // muovere pirate to new location
+                    // ? rimuovere obstacle tra le due location ?
+                    appState.getLastUserQueryResult().setResult("Obstacle warning: you won the fight.\nNew location reached.");
+                    appState.getLastUserQueryResult().setSuccess(true);
+                    // triggerare l'autosave
+                // else (non sconfigge)
+                    try{
+                        // pirate perde vita
+                        appState.getLastUserQueryResult().setResult("Obstacle warning: you lost the fight.\nYou remain on the same location.");
+                        appState.getLastUserQueryResult().setSuccess(false);
+                        // triggerare l'autosave
+                    } catch(IllegalArgumentException e) {
+                        GameOver();
+                    }
+            // else (no obstacles)
+                // muovere pirate to new location
+                appState.getLastUserQueryResult().setResult("New location reached.");
+                appState.getLastUserQueryResult().setSuccess(true);
+                // triggerare l'autosave
+
+
+            // if pirateCurrentLocationID is (id della stanza viola)
+                // se nel backpck ci sono le chiavi (servono i 3 ID delle chiavi)
+                    // muovere user automaticamente nella treasure island
+                    Win();
+                // se non ha tutte e 3 le chiavi non serve fare nulla
+
+        }
+        // if trying to move on locations not directly reachable from the current one
+        else {
+            appState.getLastUserQueryResult().setResult("You can't move to that location from the current one.");
+            appState.getLastUserQueryResult().setSuccess(false);
+        }
+
+        notifyObservers(new UIEvent());
     }
 
     public void pickUpItem(int entityID) {
         // TODO: serve la modifica del metodo in Backpack.java
         // TODO: appState.getGameState().getPirate().getBackpack().addItem(entityID);
-        // TODO: prima di raccoglire l'oggetto ì, controllare che si abbia il requestedItemID nel backpack
+        // TODO: prima di raccoglire l'oggetto, controllare che si abbia il requestedItemID nel backpack
 
         try {
             // ...
@@ -150,13 +252,6 @@ public class AppHandler implements Observable {
 
         notifyObservers(new UIEvent());
     }
-
-    /*
-    public void useItem(int entityID) {
-        // TODO: cosa fa sto metodo??? --> NIENTE
-        notifyObservers(new UIEvent());
-    }
-    */
 
     public void dropItem(int entityID) {
         try {
@@ -245,6 +340,16 @@ public class AppHandler implements Observable {
         }
 
         notifyObservers(new UIEvent());
+    }
+
+    private void GameOver() {
+        // TODO: eliminare istanza di gioco da AWS; aggiornare lastUserQuery ("GameOver: you've died."); set to menu del windowState (in base a cosa mi dice Gian)
+        // non server il notify() perchè questo metodo viene chiamato dentro il metodo move che ha già il notify() alla fine
+    }
+
+    private void Win() {
+        // TODO: eliminare istanza di gioco da AWS; aggiornare lastUserQuery ("You won!"); set to menu del windowState (in base a cosa mi dice Gian)
+        // non server il notify() perchè questo metodo viene chiamato dentro il metodo move che ha già il notify() alla fine
     }
 
     public AppState getAppState() {
