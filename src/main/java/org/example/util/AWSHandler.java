@@ -19,8 +19,8 @@ import software.amazon.awssdk.services.s3.model.*;
 
 public class AWSHandler implements Observer {
     // Configuration file path
-    private static final String CREDENTIALS_FILE_PATH = "src/main/resources/assets.AWS/credentials.properties";
-    private static String bucketName = "pirateprojectbucket"; // The bucket name
+    private final String CREDENTIALS_FILE_PATH = "src/main/resources/assets.AWS/credentials.properties";
+    private String bucketName = "pirateprojectbucket"; // The bucket name
 
     private static AWSHandler instance = null;
 
@@ -97,7 +97,7 @@ public class AWSHandler implements Observer {
     }
 
     // Count the number of saved games in S3 without extension .json
-    public static int countSavedGames() throws AWSException {
+    public int countSavedGames() throws AWSException {
         int jsonFileCount = 0;
 
         // Read credentials from the configuration file
@@ -152,7 +152,7 @@ public class AWSHandler implements Observer {
     }
 
     // Return an ArrayList with all contents of all saved games
-    public static ArrayList<String> loadFromS3() throws AWSException {
+    public ArrayList<String> loadFromS3() throws AWSException {
         ArrayList<String> fileContents = new ArrayList<>();
 
         // Read credentials from the configuration file
@@ -206,7 +206,7 @@ public class AWSHandler implements Observer {
     }
 
     // Download the content of one specific saved game
-    private static String downloadFileContent(S3Client s3Client, String bucketName, String key) throws AWSException {
+    private String downloadFileContent(S3Client s3Client, String bucketName, String key) throws AWSException {
         try (InputStreamReader streamReader = new InputStreamReader(
                 s3Client.getObject(GetObjectRequest.builder().bucket(bucketName).key(key).build()));
              BufferedReader reader = new BufferedReader(streamReader)) {
@@ -272,7 +272,7 @@ public class AWSHandler implements Observer {
     }
 
     //Return a specific json content
-    public static String getSavedGames(int gameID) throws AWSException {
+    public String getSavedGames(int gameID) throws AWSException {
         ArrayList<String> searchGame = loadFromS3();
         try {
             String gameName = searchGame.get(gameID - 1);
