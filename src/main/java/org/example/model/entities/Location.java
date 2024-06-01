@@ -12,12 +12,14 @@ public class Location {
     private final String description;
     private final ArrayList<CollectableItem> items;
     private final ArrayList<NPC> npcs;
+    private final ArrayList<ViewableItem> viewables;
     private Map<String, Location> adjacentLocations;
 
-    public Location(int id, String name, String description, ArrayList<CollectableItem> items, ArrayList<NPC> npcs) {
+    public Location(int id, String name, String description, ArrayList<CollectableItem> items, ArrayList<NPC> npcs, ArrayList<ViewableItem> viewable) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.viewables=viewable;
         this.items = items != null ? new ArrayList<>(items) : new ArrayList<>();
         this.npcs = npcs != null ? new ArrayList<>(npcs) : new ArrayList<>();
     }
@@ -56,6 +58,16 @@ public class Location {
     public Map<String, Location> getAdjacentLocations() {
         return adjacentLocations;
     }
+
+    public List<CollectableItem> getCollectableItems(){
+        return this.items;
+    }
+
+    public List<ViewableItem> getViewableItems(){
+        return this.viewables;
+    }
+
+
 
 
     // Setters

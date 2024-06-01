@@ -1,13 +1,7 @@
 package org.example.util;
 import java.util.HashMap;
 import org.example.model.GameState;
-import org.example.model.entities.CollectableItem;
-import org.example.model.entities.Location;
-import org.example.model.entities.NPC;
-import org.example.model.entities.Obstacle;
-import org.example.model.entities.Backpack;
-import org.example.model.entities.Pirate;
-import org.example.model.entities.Map;
+import org.example.model.entities.*;
 import org.example.pair.Pair;
 import java.util.ArrayList;
 import java.io.FileWriter;
@@ -25,15 +19,17 @@ public class NewGameJsonCreator {
 
         ArrayList<CollectableItem> beach11collectableItems = new ArrayList<>();
 
-        CollectableItem shell11 = new CollectableItem(11, "shell", "a glistening white shell", 1,0 );
-        CollectableItem shovel11 = new CollectableItem(12, "shovel", "an old wooden shovel", 2,0 );
-        CollectableItem spear11 = new CollectableItem(13, "spear", "a shiny iron spear", 2,0 );
+        CollectableItem shell11 = new CollectableItem(111, "shell", "a glistening white shell", 1,0 );
+        CollectableItem shovel11 = new CollectableItem(112, "shovel", "an old wooden shovel", 2,0 );
+        CollectableItem spear11 = new CollectableItem(113, "spear", "a shiny iron spear", 2,0 );
 
         beach11collectableItems.add(shell11);
         beach11collectableItems.add(shovel11);
         beach11collectableItems.add(spear11);
 
-        Location beach11 = new Location(11,"Deserted Beach","a golden beach with warm sand",beach11collectableItems,beach11npcs);
+        ArrayList<ViewableItem> beach11ViewableItems = new ArrayList<>();
+
+        Location beach11 = new Location(11,"Deserted Beach","a golden beach with warm sand",beach11collectableItems,beach11npcs, beach11ViewableItems);
 
 
 
@@ -43,23 +39,47 @@ public class NewGameJsonCreator {
 
         ArrayList<NPC> beach21npcs = new ArrayList<>();
 
-        NPC oldsage = new NPC(21, "barry", "an old sage that knows it all", "You better make space for those stairs if you head into the forest young fella...");
+        NPC oldsage = new NPC(211, "barry", "an old sage that knows it all", "You better make space for those stairs if you head into the forest young fella...");
 
         beach21npcs.add(oldsage);
 
         ArrayList<CollectableItem> beach21collectableItems = new ArrayList<>();
 
-        CollectableItem ladder21 = new CollectableItem(21, "ladder", "huge wooden stepladder", 10,0 );
-        CollectableItem bottle21 = new CollectableItem(22, "bottle", "an empty bottle", 2,0 );
-        CollectableItem coconut21 = new CollectableItem(23, "coconut", "a coconut nut (is a giant nut)", 1,0 );
+        CollectableItem ladder21 = new CollectableItem(211, "ladder", "huge wooden stepladder", 10,0 );
+        CollectableItem bottle21 = new CollectableItem(212, "bottle", "an empty bottle", 2,0 );
+        CollectableItem coconut21 = new CollectableItem(213, "coconut", "a coconut nut (is a giant nut)", 1,0 );
 
         beach21collectableItems.add(ladder21);
         beach21collectableItems.add(bottle21);
         beach21collectableItems.add(coconut21);
 
-        Location beach21 = new Location(21,"Deserted Beach","a golden beach with warm sand",beach21collectableItems,beach21npcs);
+        ArrayList<ViewableItem> beach21ViewableItems = new ArrayList<>();
+
+        Location beach21 = new Location(21,"Deserted Beach","a golden beach with warm sand",beach21collectableItems,beach21npcs, beach21ViewableItems);
 
 
+
+        //FORESTA ROSA
+
+        ArrayList<NPC> pinkforestnpcs = new ArrayList<>();
+
+        NPC pinkmonkey = new NPC (221, "bananas", "a pink dancing monkey","what's that shiny thing in the pink tree? ");
+
+        pinkforestnpcs.add(pinkmonkey);
+
+        ArrayList<CollectableItem> pinkforestCollectableitems= new ArrayList<>();
+
+        CollectableItem pinkleaf = new CollectableItem(221, "leaf", "a big pink leafr", 1,0 );
+        CollectableItem pinkkey = new CollectableItem(222, "pink Key", "a beautiful shiny pink key", 2,211 );
+        CollectableItem passionfruit = new CollectableItem(223, "passion fruit", "a juicy ripe passion fruit ", 1,0 );
+
+        pinkforestCollectableitems.add(pinkleaf);
+        pinkforestCollectableitems.add(pinkkey);
+        pinkforestCollectableitems.add(passionfruit);
+
+        ArrayList<ViewableItem> pinkforestViewableItems = new ArrayList<>();
+
+        Location pinkforest = new Location( 22, "pink forest", "a magic pink forest populated by monkeys", pinkforestCollectableitems,pinkforestnpcs,pinkforestViewableItems );
 
         // CREAZIONE OSTACOLI
 
