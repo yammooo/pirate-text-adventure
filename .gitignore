@@ -4,7 +4,7 @@ target/
 !**/src/test/**/target/
 
 # Ignore AWS credentials
-src/main/resources/assets.AWS/credentials.properties
+*.properties
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

@@ -24,7 +24,6 @@ public class SelectEntityState implements UserInteractionState {
                         break;
                     case "2":
                         AppHandler.getInstance().pickUpItem(entity.getID());
-                        context.setState(new ShowLocationState());
                         break;
                     default:
                         context.getCommandPanel().showSystemMessage("Invalid input. Please choose a valid action.");

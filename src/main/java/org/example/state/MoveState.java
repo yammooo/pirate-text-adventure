@@ -14,7 +14,6 @@ public class MoveState implements UserInteractionState {
         try {
             int locationId = Integer.parseInt(input);
             AppHandler.getInstance().move(locationId);
-            context.setState(new ShowLocationState());
         } catch (NumberFormatException e) {
             context.getCommandPanel().showSystemMessage("Invalid input. Please enter a valid location ID.");
             display(context.getCommandPanel());

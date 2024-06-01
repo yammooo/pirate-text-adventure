@@ -21,7 +21,6 @@ public class SelectBackpackItemState implements UserInteractionState {
                 break;
             case "2":
                 AppHandler.getInstance().dropItem(entity.getID());
-                context.setState(new ShowLocationState());
                 break;
             default:
                 context.getCommandPanel().showSystemMessage("Invalid input. Please choose a valid action.");

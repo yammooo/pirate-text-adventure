@@ -29,9 +29,9 @@ public class CommandPanel extends JPanel implements Observer {
 
         displayArea = new JTextArea(15, 30);
         displayArea.setEditable(false);
-        displayArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        displayArea.setFont(new Font("Monospaced", Font.PLAIN, 16));
         displayArea.setBackground(Color.BLACK);
-        displayArea.setForeground(Color.GREEN);
+        displayArea.setForeground(Color.WHITE);
         displayArea.setWrapStyleWord(true);
         displayArea.setLineWrap(true);
 
@@ -40,13 +40,17 @@ public class CommandPanel extends JPanel implements Observer {
         add(scrollPane, BorderLayout.CENTER);
 
         inputField = new JTextField();
-        inputField.setFont(new Font("Monospaced", Font.PLAIN, 14));
+        inputField.setFont(new Font("Monospaced", Font.PLAIN, 16));
+        inputField.setBackground(Color.BLACK);
+        inputField.setForeground(Color.WHITE);
+        inputField.setCaretColor(Color.WHITE);
+        inputField.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         inputField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String userInput = inputField.getText();
                 inputField.setText("");
-                showMessage("User\t> " + userInput + "\n");
+                showMessage("You >\t" + userInput + "\n\n");
                 commandPanelHandler.handleUserInput(userInput);
             }
         });
@@ -57,11 +61,10 @@ public class CommandPanel extends JPanel implements Observer {
 
     @Override
     public void update() throws AWSException {
-
         String currentState = AppHandler.getInstance().getAppState().getLastUserQueryResult().getResult();
 
-        if (currentState != null || !currentState.isEmpty()) {
-            showMessage("System\t> " + currentState + "\n");
+        if (currentState != null && !currentState.isEmpty()) {
+            showSystemMessage(currentState);
         }
 
         WindowState windowState = AppHandler.getInstance().getAppState().getCurrentWindow();
@@ -79,7 +82,9 @@ public class CommandPanel extends JPanel implements Observer {
     }
 
     public void showSystemMessage(String message) {
-        showMessage("System\t> " + message + "\n");
+        // Indent system messages
+        String indentedMessage = "Game >\t" + message.replaceAll("\n", "\n\t");
+        showMessage(indentedMessage + "\n");
     }
 
     private void showMessage(String message) {
