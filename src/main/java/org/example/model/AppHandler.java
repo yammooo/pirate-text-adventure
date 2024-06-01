@@ -1,5 +1,6 @@
 package org.example.model;
 
+import org.example.exceptions.AWSException;
 import org.example.exceptions.BackpackWeightExceededException;
 import org.example.exceptions.ItemNotFoundException;
 import org.example.model.entities.*;
@@ -11,6 +12,8 @@ import org.example.util.SaveEvent;
 import org.example.util.UIEvent;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.handlers.GraphicsPanelHandler;
+import org.example.util.GameStateTranslator;
+import org.example.view.panels.CommandPanel;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -59,7 +62,11 @@ public class AppHandler implements Observable {
     @Override
     public void notifyObservers() {
         for (Observer o : observers) {
-            o.update();
+            try{
+                o.update();
+            } catch(AWSException e) {
+                System.err.println(e.getMessage());
+            }
         }
     }
 
@@ -88,7 +95,7 @@ public class AppHandler implements Observable {
     private void notifyUI() {
 
         for (Observer o : observers) {
-            if(o instanceof CommandPanelHandler || o instanceof GraphicsPanelHandler) {
+            if(o instanceof CommandPanel || o instanceof GraphicsPanelHandler) {
                 try{
                     o.update();
                 } catch(AWSException e) {   // Exception handled also here because thrown by Observer.update()
@@ -117,12 +124,15 @@ public class AppHandler implements Observable {
 
             bufferedReader.close();
 
-            appState.setGameState(GamesStateTranslator.jsonToGameState(fileContent));
+            appState.setGameState(GameStateTranslator.jsonToGameState(fileContent));
 
             appState.getLastUserQueryResult().setResult("New Game has started.");
             appState.getLastUserQueryResult().setSuccess(true);
 
             appState.setWindowToGame(); // turn state to GAME for let the graphics handler know about window status
+
+            //todo: remove this line
+            System.out.println(appState.getCurrentWindow());
 
             notifyObservers(new SaveEvent());   // trigger an autosave to the AWS
 
@@ -163,26 +173,37 @@ public class AppHandler implements Observable {
     /*
      * create a list of all saved games in the AWS showing their titles associated to a number starting from 1
      */
-    public void getSavedGames() {
-        try{
-            ArrayList<String> gamesAvailable = AWSHandler.getInstance().getGameTitles();
+    public int getSavedGames() {
+//        try{
+//            ArrayList<String> gamesAvailable = AWSHandler.getInstance().getGamesTitles();
+//
+//            String message = "";
+//            int counter = 1;    // if the user want to load the first saved game in the AWS should enter 1 as argument
+//            for (String title : gamesAvailable) {
+//                message += counter + ". " + title + "\n";
+//                counter++;
+//            }
+//
+//            appState.getLastUserQueryResult().setResult(message);
+//            appState.getLastUserQueryResult().setSuccess(true);
+//
+//        } catch(AWSException e) {
+//            appState.getLastUserQueryResult().setResult(e.getMessage());
+//            appState.getLastUserQueryResult().setSuccess(false);
+//        }
+//
+//        notifyObservers(new UIEvent());
 
-            String message = "";
-            int counter = 1;    // if the user want to load the first saved game in the AWS should enter 1 as argument
-            for (String title : gamesAvailable) {
-                message += counter + ". " + title + "\n";
-                counter++;
-            }
-
-            appState.getLastUserQueryResult().setResult(message);
+        try {
+            appState.getLastUserQueryResult().setResult("Number of saved games: " + AWSHandler.getInstance().countSavedGames());
             appState.getLastUserQueryResult().setSuccess(true);
-
-        } catch(AWSException e) {
+            return AWSHandler.getInstance().countSavedGames();
+        } catch (AWSException e) {
             appState.getLastUserQueryResult().setResult(e.getMessage());
             appState.getLastUserQueryResult().setSuccess(false);
         }
-
-        notifyObservers(new UIEvent());
+        //notifyObservers(new UIEvent());
+        return -1;
     }
 
     /*

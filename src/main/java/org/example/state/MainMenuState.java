@@ -10,7 +10,7 @@ public class MainMenuState implements UserInteractionState {
         switch (input) {
             case "1":
                 AppHandler.getInstance().startNewGame();
-                context.setState(new MainMenuState());
+                //context.setState(new MainMenuState());
 
                 // will not  change state to ShowLocationState, so in case new game fails to load
                 // the user will be able to choose another option from the main menu

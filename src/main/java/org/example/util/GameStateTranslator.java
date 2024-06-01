@@ -3,18 +3,21 @@ package org.example.util;
 import com.google.gson.GsonBuilder;
 import org.example.model.GameState;
 import com.google.gson.Gson;
+import org.example.pair.Pair;
 
 public class GameStateTranslator {
 
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Gson gson = new GsonBuilder().registerTypeAdapter(Pair .class, new PairAdapter()).setPrettyPrinting().create();
 
     //JSON ----->>>>> GAMESTATE
 
-    public GameState jsonToGameState(String json) {
+    public static GameState jsonToGameState(String json) {
 
         if (json != null) {
+            System.out.println("GameState creation successful");
             return gson.fromJson(json, GameState.class);
         } else {
+            System.out.println("GameState creation failed");
             throw new IllegalArgumentException("GameState creation failed");
         }
     }

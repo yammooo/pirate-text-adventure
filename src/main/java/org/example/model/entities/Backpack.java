@@ -27,7 +27,7 @@ public class Backpack {
         }
 
         public CollectableItem removeItem(int id) throws ItemNotFoundException {
-            CollectableItem itemToRemove = getItem(id);
+            CollectableItem itemToRemove = getItemById(id);
             boolean itemRemoved = items.removeIf(item -> item.getID() == id);
             if (!itemRemoved) {
                 throw new ItemNotFoundException("Item not found in the backpack.");

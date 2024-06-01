@@ -9,12 +9,14 @@ public class CommandPanelHandler {
     private UserInteractionState currentState;
 
     public CommandPanelHandler(CommandPanel commandPanel) {
+        System.out.println("Creating CommandPanelHandler");
         this.commandPanel = commandPanel;
         this.currentState = new MainMenuState();
         this.currentState.display(commandPanel);
     }
 
     public void handleUserInput(String userInput) {
+        System.out.println("Handling user input: " + userInput);
         currentState.handleInput(this, userInput);
     }
 

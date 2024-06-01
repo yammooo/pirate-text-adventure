@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.model.AppHandler;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 import org.example.view.panels.GraphicsPanel;
@@ -35,5 +36,9 @@ public class MainFrame extends JFrame{
         setTitle("2D Game");
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    public CommandPanel getCommandPanel() {
+        return commandPanel;
     }
 }

@@ -29,7 +29,7 @@ public class NewGameJsonCreator {
 
         ArrayList<ViewableItem> beach11ViewableItems = new ArrayList<>();
 
-        Location beach11 = new Location(11,"Deserted Beach","a golden beach with warm sand",beach11collectableItems,beach11npcs, beach11ViewableItems);
+        Location beach11 = new Location(11,"Deserted Beach","a golden beach with warm sand",beach11collectableItems, beach11ViewableItems, beach11npcs);
 
 
 
@@ -55,7 +55,7 @@ public class NewGameJsonCreator {
 
         ArrayList<ViewableItem> beach21ViewableItems = new ArrayList<>();
 
-        Location beach21 = new Location(21,"Deserted Beach","a golden beach with warm sand",beach21collectableItems,beach21npcs, beach21ViewableItems);
+        Location beach21 = new Location(21,"Deserted Beach","a golden beach with warm sand",beach21collectableItems, beach21ViewableItems, beach21npcs);
 
 
 
@@ -79,15 +79,15 @@ public class NewGameJsonCreator {
 
         ArrayList<ViewableItem> pinkforestViewableItems = new ArrayList<>();
 
-        Location pinkforest = new Location( 22, "pink forest", "a magic pink forest populated by monkeys", pinkforestCollectableitems,pinkforestnpcs,pinkforestViewableItems );
+        Location pinkforest = new Location( 22, "pink forest", "a magic pink forest populated by monkeys", pinkforestCollectableitems,pinkforestViewableItems, pinkforestnpcs);
 
         // CREAZIONE OSTACOLI
 
-        Obstacle squalo = new Obstacle(1, "squalo", "a bloodthirsty hammershark", 13);
+        //Obstacle squalo = new Obstacle(1, "squalo", "a bloodthirsty hammershark", 13);
 
         HashMap<Pair<Integer, Integer>, Obstacle> obstacles = new HashMap<>();
 
-        obstacles.put(new Pair<>(11, 21), squalo );
+        //obstacles.put(new Pair<>(11, 21), squalo );
 
 
         //UNIONE NELLA MAPPA
@@ -102,7 +102,7 @@ public class NewGameJsonCreator {
 
         Pirate pirate = new Pirate(3,new Backpack(10),3);
 
-        GameState gameState = new GameState(pirate,pirateMap);
+        GameState gameState = new GameState(pirate,pirateMap, "");
 
         /////////////////////////////////////////////////////////////////////////////////////////////////
 

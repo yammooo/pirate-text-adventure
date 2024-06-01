@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.example.exceptions.AWSException;
 import org.example.model.AppHandler;
 import org.example.model.entities.enums.WindowState;
 import org.example.observer.Observer;
@@ -26,7 +27,7 @@ public class CommandPanel extends JPanel implements Observer {
     public CommandPanel() {
         setLayout(new BorderLayout());
 
-        displayArea = new JTextArea(10, 30);
+        displayArea = new JTextArea(15, 30);
         displayArea.setEditable(false);
         displayArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
         displayArea.setBackground(Color.BLACK);
@@ -55,12 +56,20 @@ public class CommandPanel extends JPanel implements Observer {
     }
 
     @Override
-    public void update() {
-        WindowState currentState = AppHandler.getInstance().getAppState().getCurrentWindow();
+    public void update() throws AWSException {
 
-        if (currentState == WindowState.MENU) {
+        String currentState = AppHandler.getInstance().getAppState().getLastUserQueryResult().getResult();
+
+        if (currentState != null || !currentState.isEmpty()) {
+            showMessage("System\t> " + currentState + "\n");
+        }
+
+        WindowState windowState = AppHandler.getInstance().getAppState().getCurrentWindow();
+        System.out.println("CommandPanel: " + windowState);
+
+        if (windowState == WindowState.MENU) {
             commandPanelHandler.setState(new MainMenuState());
-        } else if (currentState == WindowState.GAME) {
+        } else if (windowState == WindowState.GAME) {
             commandPanelHandler.setState(new ShowLocationState());
         }
     }

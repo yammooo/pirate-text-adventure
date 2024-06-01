@@ -39,7 +39,7 @@ public class AWSHandler implements Observer {
     @Override
     public void update() throws AWSException {
 
-        if (AppState.getInstance().getGameState().getTitle() == "") {
+        if (AppState.getInstance().getGameState().getTitle().equals("")) {
 
             //Save a new instance
             saveAsNewGame();
@@ -91,7 +91,7 @@ public class AWSHandler implements Observer {
                     .key(keyName)
                     .build(), software.amazon.awssdk.core.sync.RequestBody.fromInputStream(inputStream, jsonContent.length()));
 
-            //System.out.println("JSON file successfully uploaded to S3 in " + bucketName + "/" + keyName);
+            System.out.println("JSON file successfully uploaded to S3 in " + bucketName + "/" + keyName);
         } catch (Exception e) {
             throw new AWSException("Error occurred: Failed to communicate to AWS.");
         }
