@@ -8,9 +8,10 @@ public class GameState {
     private final Pirate pirate;
     private final Map map;
 
-    private GameState(Pirate pirate, Map map) {
+    private GameState(Pirate pirate, Map map, String title) {
         this.pirate = pirate;
         this.map = map;
+        this.title = title;
     }
 
     public Pirate getPirate() {
