@@ -37,6 +37,8 @@ public class Location {
     }
 
 
+    //Getters
+
     public int getID(){
         return id;
     }
@@ -56,6 +58,9 @@ public class Location {
     public Map<String, Location> getAdjacentLocations() {
         return adjacentLocations;
     }
+
+
+    // Setters
 
     public void setAdjacentLocations(Map<String, Location> adjacentLocations) {
         this.adjacentLocations = adjacentLocations;
@@ -103,6 +108,25 @@ public class Location {
         entities.addAll(this.npcs);
 
         return entities;
+    }
+
+    public Entity getEntityById(int id) throws ItemNotFoundException {
+        for (CollectableItem item : items) {
+            if (item.getID() == id) {
+                return item;
+            }
+        }
+        for (ViewableItem item : viewables) {
+            if (item.getID() == id) {
+                return item;
+            }
+        }
+        for (NPC npc : npcs) {
+            if (npc.getID() == id) {
+                return npc;
+            }
+        }
+        throw new ItemNotFoundException("No entity with the given ID is found"); // Return null if no entity with the given ID is found
     }
 
 }

@@ -67,13 +67,13 @@ public class Backpack {
             return new ArrayList<>(items);
         }
 
-        private CollectableItem getItem(int id) {
+        public CollectableItem getItemById(int id) throws ItemNotFoundException {
             for (CollectableItem item : items) {
                 if (item.getID() == id) {
                     return item;
                 }
             }
-            return null;
+            throw new ItemNotFoundException("Item not found in the backpack.");
         }
 
 }
