@@ -111,7 +111,7 @@ public class NewGameJsonCreator {
         String json = GameStateTranslator.gameStateToJson(gameState);
 
         // Step 3: Write the JSON string to a file in "src/main/resources"
-        try (FileWriter file = new FileWriter("src/main/resources/gameState.json")) {
+        try (FileWriter file = new FileWriter("src/main/resources/json/defaultGameState.json")) {
             file.write(json);
             System.out.println("Successfully Copied JSON Object to File...");
             System.out.println("\nJSON Object: " + json);
