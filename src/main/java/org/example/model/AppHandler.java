@@ -102,7 +102,7 @@ public class AppHandler implements Observable {
      * create a new game using a default game template saved in the defaultGameState.json file and then start it if all correctly happened
      */
     public void startNewGame() {
-        String fileName = "src/main/resources/assets.json/defaultGameState.json";
+        String fileName = "src/main/resources/json/defaultGameState.json";
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));

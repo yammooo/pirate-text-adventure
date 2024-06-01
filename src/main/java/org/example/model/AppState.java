@@ -6,10 +6,12 @@ public class AppState {
     private static AppState instance;
     private GameState gameState;
     private WindowState currentWindow;
+    private UserQueryResult lastUserQueryResult;
 
     private AppState() {
         gameState = null;
         currentWindow = WindowState.MENU;
+        lastUserQueryResult = new UserQueryResult("", false);
     }
 
     public static AppState getInstance() {
@@ -25,6 +27,10 @@ public class AppState {
 
     public WindowState getCurrentWindow() {
         return currentWindow;
+    }
+
+    public UserQueryResult getLastUserQueryResult() {
+        return lastUserQueryResult;
     }
 
     public void setGameState(GameState gameState) {
