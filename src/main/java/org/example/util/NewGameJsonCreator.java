@@ -28,8 +28,10 @@ public class NewGameJsonCreator {
         beach11collectableItems.add(spear11);
 
         ArrayList<ViewableItem> beach11ViewableItems = new ArrayList<>();
+        ArrayList<Integer> beach11adjacentlocations = new ArrayList<>();
+        beach11adjacentlocations.add(21);
 
-        Location beach11 = new Location(11,"Deserted Beach","a golden beach with warm sand",beach11collectableItems, beach11ViewableItems, beach11npcs);
+        Location beach11 = new Location(11,"Deserted Beach","a suspiciously empty beach", beach11collectableItems, beach11ViewableItems, beach11npcs, beach11adjacentlocations );
 
 
 
@@ -54,8 +56,11 @@ public class NewGameJsonCreator {
         beach21collectableItems.add(coconut21);
 
         ArrayList<ViewableItem> beach21ViewableItems = new ArrayList<>();
+        ArrayList<Integer> beach21adjacentlocations = new ArrayList<>();
+        beach21adjacentlocations.add(11);
+        beach21adjacentlocations.add(22);
 
-        Location beach21 = new Location(21,"Deserted Beach","a golden beach with warm sand",beach21collectableItems, beach21ViewableItems, beach21npcs);
+        Location beach21 = new Location(21,"White Sand Beach","a golden beach with warm sand",beach21collectableItems, beach21ViewableItems, beach21npcs, beach21adjacentlocations);
 
 
 
@@ -69,21 +74,24 @@ public class NewGameJsonCreator {
 
         ArrayList<CollectableItem> pinkforestCollectableitems= new ArrayList<>();
 
-        CollectableItem pinkleaf = new CollectableItem(221, "leaf", "a big pink leafr", 1,0 );
-        CollectableItem pinkkey = new CollectableItem(222, "pink Key", "a beautiful shiny pink key", 2,211 );
-        CollectableItem passionfruit = new CollectableItem(223, "passion fruit", "a juicy ripe passion fruit ", 1,0 );
+        CollectableItem pinkLeaf = new CollectableItem(221, "leaf", "a big pink leaf", 1,0 );
+        CollectableItem pinkKey = new CollectableItem(222, "pink Key", "a beautiful shiny pink key", 2,211 );
+        CollectableItem passionFruit = new CollectableItem(223, "passion fruit", "a juicy ripe passion fruit ", 1,0 );
 
-        pinkforestCollectableitems.add(pinkleaf);
-        pinkforestCollectableitems.add(pinkkey);
-        pinkforestCollectableitems.add(passionfruit);
+        pinkforestCollectableitems.add(pinkLeaf);
+        pinkforestCollectableitems.add(pinkKey);
+        pinkforestCollectableitems.add(passionFruit);
 
         ArrayList<ViewableItem> pinkforestViewableItems = new ArrayList<>();
 
-        Location pinkforest = new Location( 22, "pink forest", "a magic pink forest populated by monkeys", pinkforestCollectableitems,pinkforestViewableItems, pinkforestnpcs);
+        ArrayList<Integer> pinkforestadjacentlocations = new ArrayList<>();
+        pinkforestadjacentlocations.add(21);
+
+        Location pinkforest = new Location( 22, "pink forest", "a magic pink forest populated by monkeys", pinkforestCollectableitems,pinkforestViewableItems, pinkforestnpcs, pinkforestadjacentlocations);
 
         // CREAZIONE OSTACOLI
 
-        Obstacle squalo = new Obstacle(1, "squalo", "a bloodthirsty hammershark", 13);
+        Obstacle squalo = new Obstacle(1, "shark", "a bloodthirsty hammershark", 113);
 
         HashMap<Pair<Integer, Integer>, Obstacle> obstacles = new HashMap<>();
 
@@ -95,6 +103,7 @@ public class NewGameJsonCreator {
         ArrayList<Location> locationlist = new ArrayList<Location>();
         locationlist.add(beach11);
         locationlist.add(beach21);
+        locationlist.add(pinkforest);
 
         Map pirateMap = new Map(locationlist, obstacles, 11);
 

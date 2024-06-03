@@ -1,5 +1,4 @@
 {
-  "title": "",
   "pirate": {
     "lives": 3,
     "backpack": {
@@ -13,124 +12,75 @@
       {
         "id": 11,
         "name": "Deserted Beach",
-        "description": "a suspiciously empty beach",
+        "description": "a golden beach with warm sand",
         "items": [
           {
-            "id": 111,
+            "id": 11,
             "name": "shell",
             "description": "a glistening white shell",
             "weight": 1,
             "requiredEntityID": 0
           },
           {
-            "id": 112,
+            "id": 12,
             "name": "shovel",
             "description": "an old wooden shovel",
             "weight": 2,
             "requiredEntityID": 0
           },
           {
-            "id": 113,
+            "id": 13,
             "name": "spear",
             "description": "a shiny iron spear",
             "weight": 2,
             "requiredEntityID": 0
           }
         ],
-        "viewables": [],
-        "npcs": [],
-        "adjacentLocations": [
-          21
-        ]
+        "npcs": []
       },
       {
         "id": 21,
-        "name": "White Sand Beach",
+        "name": "Deserted Beach",
         "description": "a golden beach with warm sand",
         "items": [
           {
-            "id": 211,
+            "id": 21,
             "name": "ladder",
             "description": "huge wooden stepladder",
             "weight": 10,
             "requiredEntityID": 0
           },
           {
-            "id": 212,
+            "id": 22,
             "name": "bottle",
             "description": "an empty bottle",
             "weight": 2,
             "requiredEntityID": 0
           },
           {
-            "id": 213,
+            "id": 23,
             "name": "coconut",
             "description": "a coconut nut (is a giant nut)",
             "weight": 1,
             "requiredEntityID": 0
           }
         ],
-        "viewables": [],
         "npcs": [
           {
-            "id": 211,
+            "id": 21,
             "name": "barry",
             "description": "an old sage that knows it all",
             "dialogue": "You better make space for those stairs if you head into the forest young fella..."
           }
-        ],
-        "adjacentLocations": [
-          11,
-          22
-        ]
-      },
-      {
-        "id": 22,
-        "name": "pink forest",
-        "description": "a magic pink forest populated by monkeys",
-        "items": [
-          {
-            "id": 221,
-            "name": "leaf",
-            "description": "a big pink leaf",
-            "weight": 1,
-            "requiredEntityID": 0
-          },
-          {
-            "id": 222,
-            "name": "pink Key",
-            "description": "a beautiful shiny pink key",
-            "weight": 2,
-            "requiredEntityID": 211
-          },
-          {
-            "id": 223,
-            "name": "passion fruit",
-            "description": "a juicy ripe passion fruit ",
-            "weight": 1,
-            "requiredEntityID": 0
-          }
-        ],
-        "viewables": [],
-        "npcs": [
-          {
-            "id": 221,
-            "name": "bananas",
-            "description": "a pink dancing monkey",
-            "dialogue": "what\u0027s that shiny thing in the pink tree? "
-          }
-        ],
-        "adjacentLocations": [
-          21
         ]
       }
     ],
     "obstacles": {
-      "11-21": {
+      "Pair{key\u003d11, value\u003d21}": {
         "id": 1,
-        "name": "shark",
+        "name": "squalo",
         "description": "a bloodthirsty hammershark",
-        "itemToDefeatID": 113
+        "itemToDefeatID": 13
       }
     },
     "currentPirateLocationID": 11

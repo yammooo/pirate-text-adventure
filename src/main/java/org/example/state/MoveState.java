@@ -6,6 +6,7 @@ import org.example.model.entities.Location;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class MoveState implements InteractionState {
@@ -25,11 +26,13 @@ public class MoveState implements InteractionState {
         GameState gameState = AppHandler.getInstance().getAppState().getGameState();
         Location currentLocation = gameState.getMap().getLocationById(gameState.getMap().getPirateLocationID());
 
-        Map<String, Location> adjacentLocations = currentLocation.getAdjacentLocations();
+        ArrayList<Integer> adjacentLocations = currentLocation.getAdjacentLocations();
 
         StringBuilder message = new StringBuilder("Where do you want to move?\n");
-        for (Location location : adjacentLocations.values()) {
-            message.append("- ").append(location.getName()).append(": ").append(location.getID()).append("\n");
+
+        for (Integer locationId : adjacentLocations) {
+            Location location = gameState.getMap().getLocationById(locationId);
+            message.append("> ").append(location.getName()).append(": ").append(location.getID()).append("\n");
         }
 
         message.append("\nEnter the ID of the location you want to move to:\n");

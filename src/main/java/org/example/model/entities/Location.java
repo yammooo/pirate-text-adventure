@@ -13,15 +13,16 @@ public class Location {
     private final ArrayList<CollectableItem> items;
     private final ArrayList<ViewableItem> viewables;
     private final ArrayList<NPC> npcs;
-    private Map<String, Location> adjacentLocations;
+    private final ArrayList<Integer> adjacentLocations;
 
-    public Location(int id, String name, String description, ArrayList<CollectableItem> items, ArrayList<ViewableItem> viewableitems, ArrayList<NPC> npcs) {
+    public Location(int id, String name, String description, ArrayList<CollectableItem> items, ArrayList<ViewableItem> viewableitems, ArrayList<NPC> npcs, ArrayList<Integer> adjlocation) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.items = items != null ? new ArrayList<>(items) : new ArrayList<>();
         this.viewables = viewableitems != null ? new ArrayList<>(viewableitems) : new ArrayList<>();
         this.npcs = npcs != null ? new ArrayList<>(npcs) : new ArrayList<>();
+        this.adjacentLocations=adjlocation;
     }
 
 
@@ -55,16 +56,13 @@ public class Location {
         return npcs;
     }
 
-    public Map<String, Location> getAdjacentLocations() {
+    public ArrayList<Integer> getAdjacentLocations() {
         return adjacentLocations;
     }
 
 
     // Setters
 
-    public void setAdjacentLocations(Map<String, Location> adjacentLocations) {
-        this.adjacentLocations = adjacentLocations;
-    }
 
     public ArrayList<ViewableItem> getViewableItems() {
         return viewables;
@@ -83,12 +81,10 @@ public class Location {
     }
 
     // find if a location is adjacent or not
+
+
     public boolean isAdjacentLocation(Location adjLocation) {
-        for(Location location : this.adjacentLocations.values()) {
-            if(location.getID() == adjLocation.getID())
-                return true;
-        }
-        return false;
+        return this.adjacentLocations.contains(adjLocation.getID());
     }
 
     // get a specific collectableItem by its ID
