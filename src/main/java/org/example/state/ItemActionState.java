@@ -14,6 +14,12 @@ public class ItemActionState implements InteractionState {
 
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
+
+        if (input.equalsIgnoreCase("back")) {
+            context.setState(new BackpackState());
+            return;
+        }
+
         switch (input) {
             case "1":
                 context.getCommandPanel().showSystemMessage(entity.getDescription());
@@ -33,10 +39,10 @@ public class ItemActionState implements InteractionState {
     public void display(CommandPanel commandPanel) {
         StringBuilder message = new StringBuilder("You have selected an item from your backpack.\n");
 
-        message.append("1. Look closer\n");
+        message.append("1. Drop Item\n");
         message.append("2. Pick up item\n");
 
-        message.append("Enter your choice:\n");
+        message.append("\nEnter your choice or type 'back' to return to\nthe backpack:\n");
 
         commandPanel.showSystemMessage(message.toString());
     }

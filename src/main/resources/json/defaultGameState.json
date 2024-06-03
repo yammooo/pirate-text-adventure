@@ -1,5 +1,5 @@
 {
-  "title": "",
+  "title": "New Game State",
   "pirate": {
     "lives": 3,
     "backpack": {
@@ -11,28 +11,28 @@
   "map": {
     "locations": [
       {
-        "id": 11,
-        "name": "Deserted Beach",
-        "description": "a suspiciously empty beach",
+        "id": 12,
+        "name": "Golden Beach",
+        "description": "A suspiciously empty beach.",
         "items": [
           {
-            "id": 111,
-            "name": "shell",
-            "description": "a glistening white shell",
+            "id": 100,
+            "name": "Shell",
+            "description": "A glistening white shell, perfect for a souvenir.",
             "weight": 1,
             "requiredEntityID": 0
           },
           {
-            "id": 112,
-            "name": "shovel",
-            "description": "an old wooden shovel",
+            "id": 101,
+            "name": "Shovel",
+            "description": "An old wooden shovel, it\u0027s seen better days.",
             "weight": 2,
             "requiredEntityID": 0
           },
           {
-            "id": 113,
-            "name": "spear",
-            "description": "a shiny iron spear",
+            "id": 20,
+            "name": "Spear",
+            "description": "A shiny iron spear, sharp and ready for use.",
             "weight": 2,
             "requiredEntityID": 0
           }
@@ -40,32 +40,25 @@
         "viewables": [],
         "npcs": [],
         "adjacentLocations": [
-          21
+          20
         ]
       },
       {
-        "id": 21,
-        "name": "White Sand Beach",
-        "description": "a golden beach with warm sand",
+        "id": 20,
+        "name": "Black Beach",
+        "description": "A beach with black sand, it\u0027s quite a sight.",
         "items": [
           {
-            "id": 211,
-            "name": "ladder",
-            "description": "huge wooden stepladder",
-            "weight": 10,
+            "id": 102,
+            "name": "Coconut",
+            "description": "A coconut nut (is a giant nut), it\u0027s hard but nutritious.",
+            "weight": 1,
             "requiredEntityID": 0
           },
           {
-            "id": 212,
-            "name": "bottle",
-            "description": "an empty bottle",
-            "weight": 2,
-            "requiredEntityID": 0
-          },
-          {
-            "id": 213,
-            "name": "coconut",
-            "description": "a coconut nut (is a giant nut)",
+            "id": 103,
+            "name": "Passion Fruit",
+            "description": "A juicy ripe passion fruit, it\u0027s mouth-wateringly delicious.",
             "weight": 1,
             "requiredEntityID": 0
           }
@@ -73,66 +66,25 @@
         "viewables": [],
         "npcs": [
           {
-            "id": 211,
-            "name": "barry",
-            "description": "an old sage that knows it all",
-            "dialogue": "You better make space for those stairs if you head into the forest young fella..."
+            "id": 104,
+            "name": "Barry",
+            "description": "An old sage that seems to know everything.",
+            "dialogue": "You better make space for those stairs if you head into the forest, young fella..."
           }
         ],
         "adjacentLocations": [
-          11,
-          22
-        ]
-      },
-      {
-        "id": 22,
-        "name": "pink forest",
-        "description": "a magic pink forest populated by monkeys",
-        "items": [
-          {
-            "id": 221,
-            "name": "leaf",
-            "description": "a big pink leaf",
-            "weight": 1,
-            "requiredEntityID": 0
-          },
-          {
-            "id": 222,
-            "name": "pink Key",
-            "description": "a beautiful shiny pink key",
-            "weight": 2,
-            "requiredEntityID": 211
-          },
-          {
-            "id": 223,
-            "name": "passion fruit",
-            "description": "a juicy ripe passion fruit ",
-            "weight": 1,
-            "requiredEntityID": 0
-          }
-        ],
-        "viewables": [],
-        "npcs": [
-          {
-            "id": 221,
-            "name": "bananas",
-            "description": "a pink dancing monkey",
-            "dialogue": "what\u0027s that shiny thing in the pink tree? "
-          }
-        ],
-        "adjacentLocations": [
-          21
+          12
         ]
       }
     ],
     "obstacles": {
-      "11-21": {
+      "12-20": {
         "id": 1,
-        "name": "shark",
-        "description": "a bloodthirsty hammershark",
-        "itemToDefeatID": 113
+        "name": "Shark",
+        "description": "A bloodthirsty hammerhead shark",
+        "itemToDefeatID": 20
       }
     },
-    "currentPirateLocationID": 11
+    "currentPirateLocationID": 12
   }
 }

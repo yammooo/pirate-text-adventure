@@ -12,6 +12,12 @@ import java.util.Map;
 public class MoveState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
+
+        if (input.equalsIgnoreCase("back")) {
+            context.setState(new InitGameState());
+            return;
+        }
+
         try {
             int locationId = Integer.parseInt(input);
             AppHandler.getInstance().move(locationId);
@@ -35,7 +41,7 @@ public class MoveState implements InteractionState {
             message.append("> ").append(location.getName()).append(": ").append(location.getID()).append("\n");
         }
 
-        message.append("\nEnter the ID of the location you want to move to:\n");
+        message.append("\nEnter the ID of the location you want to move to\nor type 'back' to return to the main menu:\n");
 
         commandPanel.showSystemMessage(message.toString());
     }

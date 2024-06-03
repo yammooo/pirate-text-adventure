@@ -33,7 +33,7 @@ public class MainFrame extends JFrame{
 
                 // JFrame setup
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                setResizable(true);
+                setResizable(false);
                 setTitle("2D Game");
                 setLocationRelativeTo(null);
                 setVisible(true);

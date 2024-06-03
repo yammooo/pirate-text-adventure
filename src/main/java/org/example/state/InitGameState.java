@@ -14,10 +14,6 @@ public class InitGameState implements InteractionState {
             case "2" -> context.setState(new MoveState());
             case "3" -> context.setState(new BackpackState());
             case "4" -> AppHandler.getInstance().exitToMenu();
-//            case "5" -> {
-//                context.getCommandPanel().showSystemMessage(AppHandler.getInstance().getHelp());
-//                display(context.getCommandPanel());
-//            }
             default -> {
                 display(context.getCommandPanel());
                 ;
@@ -37,7 +33,6 @@ public class InitGameState implements InteractionState {
         message.append("2. Move to another location\n");
         message.append("3. Show backpack\n");
         message.append("4. Exit to menu\n");
-//        message.append("5. Get help\n");
 
         message.append("Enter your choice:\n");
 

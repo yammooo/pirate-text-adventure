@@ -12,6 +12,11 @@ public class SurroundingsState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
 
+        if (input.equalsIgnoreCase("back")) {
+            context.setState(new InitGameState());
+            return;
+        }
+
         Entity entity = null;
 
         try {
@@ -54,7 +59,7 @@ public class SurroundingsState implements InteractionState {
             message.append("> ").append(npc.getName()).append(": ").append(npc.getID()).append("\n");
         }
 
-        message.append("\nEnter the ID of an item to get more actions:\n");
+        message.append("\nEnter the ID of an item to get more actions\nor type 'back' to return to the main menu:\n");
 
         commandPanel.showSystemMessage(message.toString());
     }

@@ -15,6 +15,11 @@ public class EntitySelectState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
 
+        if (input.equalsIgnoreCase("back")) {
+            context.setState(new SurroundingsState());
+            return;
+        }
+
         switch (entity) {
             case CollectableItem collectableItem -> {
                 switch (input) {
@@ -82,7 +87,7 @@ public class EntitySelectState implements InteractionState {
             }
         }
 
-        message.append("Enter your choice:\n");
+        message.append("\nEnter your choice or type 'back' to return\nto the surroundings:\n");
 
         commandPanel.showSystemMessage(message.toString());
     }

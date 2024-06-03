@@ -125,4 +125,8 @@ public class Location {
         throw new ItemNotFoundException("No entity with the given ID is found"); // Return null if no entity with the given ID is found
     }
 
+    public void addAdjacentLocation(int locationId) {
+        adjacentLocations.add(locationId);
+    }
+
 }

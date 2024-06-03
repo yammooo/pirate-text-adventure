@@ -7,6 +7,12 @@ import org.example.view.panels.CommandPanel;
 public class LoadGameState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
+
+        if (input.equalsIgnoreCase("back")) {
+            context.setState(new MenuState());
+            return;
+        }
+
         try {
             int saveId = Integer.parseInt(input);
 
@@ -32,7 +38,7 @@ public class LoadGameState implements InteractionState {
     public void display(CommandPanel commandPanel) {
         StringBuilder message = new StringBuilder("You have " + AppHandler.getInstance().getSavedGames() + " saved games.\n");
 
-        message.append("Enter the saved game ID to load:\n");
+        message.append("Enter the saved game ID to load or type 'back'\nto return to the menu:\n");
         commandPanel.showSystemMessage(message.toString());
     }
 }

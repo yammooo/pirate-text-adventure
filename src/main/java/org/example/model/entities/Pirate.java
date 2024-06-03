@@ -5,10 +5,10 @@ public class Pirate {
     private final Backpack backpack;
     private final int maxLives;
 
-    public Pirate(int lives, Backpack backpack, int maxLives) {
-        this.lives = lives;
+    public Pirate(Backpack backpack, int maxLives) {
         this.backpack = backpack;
         this.maxLives = maxLives;
+        this.lives = maxLives;
     }
 
     // Getters
