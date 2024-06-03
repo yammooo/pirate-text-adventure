@@ -38,7 +38,8 @@
           }
         ],
         "viewables": [],
-        "npcs": []
+        "npcs": [],
+        "adjacentLocations": {}
       },
       {
         "id": 21,
@@ -75,7 +76,8 @@
             "description": "an old sage that knows it all",
             "dialogue": "You better make space for those stairs if you head into the forest young fella..."
           }
-        ]
+        ],
+        "adjacentLocations": {}
       }
     ],
     "obstacles": {},

@@ -2,6 +2,7 @@ package org.example.model.entities;
 
 import org.example.exceptions.ItemNotFoundException;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class Location {
         this.items = items != null ? new ArrayList<>(items) : new ArrayList<>();
         this.viewables = viewableitems != null ? new ArrayList<>(viewableitems) : new ArrayList<>();
         this.npcs = npcs != null ? new ArrayList<>(npcs) : new ArrayList<>();
+        this.adjacentLocations = new HashMap<>();
     }
 
 
