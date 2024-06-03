@@ -8,7 +8,7 @@ import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
 
-public class ViewSurroundingsState implements UserInteractionState {
+public class SurroundingsState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
 
@@ -18,7 +18,7 @@ public class ViewSurroundingsState implements UserInteractionState {
 
             int entityId = Integer.parseInt(input);
             entity = AppHandler.getInstance().getAppState().getGameState().getMap().getLocationById(AppHandler.getInstance().getAppState().getGameState().getMap().getPirateLocationID()).getEntityById(entityId);
-            context.setState(new SelectEntityState(entity));
+            context.setState(new EntitySelectState(entity));
 
         } catch (NumberFormatException e) {
             context.getCommandPanel().showSystemMessage("Invalid input. Please enter a valid ID.");
@@ -39,19 +39,19 @@ public class ViewSurroundingsState implements UserInteractionState {
         // Print collectable items
         message.append("Collectable Items:\n");
         for (CollectableItem item : currentLocation.getCollectableItems()) {
-            message.append("- ").append(item.getName()).append(": ").append(item.getID()).append("\n");
+            message.append("> ").append(item.getName()).append(": ").append(item.getID()).append("\n");
         }
 
         // Print viewable items
         message.append("Viewable Items:\n");
         for (ViewableItem item : currentLocation.getViewableItems()) {
-            message.append("- ").append(item.getName()).append(": ").append(item.getID()).append("\n");
+            message.append("> ").append(item.getName()).append(": ").append(item.getID()).append("\n");
         }
 
         // Print NPCs
         message.append("NPCs:\n");
         for (NPC npc : currentLocation.getNPC()) {
-            message.append("- ").append(npc.getName()).append(": ").append(npc.getID()).append("\n");
+            message.append("> ").append(npc.getName()).append(": ").append(npc.getID()).append("\n");
         }
 
         message.append("\nEnter the ID of an item to get more actions:\n");

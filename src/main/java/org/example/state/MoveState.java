@@ -8,7 +8,7 @@ import org.example.view.panels.CommandPanel;
 
 import java.util.Map;
 
-public class MoveState implements UserInteractionState {
+public class MoveState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
         try {

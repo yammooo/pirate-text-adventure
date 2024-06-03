@@ -8,7 +8,7 @@ import org.example.model.entities.Entity;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
-public class ShowBackpackState implements UserInteractionState {
+public class BackpackState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
 
@@ -19,7 +19,7 @@ public class ShowBackpackState implements UserInteractionState {
             int itemId = Integer.parseInt(input);
             entity = AppHandler.getInstance().getAppState().getGameState().getPirate().getBackpack().getItemById(itemId);
 
-            context.setState(new SelectBackpackItemState(entity));
+            context.setState(new ItemActionState(entity));
 
         } catch (NumberFormatException e) {
             context.getCommandPanel().showSystemMessage("Invalid input. Please enter a valid ID.");

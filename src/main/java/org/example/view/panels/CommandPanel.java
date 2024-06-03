@@ -11,8 +11,8 @@ import org.example.exceptions.AWSException;
 import org.example.model.AppHandler;
 import org.example.model.entities.enums.WindowState;
 import org.example.observer.Observer;
-import org.example.state.MainMenuState;
-import org.example.state.ShowLocationState;
+import org.example.state.MenuState;
+import org.example.state.InitGameState;
 import org.example.view.handlers.CommandPanelHandler;
 
 public class CommandPanel extends JPanel implements Observer {
@@ -60,20 +60,20 @@ public class CommandPanel extends JPanel implements Observer {
     }
 
     @Override
-    public void update() throws AWSException {
-        String currentState = AppHandler.getInstance().getAppState().getLastUserQueryResult().getResult();
+    public void update() {
+        String queryResult = AppHandler.getInstance().getAppState().getLastUserQueryResult().getResult();
 
-        if (currentState != null && !currentState.isEmpty()) {
-            showSystemMessage(currentState);
+        if (queryResult != null && !queryResult.isEmpty()) {
+            showSystemMessage(queryResult);
         }
 
         WindowState windowState = AppHandler.getInstance().getAppState().getCurrentWindow();
         System.out.println("CommandPanel: " + windowState);
 
         if (windowState == WindowState.MENU) {
-            commandPanelHandler.setState(new MainMenuState());
+            commandPanelHandler.setState(new MenuState());
         } else if (windowState == WindowState.GAME) {
-            commandPanelHandler.setState(new ShowLocationState());
+            commandPanelHandler.setState(new InitGameState());
         }
     }
 

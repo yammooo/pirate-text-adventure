@@ -78,7 +78,14 @@
         ]
       }
     ],
-    "obstacles": {},
+    "obstacles": {
+      "11-21": {
+        "id": 1,
+        "name": "squalo",
+        "description": "a bloodthirsty hammershark",
+        "itemToDefeatID": 13
+      }
+    },
     "currentPirateLocationID": 11
   }
 }

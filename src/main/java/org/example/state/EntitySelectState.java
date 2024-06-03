@@ -5,10 +5,10 @@ import org.example.model.entities.*;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
-public class SelectEntityState implements UserInteractionState {
+public class EntitySelectState implements InteractionState {
     private final Entity entity;
 
-    public SelectEntityState(Entity entity) {
+    public EntitySelectState(Entity entity) {
         this.entity = entity;
     }
 
@@ -20,7 +20,7 @@ public class SelectEntityState implements UserInteractionState {
                 switch (input) {
                     case "1":
                         context.getCommandPanel().showSystemMessage(entity.getDescription());
-                        context.setState(new ShowLocationState());
+                        context.setState(new InitGameState());
                         break;
                     case "2":
                         AppHandler.getInstance().pickUpItem(entity.getID());
@@ -35,23 +35,23 @@ public class SelectEntityState implements UserInteractionState {
                 switch (input) {
                     case "1":
                         context.getCommandPanel().showSystemMessage(entity.getDescription());
-                        context.setState(new ShowLocationState());
+                        context.setState(new InitGameState());
                         break;
                     case "2":
                         context.getCommandPanel().showSystemMessage(((NPC)entity).getDialogue());
-                        context.setState(new ShowLocationState());
+                        context.setState(new InitGameState());
                         break;
                     default:
                         context.getCommandPanel().showSystemMessage("Invalid input. Please choose a valid action.");
                         display(context.getCommandPanel());
-                        context.setState(new ShowLocationState());
+                        context.setState(new InitGameState());
                         break;
                 }
             }
             case ViewableItem viewableItem -> {
                 if (input.equals("1")) {
                     context.getCommandPanel().showSystemMessage(entity.getDescription());
-                    context.setState(new ShowLocationState());
+                    context.setState(new InitGameState());
                 } else {
                     context.getCommandPanel().showSystemMessage("Invalid input. Please choose a valid action.");
                     display(context.getCommandPanel());

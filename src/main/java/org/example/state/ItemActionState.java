@@ -5,10 +5,10 @@ import org.example.model.entities.Entity;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
-public class SelectBackpackItemState implements UserInteractionState {
+public class ItemActionState implements InteractionState {
     private final Entity entity;
 
-    public SelectBackpackItemState(Entity entity) {
+    public ItemActionState(Entity entity) {
         this.entity = entity;
     }
 
@@ -17,7 +17,7 @@ public class SelectBackpackItemState implements UserInteractionState {
         switch (input) {
             case "1":
                 context.getCommandPanel().showSystemMessage(entity.getDescription());
-                context.setState(new ShowLocationState());
+                context.setState(new InitGameState());
                 break;
             case "2":
                 AppHandler.getInstance().dropItem(entity.getID());

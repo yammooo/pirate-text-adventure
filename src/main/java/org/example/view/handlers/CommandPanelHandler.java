@@ -1,17 +1,17 @@
 package org.example.view.handlers;
 
-import org.example.state.MainMenuState;
-import org.example.state.UserInteractionState;
+import org.example.state.MenuState;
+import org.example.state.InteractionState;
 import org.example.view.panels.CommandPanel;
 
 public class CommandPanelHandler {
     private final CommandPanel commandPanel;
-    private UserInteractionState currentState;
+    private InteractionState currentState;
 
     public CommandPanelHandler(CommandPanel commandPanel) {
         System.out.println("Creating CommandPanelHandler");
         this.commandPanel = commandPanel;
-        this.currentState = new MainMenuState();
+        this.currentState = new MenuState();
         this.currentState.display(commandPanel);
     }
 
@@ -20,7 +20,7 @@ public class CommandPanelHandler {
         currentState.handleInput(this, userInput);
     }
 
-    public void setState(UserInteractionState state) {
+    public void setState(InteractionState state) {
         this.currentState = state;
         this.currentState.display(commandPanel);
     }
