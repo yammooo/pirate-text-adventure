@@ -225,8 +225,13 @@ public class AppHandler implements Observable {
         Location source = appState.getGameState().getMap().getLocationById(appState.getGameState().getMap().getPirateLocationID());
         Location destination = appState.getGameState().getMap().getLocationById(locationID);
 
+        // if any location with that locationID doesn't exist in the Map
+        if(destination == null) {
+            appState.getLastUserQueryResult().setResult("No location with the selected location ID.");
+            appState.getLastUserQueryResult().setSuccess(false);
+        }
         // if trying to move on the current location
-        if(source.getID() == destination.getID()) {
+        else if(source.getID() == destination.getID()) {
             appState.getLastUserQueryResult().setResult("You're already on this location.");
             appState.getLastUserQueryResult().setSuccess(false);
         }
