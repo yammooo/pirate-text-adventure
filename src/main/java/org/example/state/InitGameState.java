@@ -6,13 +6,13 @@ import org.example.model.entities.Location;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
-public class ShowLocationState implements UserInteractionState {
+public class InitGameState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
         switch (input) {
-            case "1" -> context.setState(new ViewSurroundingsState());
+            case "1" -> context.setState(new SurroundingsState());
             case "2" -> context.setState(new MoveState());
-            case "3" -> context.setState(new ShowBackpackState());
+            case "3" -> context.setState(new BackpackState());
             case "4" -> AppHandler.getInstance().exitToMenu();
 //            case "5" -> {
 //                context.getCommandPanel().showSystemMessage(AppHandler.getInstance().getHelp());

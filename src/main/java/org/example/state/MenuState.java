@@ -4,7 +4,7 @@ import org.example.model.AppHandler;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
-public class MainMenuState implements UserInteractionState {
+public class MenuState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
         switch (input) {

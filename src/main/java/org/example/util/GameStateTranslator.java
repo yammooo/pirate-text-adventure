@@ -1,13 +1,23 @@
 package org.example.util;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import org.example.model.GameState;
 import com.google.gson.Gson;
+import org.example.model.entities.Obstacle;
 import org.example.pair.Pair;
+import org.example.pair.PairAdapter;
+import org.example.pair.PairObstacleMapAdapter;
+
+import java.util.HashMap;
 
 public class GameStateTranslator {
 
-    private static final Gson gson = new GsonBuilder().registerTypeAdapter(Pair .class, new PairAdapter()).setPrettyPrinting().create();
+    private static final GsonBuilder builder = new GsonBuilder()
+            .registerTypeAdapter(Pair.class, new PairAdapter())
+            .setPrettyPrinting();
+
+    private static final Gson gson = builder.create();
 
     //JSON ----->>>>> GAMESTATE
 

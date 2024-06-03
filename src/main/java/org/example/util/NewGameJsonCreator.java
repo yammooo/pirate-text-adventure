@@ -83,11 +83,11 @@ public class NewGameJsonCreator {
 
         // CREAZIONE OSTACOLI
 
-        //Obstacle squalo = new Obstacle(1, "squalo", "a bloodthirsty hammershark", 13);
+        Obstacle squalo = new Obstacle(1, "squalo", "a bloodthirsty hammershark", 13);
 
         HashMap<Pair<Integer, Integer>, Obstacle> obstacles = new HashMap<>();
 
-        //obstacles.put(new Pair<>(11, 21), squalo );
+        obstacles.put(new Pair<>(11, 21), squalo );
 
 
         //UNIONE NELLA MAPPA

@@ -4,7 +4,7 @@ import org.example.model.AppHandler;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
-public class LoadGameState implements UserInteractionState {
+public class LoadGameState implements InteractionState {
     @Override
     public void handleInput(CommandPanelHandler context, String input) {
         try {
