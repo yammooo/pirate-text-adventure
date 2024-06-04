@@ -3,6 +3,7 @@ package org.example.newgamecreator.map_creation;
 import org.example.model.entities.Map;
 import org.example.model.entities.Location;
 import org.example.newgamecreator.entities_creation.EntitiesCreator;
+import org.example.newgamecreator.map_creation.rosita_island.PinkForest;
 import org.example.newgamecreator.map_creation.volcania_island.BlackBeach;
 import org.example.pair.Pair;
 import org.example.model.entities.Obstacle;
@@ -45,7 +46,14 @@ public class MapCreator {
 
         Location blackBeach = BlackBeach.createBlackBeach(BLACK_BEACH_ID);
         blackBeach.addAdjacentLocation(GOLDEN_BEACH_ID);
+        blackBeach.addAdjacentLocation(PINK_FOREST_ID);
+
+
         locations.add(blackBeach);
+
+        Location pinkForest = PinkForest.createPinkForest(PINK_FOREST_ID);
+        pinkForest.addAdjacentLocation(BLACK_BEACH_ID);
+        locations.add(pinkForest);
 
 
         // Create obstacles
