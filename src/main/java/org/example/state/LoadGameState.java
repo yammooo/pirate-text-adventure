@@ -23,10 +23,6 @@ public class LoadGameState implements InteractionState {
             }
 
             AppHandler.getInstance().startSavedGame(saveId);
-            //context.setState(new MainMenuState());
-
-            // will not  change state to ShowLocationState, so in case new game fails to load
-            // the user will be able to choose another option from the main menu
 
         } catch (NumberFormatException e) {
             context.getCommandPanel().showSystemMessage("Invalid input. Please enter a valid save ID.");
@@ -36,9 +32,19 @@ public class LoadGameState implements InteractionState {
 
     @Override
     public void display(CommandPanel commandPanel) {
-        StringBuilder message = new StringBuilder("You have " + AppHandler.getInstance().getSavedGames() + " saved games.\n");
 
-        message.append("Enter the saved game ID to load or type 'back'\nto return to the menu:\n");
+        int savedGameNumber = AppHandler.getInstance().getSavedGames();
+
+        StringBuilder message = new StringBuilder();
+
+        if (savedGameNumber == 0) {
+            message.append("There are no saved games.\n");
+            message.append("Enter 'back' to return to the menu:\n");
+        } else {
+            message.append("You have " + savedGameNumber + " saved games.\n");
+            message.append("Enter the saved game ID to load or type 'back'\nto return to the menu:\n");
+        }
+
         commandPanel.showSystemMessage(message.toString());
     }
 }

@@ -38,7 +38,7 @@ public class MoveState implements InteractionState {
 
         for (Integer locationId : adjacentLocations) {
             Location location = gameState.getMap().getLocationById(locationId);
-            message.append("> ").append(location.getName()).append(": ").append(location.getID()).append("\n");
+            message.append("> ").append(location.getID()).append(": ").append(location.getName()).append("\n");
         }
 
         message.append("\nEnter the ID of the location you want to move to\nor type 'back' to return to the main menu:\n");

@@ -202,7 +202,7 @@ public class AppHandler implements Observable {
             appState.getLastUserQueryResult().setSuccess(false);
         }
         //notifyObservers(new UIEvent());
-        return -1;
+        return 0;
     }
 
     /*
