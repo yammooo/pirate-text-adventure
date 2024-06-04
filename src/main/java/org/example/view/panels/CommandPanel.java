@@ -34,7 +34,7 @@ public class CommandPanel extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
 
         inputField = new JTextField();
-        inputField.setFont(new Font("Monospaced", Font.PLAIN, 30));
+        inputField.setFont(new Font("Monospaced", Font.PLAIN, 16));
         inputField.setBackground(Color.BLACK);
         inputField.setForeground(Color.WHITE);
         inputField.setCaretColor(Color.WHITE);

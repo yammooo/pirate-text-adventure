@@ -3,6 +3,7 @@ package org.example.model;
 import org.example.exceptions.AWSException;
 import org.example.exceptions.BackpackWeightExceededException;
 import org.example.exceptions.ItemNotFoundException;
+import org.example.exceptions.RunOutOfLivesException;
 import org.example.model.entities.*;
 import org.example.observer.Observable;
 import org.example.observer.Observer;
@@ -202,7 +203,7 @@ public class AppHandler implements Observable {
             appState.getLastUserQueryResult().setSuccess(false);
         }
         //notifyObservers(new UIEvent());
-        return 0;
+        return -1;
     }
 
     /*
@@ -266,7 +267,7 @@ public class AppHandler implements Observable {
 
                         notifyObservers(new SaveEvent());
 
-                    } catch(IllegalArgumentException e) {   // exception thrown if the pirate ends its lives
+                    } catch(RunOutOfLivesException e) {   // exception thrown if the pirate ends its lives
                         GameOver();
                     }
                 }
@@ -311,7 +312,7 @@ public class AppHandler implements Observable {
                 // check if all 3 keys are in the backpack
                 if(checkKeys() == 3) {
                     // merge 3 keys into the unique legendary key, i.e. remove from the backpack the 3 keys and add the legendary one
-                    CollectableItem legendaryKey = new CollectableItem(4, "legendary key", "the legendary key just wants to meet the portal", 1, 0);
+                    CollectableItem legendaryKey = new CollectableItem(4, "Legendary key", "The legendary key just wants to meet the portal.", 1, 0);
 
                     appState.getGameState().getPirate().getBackpack().removeItem(1);
                     appState.getGameState().getPirate().getBackpack().removeItem(2);

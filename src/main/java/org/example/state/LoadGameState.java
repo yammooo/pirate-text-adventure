@@ -37,7 +37,7 @@ public class LoadGameState implements InteractionState {
 
         StringBuilder message = new StringBuilder();
 
-        if (savedGameNumber == 0) {
+        if (savedGameNumber == -1) {
             message.append("There are no saved games.\n");
             message.append("Enter 'back' to return to the menu:\n");
         } else {

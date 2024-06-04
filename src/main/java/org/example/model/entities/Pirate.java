@@ -1,5 +1,7 @@
 package org.example.model.entities;
 
+import org.example.exceptions.RunOutOfLivesException;
+
 public class Pirate {
     private int lives;
     private final Backpack backpack;
@@ -28,9 +30,11 @@ public class Pirate {
 
     // Setters
 
-    public void setCurrentLives(int lives) {
-        if(lives > this.maxLives){
-            throw new IllegalArgumentException("max lives exception");
+    public void setCurrentLives(int lives) throws  RunOutOfLivesException{
+        if(lives <= 0){
+            throw new RunOutOfLivesException("Pirate run out of lives");
+        } else if (lives > maxLives){
+            lives = maxLives;
         }
         this.lives = lives;
     }

@@ -20,7 +20,7 @@ import software.amazon.awssdk.services.s3.model.*;
 public class AWSHandler implements Observer {
 
     // Configuration file path
-    private final String CREDENTIALS_FILE_PATH = "src/main/resources/assets.AWS/credentials.properties";
+    private final String CREDENTIALS_FILE_PATH = "src/main/resources/AWS/credentials.properties";
     private String bucketName = "pirateprojectbucket"; // The bucket name
 
     private static AWSHandler instance = null;
@@ -39,7 +39,7 @@ public class AWSHandler implements Observer {
     @Override
     public void update() throws AWSException {
 
-        if (AppState.getInstance().getGameState().getTitle().equals("")) {
+        if (AppState.getInstance().getGameState().getTitle().equals("New Game State")) {
 
             //Save a new instance
             saveAsNewGame();
@@ -286,7 +286,7 @@ public class AWSHandler implements Observer {
 
     // Overwrite an existing game
     public void saveAnExistingGame(String json, String file) throws AWSException {
-        String fileName = file; // File name without extension
+        String fileName = file.substring(0, file.lastIndexOf(".")); // File name without extension
         String newContent = json; // New JSON content to overwrite
 
         // Read credentials from the configuration file
@@ -350,7 +350,9 @@ public class AWSHandler implements Observer {
     }
 
     // Delete an existing instance: File name without extension
-    public void deleteGame(String fileName) throws AWSException {
+    public void deleteGame(String file) throws AWSException {
+        String fileName = file.substring(0, file.lastIndexOf("."));
+
         // Read credentials from the configuration file
         Properties properties = new Properties();
         try (FileInputStream input = new FileInputStream(CREDENTIALS_FILE_PATH)) {

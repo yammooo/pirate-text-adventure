@@ -15,6 +15,7 @@ public class InitGameState implements InteractionState {
             case "3" -> context.setState(new BackpackState());
             case "4" -> AppHandler.getInstance().exitToMenu();
             default -> {
+                context.getCommandPanel().showSystemMessage("Invalid input. Please enter a valid choice.");
                 display(context.getCommandPanel());
             }
         }

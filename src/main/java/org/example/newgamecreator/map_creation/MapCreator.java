@@ -21,6 +21,9 @@ public class MapCreator {
     private static final int FIRST_OBSTACLE_ID = 1;
     private static int obstacleIdCounter = FIRST_OBSTACLE_ID;
 
+    // Treasure Island
+    public static final int TREASURE_ISLAND_ID = 0;
+
     // Boriana Island
 
 
