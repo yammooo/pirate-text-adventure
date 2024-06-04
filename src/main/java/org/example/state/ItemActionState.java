@@ -39,8 +39,8 @@ public class ItemActionState implements InteractionState {
     public void display(CommandPanel commandPanel) {
         StringBuilder message = new StringBuilder("You have selected an item from your backpack.\n");
 
-        message.append("1. Drop Item\n");
-        message.append("2. Pick up item\n");
+        message.append("1. Look closer\n");
+        message.append("2. Drop Item\n");
 
         message.append("\nEnter your choice or type 'back' to return to\nthe backpack:\n");
 

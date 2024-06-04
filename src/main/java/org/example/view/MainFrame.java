@@ -1,5 +1,6 @@
 package org.example.view;
 
+import org.example.model.AppHandler;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 import org.example.view.panels.GraphicsPanel;
@@ -19,12 +20,17 @@ public class MainFrame extends JFrame{
                 commandPanel = new CommandPanel();
                 graphicsPanel = new GraphicsPanel();
 
+                // Set layout manager
+                setLayout(new BorderLayout());
+
+
                 // Add panels to the frame
                 add(graphicsPanel, BorderLayout.NORTH);
-                add(commandPanel, BorderLayout.SOUTH);
+                add(commandPanel, BorderLayout.CENTER);
 
                 // Initialize controllers with references to their panels
                 CommandPanelHandler commandPanelHandler = new CommandPanelHandler(commandPanel);
+                AppHandler.getInstance().addObserver(commandPanelHandler);
 
                 // Set controllers to panels
                 commandPanel.setHandler(commandPanelHandler);

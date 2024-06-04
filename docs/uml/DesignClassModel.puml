@@ -34,10 +34,9 @@ MainFrame -|> JFrame
 MainFrame --> CommandPanel
 MainFrame --> GraphicsPanel
 
-class CommandPanel implements Observer {
+class CommandPanel {
     - commandPanelHandler: CommandPanelHandler
     + setHandler(handler: CommandPanelHandler): void
-    awsHandler
 }
 
 
@@ -45,9 +44,10 @@ class CommandPanel implements Observer {
 CommandPanel -|> JPanel
 CommandPanel --- CommandPanelHandler
 
-class CommandPanelHandler {
+class CommandPanelHandler implements Observer {
     - commandPanel: CommandPanel
-    + handleCommand(command: Command): void
+    + handleUserInput(userInput: String): void
+    + setState(state: InteractionState): void
 }
 
 CommandPanelHandler ------> AppHandler
@@ -220,4 +220,15 @@ Location --> Entity
 
 class InvalidRequestException implements Exception {
 }
+
+' State Pattern
+interface InteractionState {
+    + handleInput(context: CommandPanelHandler, input: String): void
+    + display(commandPanel: CommandPanel): void
+}
+
+CommandPanelHandler --> InteractionState
+
+class ConcreteState implements InteractionState {}
+
 @enduml

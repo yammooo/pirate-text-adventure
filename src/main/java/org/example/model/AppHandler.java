@@ -13,7 +13,6 @@ import org.example.util.UIEvent;
 import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.handlers.GraphicsPanelHandler;
 import org.example.util.GameStateTranslator;
-import org.example.view.panels.CommandPanel;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -31,8 +30,8 @@ public class AppHandler implements Observable {
 
     private static AppHandler instance = null;
 
-    private ArrayList<Observer> observers = new ArrayList<Observer>();
-    private AppState appState;
+    private final ArrayList<Observer> observers = new ArrayList<Observer>();
+    private final AppState appState;
 
     private AppHandler() {
         appState = AppState.getInstance();
@@ -95,7 +94,7 @@ public class AppHandler implements Observable {
     private void notifyUI() {
 
         for (Observer o : observers) {
-            if(o instanceof CommandPanel || o instanceof GraphicsPanelHandler) {
+            if(o instanceof CommandPanelHandler || o instanceof GraphicsPanelHandler) {
                 try{
                     o.update();
                 } catch(AWSException e) {   // Exception handled also here because thrown by Observer.update()

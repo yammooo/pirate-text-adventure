@@ -7,15 +7,9 @@ import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.example.exceptions.AWSException;
-import org.example.model.AppHandler;
-import org.example.model.entities.enums.WindowState;
-import org.example.observer.Observer;
-import org.example.state.MenuState;
-import org.example.state.InitGameState;
 import org.example.view.handlers.CommandPanelHandler;
 
-public class CommandPanel extends JPanel implements Observer {
+public class CommandPanel extends JPanel {
     private final JTextArea displayArea;
     private final JTextField inputField;
     private Timer timer;
@@ -55,26 +49,6 @@ public class CommandPanel extends JPanel implements Observer {
             }
         });
         add(inputField, BorderLayout.SOUTH);
-
-        AppHandler.getInstance().addObserver(this);
-    }
-
-    @Override
-    public void update() {
-        String queryResult = AppHandler.getInstance().getAppState().getLastUserQueryResult().getResult();
-
-        if (queryResult != null && !queryResult.isEmpty()) {
-            showSystemMessage(queryResult);
-        }
-
-        WindowState windowState = AppHandler.getInstance().getAppState().getCurrentWindow();
-        System.out.println("CommandPanel: " + windowState);
-
-        if (windowState == WindowState.MENU) {
-            commandPanelHandler.setState(new MenuState());
-        } else if (windowState == WindowState.GAME) {
-            commandPanelHandler.setState(new InitGameState());
-        }
     }
 
     public void setHandler(CommandPanelHandler handler) {

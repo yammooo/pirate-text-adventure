@@ -16,7 +16,6 @@ public class InitGameState implements InteractionState {
             case "4" -> AppHandler.getInstance().exitToMenu();
             default -> {
                 display(context.getCommandPanel());
-                ;
             }
         }
     }
@@ -27,7 +26,8 @@ public class InitGameState implements InteractionState {
         Location currentLocation = gameState.getMap().getLocationById(gameState.getMap().getPirateLocationID());
 
         StringBuilder message = new StringBuilder();
-        message.append("You are at ").append(currentLocation.getName()).append("\n");
+        message.append("You have ").append(gameState.getPirate().getCurrentLives()).append(" lives left.\n");
+        message.append("You are at ").append(currentLocation.getName()).append(":\n").append(currentLocation.getDescription()).append("\n\n");
         message.append("What do you want to do?\n");
         message.append("1. View surroundings\n");
         message.append("2. Move to another location\n");
