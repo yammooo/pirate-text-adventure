@@ -18,6 +18,7 @@ public class BlackBeach {
 
         collectableItems.add(EntitiesCreator.createCoconut());
         collectableItems.add(EntitiesCreator.createPassionFruit());
+        collectableItems.add(EntitiesCreator.createLadder());
 
         npcs.add(EntitiesCreator.createOldSage());
 
