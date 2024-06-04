@@ -21,7 +21,7 @@ public class AWSHandler implements Observer {
 
     // Configuration file path
     private final String CREDENTIALS_FILE_PATH = "src/main/resources/AWS/credentials.properties";
-    private String bucketName = "pirateprojectbucket"; // The bucket name
+    private final String bucketName = "pirateprojectbucket"; // The bucket name
 
     private static AWSHandler instance = null;
 
@@ -276,8 +276,7 @@ public class AWSHandler implements Observer {
     public String getSavedGames(int gameID) throws AWSException {
         ArrayList<String> searchGame = loadFromS3();
         try {
-            String gameName = searchGame.get(gameID - 1);
-            return gameName;
+            return searchGame.get(gameID - 1);
         } catch (Exception e) {
             throw new AWSException("Error occurred: Failed to communicate to AWS.");
         }
@@ -287,7 +286,6 @@ public class AWSHandler implements Observer {
     // Overwrite an existing game
     public void saveAnExistingGame(String json, String file) throws AWSException {
         String fileName = file.substring(0, file.lastIndexOf(".")); // File name without extension
-        String newContent = json; // New JSON content to overwrite
 
         // Read credentials from the configuration file
         Properties properties = new Properties();
@@ -331,7 +329,7 @@ public class AWSHandler implements Observer {
                         s3Client.putObject(PutObjectRequest.builder()
                                 .bucket(bucketName)
                                 .key(key)
-                                .build(), RequestBody.fromString(newContent, StandardCharsets.UTF_8));
+                                .build(), RequestBody.fromString(json, StandardCharsets.UTF_8));
                         fileFound = true;
                         break;
                     }

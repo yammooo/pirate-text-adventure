@@ -17,7 +17,7 @@ public class SurroundingsState implements InteractionState {
             return;
         }
 
-        Entity entity = null;
+        Entity entity;
 
         try {
 

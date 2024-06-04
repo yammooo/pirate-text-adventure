@@ -7,7 +7,6 @@ import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public class MoveState implements InteractionState {
     @Override

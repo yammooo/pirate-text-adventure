@@ -17,7 +17,7 @@ public class BackpackState implements InteractionState {
             return;
         }
 
-        Entity entity = null;
+        Entity entity;
 
         try {
 

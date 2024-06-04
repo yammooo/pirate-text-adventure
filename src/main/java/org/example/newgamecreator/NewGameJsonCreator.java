@@ -1,11 +1,8 @@
 package org.example.newgamecreator;
-import java.util.HashMap;
 import org.example.model.GameState;
 import org.example.model.entities.*;
-import org.example.pair.Pair;
 import org.example.util.GameStateTranslator;
 
-import java.util.ArrayList;
 import java.io.FileWriter;
 import java.io.IOException;
 

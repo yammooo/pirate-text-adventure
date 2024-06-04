@@ -135,11 +135,11 @@
         "npcs": [],
         "adjacentLocations": [
           12,
-          23
+          0
         ]
       },
       {
-        "id": 23,
+        "id": 0,
         "name": "Treasure Island",
         "description": "You made it!!!",
         "items": [
@@ -165,7 +165,7 @@
         "description": "A bloodthirsty hammerhead shark",
         "itemToDefeatID": 20
       },
-      "22-23": {
+      "22-0": {
         "id": 2,
         "name": "Portal",
         "description": "A glowing dark blue portal that has the symbol of tree keys engraved on it",

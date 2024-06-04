@@ -4,7 +4,6 @@ import org.example.exceptions.ItemNotFoundException;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class Location {
     private final int id;
@@ -32,11 +31,6 @@ public class Location {
             throw new ItemNotFoundException(this.name+" does not have this item ");
         }
     }
-
-    public void addItem(CollectableItem item) {
-        items.add(item);
-    }
-
 
     //Getters
 

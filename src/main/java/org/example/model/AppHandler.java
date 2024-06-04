@@ -19,7 +19,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /*
  * This class aims to handle the entire game interactions process by coordinating different
@@ -131,7 +130,6 @@ public class AppHandler implements Observable {
 
             appState.setWindowToGame(); // turn state to GAME for let the graphics handler know about window status
 
-            //todo: remove this line
             System.out.println(appState.getCurrentWindow());
 
             notifyObservers(new SaveEvent());   // trigger an autosave to the AWS
@@ -174,25 +172,6 @@ public class AppHandler implements Observable {
      * create a list of all saved games in the AWS showing their titles associated to a number starting from 1
      */
     public int getSavedGames() {
-//        try{
-//            ArrayList<String> gamesAvailable = AWSHandler.getInstance().getGamesTitles();
-//
-//            String message = "";
-//            int counter = 1;    // if the user want to load the first saved game in the AWS should enter 1 as argument
-//            for (String title : gamesAvailable) {
-//                message += counter + ". " + title + "\n";
-//                counter++;
-//            }
-//
-//            appState.getLastUserQueryResult().setResult(message);
-//            appState.getLastUserQueryResult().setSuccess(true);
-//
-//        } catch(AWSException e) {
-//            appState.getLastUserQueryResult().setResult(e.getMessage());
-//            appState.getLastUserQueryResult().setSuccess(false);
-//        }
-//
-//        notifyObservers(new UIEvent());
 
         try {
             appState.getLastUserQueryResult().setResult("Number of saved games: " + AWSHandler.getInstance().countSavedGames());
@@ -202,7 +181,7 @@ public class AppHandler implements Observable {
             appState.getLastUserQueryResult().setResult(e.getMessage());
             appState.getLastUserQueryResult().setSuccess(false);
         }
-        //notifyObservers(new UIEvent());
+
         return -1;
     }
 
@@ -239,7 +218,6 @@ public class AppHandler implements Observable {
         else if(source.isAdjacentLocation(destination)) {
             Obstacle obstacle = appState.getGameState().getMap().getObstacleByLocationsID(source.getID(), destination.getID());
 
-            boolean isValid = true;
             // if trying to move on the treasure island (id = 0), then check if the legendary key (id = 4) is in the backpack
             if(destination.getID() == 0 && !appState.getGameState().getPirate().getBackpack().isItemEquipped(4)) {
                 appState.getLastUserQueryResult().setResult("To reach the treasure island you have to collect all 3 keys in order to pass through the portal.");
@@ -351,92 +329,12 @@ public class AppHandler implements Observable {
 
             // adding the dropped item to the current location
             Location currentLocation = appState.getGameState().getMap().getLocationById(appState.getGameState().getMap().getPirateLocationID());
-            currentLocation.addItem(droppedItem);
+            currentLocation.addCollectableItem(droppedItem);
 
             appState.getLastUserQueryResult().setResult("Item dropped from the backpack.");
             appState.getLastUserQueryResult().setSuccess(true);
         } catch (ItemNotFoundException e) {
             appState.getLastUserQueryResult().setResult("You can't drop items from the backpack if you aren't carrying them in it.");
-            appState.getLastUserQueryResult().setSuccess(false);
-        }
-
-        notifyObservers(new UIEvent());
-    }
-
-    // not useful anymore
-    /*
-    public void getHelp() {
-        String fileName = "src/main/resources/assets.help/help.txt";
-
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(fileName));
-
-            String fileContent = "";
-            String line = bufferedReader.readLine();
-
-            while (line != null) {
-                fileContent += line + "\n";
-                line = bufferedReader.readLine();
-            }
-
-            bufferedReader.close();
-
-            appState.getLastUserQueryResult().setResult(fileContent);
-            appState.getLastUserQueryResult().setSuccess(true);
-
-        } catch (IOException e) {
-            appState.getLastUserQueryResult().setResult("Error occurred: Failed to open a file.");
-            appState.getLastUserQueryResult().setSuccess(false);
-        }
-
-        notifyObservers(new UIEvent());
-    }
-    */
-
-    /*
-     * to talk with desired NPC, i.e. get the text of what it wants to say
-     */
-    public void getDialogue(int entityID) {
-        int currentPirateLocation = appState.getGameState().getMap().getPirateLocationID();
-        List<NPC> npcs = appState.getGameState().getMap().getLocationById(currentPirateLocation).getNpcs();
-
-        boolean isValidRequest = false;
-
-        for (NPC npc : npcs) {
-            if(npc.getID() == entityID) {
-                appState.getLastUserQueryResult().setResult(npc.getDialogue());
-                appState.getLastUserQueryResult().setSuccess(true);
-                isValidRequest = true;
-            }
-        }
-
-        if(!isValidRequest) {
-            appState.getLastUserQueryResult().setResult("Invalid ID: You can only interact with NPCs in the current location.");
-            appState.getLastUserQueryResult().setSuccess(false);
-        }
-
-        notifyObservers(new UIEvent());
-    }
-
-    /*
-     * to get the description of the desired entity
-     */
-    public void viewEntity(int entityID) {
-        Location currentLocation = appState.getGameState().getMap().getLocationById(appState.getGameState().getMap().getPirateLocationID());
-        ArrayList<Entity> entities = currentLocation.getAllEntities();
-
-        boolean isValidRequest = false;
-
-        for (Entity e : entities) {
-            if(e.getID() == entityID) {
-                appState.getLastUserQueryResult().setResult(e.getDescription());
-                appState.getLastUserQueryResult().setSuccess(true);
-                isValidRequest = true;
-            }
-        }
-
-        if(!isValidRequest) {
-            appState.getLastUserQueryResult().setResult("Invalid ID: You can only view entities in the current location.");
             appState.getLastUserQueryResult().setSuccess(false);
         }
 

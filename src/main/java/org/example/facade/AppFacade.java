@@ -18,19 +18,4 @@ public class AppFacade {
         appHandler.addObserver(awsHandler);
     }
 
-    public void startNewGame() {
-        // TODO
-    }
-
-    public void loadGame() {
-        // TODO
-    }
-
-    public void saveGame() {
-        // TODO
-    }
-
-    public void exitToMenu() {
-        // TODO
-    }
 }

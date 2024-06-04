@@ -6,7 +6,7 @@ public class AppState {
     private static AppState instance;
     private GameState gameState;
     private WindowState currentWindow;
-    private UserQueryResult lastUserQueryResult;
+    private final UserQueryResult lastUserQueryResult;
 
     private AppState() {
         gameState = null;
