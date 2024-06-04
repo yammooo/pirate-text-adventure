@@ -5,6 +5,8 @@ import org.example.model.entities.Location;
 import org.example.newgamecreator.entities_creation.EntitiesCreator;
 import org.example.newgamecreator.map_creation.rosita_island.PinkForest;
 import org.example.newgamecreator.map_creation.volcania_island.BlackBeach;
+import org.example.newgamecreator.map_creation.volcania_island.TreasureIsland;
+import org.example.newgamecreator.map_creation.volcania_island.Volcano;
 import org.example.pair.Pair;
 import org.example.model.entities.Obstacle;
 
@@ -37,6 +39,7 @@ public class MapCreator {
     // Volcania Island
     public static final int BLACK_BEACH_ID = 20;
     public static final int WHITE_BEACH_ID = 21;
+    public static final int VOLCANO_ID = 22;
 
     public static Map createMap() {
 
@@ -45,6 +48,7 @@ public class MapCreator {
         // Create locations
         Location goldenBeach = createGoldenBeach(GOLDEN_BEACH_ID);
         goldenBeach.addAdjacentLocation(BLACK_BEACH_ID);
+        goldenBeach.addAdjacentLocation(VOLCANO_ID);
         locations.add(goldenBeach);
 
         Location blackBeach = BlackBeach.createBlackBeach(BLACK_BEACH_ID);
@@ -58,13 +62,23 @@ public class MapCreator {
         pinkForest.addAdjacentLocation(BLACK_BEACH_ID);
         locations.add(pinkForest);
 
+        Location volcano = Volcano.createVolcano(VOLCANO_ID);
+        volcano.addAdjacentLocation(GOLDEN_BEACH_ID);
+        volcano.addAdjacentLocation(TREASURE_ISLAND_ID);
+        locations.add(volcano);
+
+        Location treasureIsland = TreasureIsland.createTreasureIsland(TREASURE_ISLAND_ID);
+        treasureIsland.addAdjacentLocation(VOLCANO_ID);
+        locations.add(treasureIsland);
+
 
         // Create obstacles
         Obstacle sharkObstacle = new Obstacle(obstacleIdCounter++, "Shark", "A bloodthirsty hammerhead shark", EntitiesCreator.SPEAR_ID);
-
+        Obstacle PortalObstacle = new Obstacle(obstacleIdCounter++,"Portal", "A glowing dark blue portal that has the symbol of tree keys engraved on it",4);
         // Add obstacles to a map
         HashMap<Pair<Integer, Integer>, Obstacle> obstacles = new HashMap<>();
         obstacles.put(new Pair<>(GOLDEN_BEACH_ID, BLACK_BEACH_ID), sharkObstacle);
+        obstacles.put(new Pair<>(VOLCANO_ID, TREASURE_ISLAND_ID), PortalObstacle);
 
         // Create and return the map
         return new Map(locations, obstacles, GOLDEN_BEACH_ID);

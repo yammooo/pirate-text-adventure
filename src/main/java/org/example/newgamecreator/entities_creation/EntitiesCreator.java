@@ -16,11 +16,24 @@ public class EntitiesCreator {
     public static final int REQUIRED_ID_FOR_PINK_KEY = 10;
 
     public static CollectableItem createPinkKey() {
-        return new CollectableItem(PINK_KEY_ID, "Pink Key", "A beautiful shiny pink key, it looks important.", 2, REQUIRED_ID_FOR_PINK_KEY);
+        return new CollectableItem(PINK_KEY_ID, "Pink Key", "A beautiful shiny pink key, it looks important.", 0, REQUIRED_ID_FOR_PINK_KEY);
     }
 
-    public static final int SECOND_KEY_ID = 2;
-    public static final int THIRD_KEY_ID = 3;
+    public static final int BLACK_KEY_ID = 2;
+    public static final int GOLDEN_KEY_ID = 3;
+
+    public static CollectableItem createBlackKey() {
+        return new CollectableItem(BLACK_KEY_ID, "Black Key", "A beautiful shiny black key, it looks important.", 0, NON_REQUIRED);
+    }
+
+    public static CollectableItem createGoldenKey() {
+        return new CollectableItem(GOLDEN_KEY_ID, "Golden Key", "A beautiful shiny golden key, it looks important.", 0, NON_REQUIRED);
+    }
+
+    public static CollectableItem createTreasure() {
+        return new CollectableItem(888888, "Treasure", "You just found... a new friend", 0, NON_REQUIRED);
+    }
+
 
 
     // Weapons
@@ -35,11 +48,11 @@ public class EntitiesCreator {
     // Collectable items
 
     public static CollectableItem createPinkLeaf() {
-        return new CollectableItem(REQUIRED_ID_FOR_PINK_KEY, "Pink Leaf", "A big pink leaf, it's unusually vibrant.", 1, NON_REQUIRED);
+        return new CollectableItem(idCounter++, "Pink Leaf", "A big pink leaf, it's unusually vibrant.", 1, NON_REQUIRED);
     }
 
     public static CollectableItem createLadder() {
-        return new CollectableItem(idCounter++, "Ladder", "A huge wooden stepladder, it's sturdy and reliable.", 10, NON_REQUIRED);
+        return new CollectableItem(REQUIRED_ID_FOR_PINK_KEY, "Ladder", "A huge wooden stepladder, it's sturdy and reliable.", 9, NON_REQUIRED);
     }
 
     public static CollectableItem createShell() {

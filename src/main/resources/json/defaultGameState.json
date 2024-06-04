@@ -40,7 +40,8 @@
         "viewables": [],
         "npcs": [],
         "adjacentLocations": [
-          20
+          20,
+          22
         ]
       },
       {
@@ -63,17 +64,17 @@
             "requiredEntityID": 0
           },
           {
-            "id": 104,
+            "id": 10,
             "name": "Ladder",
             "description": "A huge wooden stepladder, it\u0027s sturdy and reliable.",
-            "weight": 10,
+            "weight": 9,
             "requiredEntityID": 0
           }
         ],
         "viewables": [],
         "npcs": [
           {
-            "id": 105,
+            "id": 104,
             "name": "Barry",
             "description": "An old sage that seems to know everything.",
             "dialogue": "You better make space for those stairs if you head into the forest, young fella..."
@@ -93,11 +94,11 @@
             "id": 1,
             "name": "Pink Key",
             "description": "A beautiful shiny pink key, it looks important.",
-            "weight": 2,
+            "weight": 0,
             "requiredEntityID": 10
           },
           {
-            "id": 10,
+            "id": 105,
             "name": "Pink Leaf",
             "description": "A big pink leaf, it\u0027s unusually vibrant.",
             "weight": 1,
@@ -109,6 +110,52 @@
         "adjacentLocations": [
           20
         ]
+      },
+      {
+        "id": 22,
+        "name": "Volcano",
+        "description": "A towering mouth of fire",
+        "items": [
+          {
+            "id": 2,
+            "name": "Black Key",
+            "description": "A beautiful shiny black key, it looks important.",
+            "weight": 0,
+            "requiredEntityID": 0
+          },
+          {
+            "id": 3,
+            "name": "Golden Key",
+            "description": "A beautiful shiny golden key, it looks important.",
+            "weight": 0,
+            "requiredEntityID": 0
+          }
+        ],
+        "viewables": [],
+        "npcs": [],
+        "adjacentLocations": [
+          12,
+          23
+        ]
+      },
+      {
+        "id": 23,
+        "name": "Treasure Island",
+        "description": "You made it!!!",
+        "items": [
+          {
+            "id": 888888,
+            "name": "Treasure",
+            "description": "You just found... a new friend",
+            "weight": 0,
+            "requiredEntityID": 0
+          }
+        ],
+        "viewables": [],
+        "npcs": [],
+        "adjacentLocations": [
+          22
+        ]
       }
     ],
     "obstacles": {
@@ -117,6 +164,12 @@
         "name": "Shark",
         "description": "A bloodthirsty hammerhead shark",
         "itemToDefeatID": 20
+      },
+      "22-23": {
+        "id": 2,
+        "name": "Portal",
+        "description": "A glowing dark blue portal that has the symbol of tree keys engraved on it",
+        "itemToDefeatID": 4
       }
     },
     "currentPirateLocationID": 12
