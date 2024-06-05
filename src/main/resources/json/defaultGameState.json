@@ -41,33 +41,27 @@
         "npcs": [],
         "adjacentLocations": [
           20,
-          22
+          22,
+          21
         ]
       },
       {
         "id": 20,
-        "name": "Black Beach",
-        "description": "A beach with black sand, it\u0027s quite a sight.",
+        "name": "Pink Beach",
+        "description": "A beach with pink petals and leaves all over it.",
         "items": [
           {
             "id": 102,
-            "name": "Coconut",
-            "description": "A coconut nut (is a giant nut), it\u0027s hard but nutritious.",
-            "weight": 1,
-            "requiredEntityID": 0
-          },
-          {
-            "id": 103,
             "name": "Passion Fruit",
             "description": "A juicy ripe passion fruit, it\u0027s mouth-wateringly delicious.",
             "weight": 1,
             "requiredEntityID": 0
           },
           {
-            "id": 10,
-            "name": "Ladder",
-            "description": "A huge wooden stepladder, it\u0027s sturdy and reliable.",
-            "weight": 9,
+            "id": 103,
+            "name": "Bottle",
+            "description": "An empty bottle, it could be useful.",
+            "weight": 2,
             "requiredEntityID": 0
           }
         ],
@@ -77,18 +71,19 @@
             "id": 104,
             "name": "Barry",
             "description": "An old sage that seems to know everything.",
-            "dialogue": "You better make space for those stairs if you head into the forest, young fella..."
+            "dialogue": "You better search for some stairs if you head into the forest, young fella..."
           }
         ],
         "adjacentLocations": [
           12,
-          11
+          11,
+          23
         ]
       },
       {
         "id": 11,
-        "name": "Pink Forest",
-        "description": "A shiny clearing in a forest full of magic pink trees",
+        "name": "Pink Tree",
+        "description": "A massive pink tree that towers over the island.",
         "items": [
           {
             "id": 1,
@@ -100,13 +95,20 @@
           {
             "id": 105,
             "name": "Pink Leaf",
-            "description": "A big pink leaf, it\u0027s unusually vibrant.",
+            "description": "A big pink leaf, a perfect souvenir.",
             "weight": 1,
             "requiredEntityID": 0
           }
         ],
         "viewables": [],
-        "npcs": [],
+        "npcs": [
+          {
+            "id": 106,
+            "name": "Bananas",
+            "description": "A pink dancing monkey, full of energy and mischief.",
+            "dialogue": "What\u0027s that shiny thing in the pink tree?"
+          }
+        ],
         "adjacentLocations": [
           20
         ]
@@ -116,13 +118,6 @@
         "name": "Volcano",
         "description": "A towering mouth of fire",
         "items": [
-          {
-            "id": 2,
-            "name": "Black Key",
-            "description": "A beautiful shiny black key, it looks important.",
-            "weight": 0,
-            "requiredEntityID": 0
-          },
           {
             "id": 3,
             "name": "Golden Key",
@@ -156,6 +151,141 @@
         "adjacentLocations": [
           22
         ]
+      },
+      {
+        "id": 23,
+        "name": "Abandoned House",
+        "description": "An old looking abandoned house with shattered windows and a shed",
+        "items": [
+          {
+            "id": 10,
+            "name": "Ladder",
+            "description": "A huge wooden stepladder, it\u0027s sturdy and reliable.",
+            "weight": 9,
+            "requiredEntityID": 0
+          }
+        ],
+        "viewables": [],
+        "npcs": [],
+        "adjacentLocations": [
+          11,
+          20
+        ]
+      },
+      {
+        "id": 21,
+        "name": "White Beach",
+        "description": "A dreamy paradise... with a scary side",
+        "items": [
+          {
+            "id": 107,
+            "name": "Shell",
+            "description": "A glistening white shell, perfect for a souvenir.",
+            "weight": 1,
+            "requiredEntityID": 0
+          },
+          {
+            "id": 21,
+            "name": "Sword",
+            "description": "A sharp viking longsword... how did it end up here?",
+            "weight": 2,
+            "requiredEntityID": 0
+          }
+        ],
+        "viewables": [],
+        "npcs": [],
+        "adjacentLocations": [
+          22,
+          12,
+          24
+        ]
+      },
+      {
+        "id": 24,
+        "name": "Cobblestone Beach",
+        "description": "A rare cobblestone beach full of round pebbles",
+        "items": [
+          {
+            "id": 22,
+            "name": "Hatchet",
+            "description": "A rusty but big hatchet... but sharp enough to cut wood.",
+            "weight": 1,
+            "requiredEntityID": 0
+          },
+          {
+            "id": 108,
+            "name": "Obsidian",
+            "description": "A stone blacker than a moonless night.",
+            "weight": 1,
+            "requiredEntityID": 0
+          }
+        ],
+        "viewables": [],
+        "npcs": [
+          {
+            "id": 109,
+            "name": "Seagull",
+            "description": "An old seagull that lives nearby.",
+            "dialogue": "You\u0027ve come for the key hidden in the shed haven\u0027t you... you\u0027ll need some light to see inside there.."
+          }
+        ],
+        "adjacentLocations": [
+          21,
+          25
+        ]
+      },
+      {
+        "id": 25,
+        "name": "Coconut Forest",
+        "description": "A deep coconut forest.",
+        "items": [
+          {
+            "id": 110,
+            "name": "Coconut",
+            "description": "A coconut nut (is a giant nut), it\u0027s hard but nutritious.",
+            "weight": 1,
+            "requiredEntityID": 0
+          },
+          {
+            "id": 24,
+            "name": "Coconut Wood",
+            "description": "Versitile and perfect to make a torch.",
+            "weight": 1,
+            "requiredEntityID": 22
+          }
+        ],
+        "viewables": [],
+        "npcs": [],
+        "adjacentLocations": [
+          24,
+          26
+        ]
+      },
+      {
+        "id": 26,
+        "name": "Dark house",
+        "description": "A house so deep in the forest where light doesn\u0027t reach.",
+        "items": [
+          {
+            "id": 2,
+            "name": "Black Key",
+            "description": "A beautiful shiny black key, it looks important.",
+            "weight": 0,
+            "requiredEntityID": 23
+          },
+          {
+            "id": 23,
+            "name": "Fireplace",
+            "description": "If you wish to search this place you must turn the light on.",
+            "weight": 1,
+            "requiredEntityID": 24
+          }
+        ],
+        "viewables": [],
+        "npcs": [],
+        "adjacentLocations": [
+          25
+        ]
       }
     ],
     "obstacles": {
@@ -166,10 +296,16 @@
         "itemToDefeatID": 20
       },
       "22-0": {
-        "id": 2,
+        "id": 3,
         "name": "Portal",
         "description": "A glowing dark blue portal that has the symbol of tree keys engraved on it",
         "itemToDefeatID": 4
+      },
+      "21-24": {
+        "id": 2,
+        "name": "Eel",
+        "description": "A gigantic electric eel hungry for you",
+        "itemToDefeatID": 21
       }
     },
     "currentPirateLocationID": 12

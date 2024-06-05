@@ -16,7 +16,7 @@ public class Volcano {
         ArrayList<Integer> adjacentLocations = new ArrayList<>();
 
 
-        collectableItems.add(EntitiesCreator.createBlackKey());
+
         collectableItems.add(EntitiesCreator.createGoldenKey());
 
         //adjacentLocations.add()
