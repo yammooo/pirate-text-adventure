@@ -1,4 +1,4 @@
-package org.example.newgamecreator.map_creation.volcania_island;
+package org.example.newgamecreator.map_creation.boriana_island;
 
 import org.example.model.entities.CollectableItem;
 import org.example.model.entities.Location;
@@ -8,16 +8,16 @@ import org.example.newgamecreator.entities_creation.EntitiesCreator;
 
 import java.util.ArrayList;
 
-public class WhiteBeach {
-    public static Location createWhiteBeach(int locationId) {
+public class DarkHouse {
+    public static Location createDarkHouse(int locationId) {
         ArrayList<NPC> npcs = new ArrayList<>();
         ArrayList<CollectableItem> collectableItems = new ArrayList<>();
         ArrayList<ViewableItem> viewableItems = new ArrayList<>();
         ArrayList<Integer> adjacentLocations = new ArrayList<>();
 
-        collectableItems.add(EntitiesCreator.createShell());
-        collectableItems.add(EntitiesCreator.createSword());
+        collectableItems.add(EntitiesCreator.createBlackKey());
+        collectableItems.add(EntitiesCreator.createFireplace());
 
-        return new Location(locationId,"White Beach","A dreamy paradise... with a scary side", collectableItems, viewableItems, npcs, adjacentLocations);
+        return new Location(locationId,"Dark house","A house so deep in the forest where light doesn't reach.", collectableItems, viewableItems, npcs, adjacentLocations);
     }
 }

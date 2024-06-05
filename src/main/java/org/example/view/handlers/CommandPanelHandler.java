@@ -3,6 +3,7 @@ package org.example.view.handlers;
 import org.example.model.AppHandler;
 import org.example.model.entities.enums.WindowState;
 import org.example.observer.Observer;
+import org.example.state.EndGameState;
 import org.example.state.InitGameState;
 import org.example.state.MenuState;
 import org.example.state.InteractionState;
@@ -37,6 +38,8 @@ public class CommandPanelHandler implements Observer {
             setState(new MenuState());
         } else if (windowState == WindowState.GAME) {
             setState(new InitGameState());
+        } else if (windowState == WindowState.GAME_OVER || windowState == WindowState.GAME_WIN) {
+            setState(new EndGameState());
         }
     }
 

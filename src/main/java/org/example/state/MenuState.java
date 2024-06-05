@@ -19,6 +19,9 @@ public class MenuState implements InteractionState {
             case "2":
                 context.setState(new LoadGameState());
                 break;
+            case "3":
+                System.exit(0);
+                break;
             default:
                 context.getCommandPanel().showSystemMessage("Invalid input. Please choose a valid option.");
                 display(context.getCommandPanel());
@@ -31,6 +34,7 @@ public class MenuState implements InteractionState {
         StringBuilder message = new StringBuilder("Main Menu:\n");
         message.append("1. Start New Game\n");
         message.append("2. Load Saved Game\n");
+        message.append("3. Quit\n");
         message.append("Enter your choice:\n");
         commandPanel.showSystemMessage(message.toString());
     }

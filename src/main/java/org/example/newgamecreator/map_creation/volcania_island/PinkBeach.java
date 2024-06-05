@@ -1,4 +1,4 @@
-package org.example.newgamecreator.map_creation.rosita_island;
+package org.example.newgamecreator.map_creation.volcania_island;
 
 import org.example.model.entities.CollectableItem;
 import org.example.model.entities.Location;
@@ -8,20 +8,21 @@ import org.example.newgamecreator.entities_creation.EntitiesCreator;
 
 import java.util.ArrayList;
 
-public class PinkForest {
+public class PinkBeach {
 
-    public static Location createPinkForest(int locationId) {
+    public static Location createPinkBeach(int locationId) {
         ArrayList<NPC> npcs = new ArrayList<>();
         ArrayList<CollectableItem> collectableItems = new ArrayList<>();
         ArrayList<ViewableItem> viewableItems = new ArrayList<>();
         ArrayList<Integer> adjacentLocations = new ArrayList<>();
 
 
-        collectableItems.add(EntitiesCreator.createPinkKey());
-        collectableItems.add(EntitiesCreator.createPinkLeaf());
+        collectableItems.add(EntitiesCreator.createPassionFruit());
+        collectableItems.add(EntitiesCreator.createBottle());
 
-        //adjacentLocations.add()
+        npcs.add(EntitiesCreator.createOldSage());
 
-        return new Location(locationId,"Pink Forest","A shiny clearing in a forest full of magic pink trees", collectableItems, viewableItems, npcs, adjacentLocations);
+        return new Location(locationId,"Pink Beach","A beach with pink petals and leaves all over it.", collectableItems, viewableItems, npcs, adjacentLocations);
     }
+
 }

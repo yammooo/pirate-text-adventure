@@ -1,0 +1,93 @@
+@startuml
+actor user
+
+participant CommandPanel
+participant CommandPanelHandler
+participant AppHandler
+participant AppState
+participant GameState
+participant Map
+participant Location
+participant CollectableItem
+participant Pirate
+participant Backpack
+participant UserQueryResult
+participant UIEvent
+
+user -> CommandPanel : pick up item
+CommandPanel -> CommandPanelHandler : handleUserInput("pick up item")
+CommandPanelHandler -> AppHandler : pickUpItem(itemID)
+activate CommandPanelHandler
+
+activate AppHandler
+'AppHandler -> AppState : getInstance()
+activate AppState
+'AppHandler -> AppState : getGameState()
+activate GameState
+'AppState --> AppHandler : gameState
+
+'AppHandler -> GameState : getMap()
+activate Map
+'GameState --> AppHandler : map
+
+'AppHandler -> Map : getLocationById(getPirateLocationID())
+activate Location
+'Map --> AppHandler : currentLocation
+
+AppHandler -> Location : getCollectableItemByID(itemID)
+activate CollectableItem
+Location --> AppHandler : itemToPickUp requiredEntityID
+
+AppHandler -> CollectableItem : getRequiredEntityID()
+CollectableItem --> AppHandler : requiredEntityID
+
+alt requiredEntityID == 0 or Backpack.isItemEquipped(requiredEntityID)
+    AppHandler -> GameState : getPirate()
+    activate Pirate
+    'GameState --> AppHandler : pirate
+
+    AppHandler -> Pirate : getBackpack()
+    activate Backpack
+    Pirate --> AppHandler : backpack
+
+    AppHandler -> Backpack : addItem(itemToPickUp)
+    AppHandler -> Location : removeItem(itemID)
+
+    AppHandler -> AppHandler : checkKeys()
+
+
+    alt checkKeys == 3
+        AppHandler -> Backpack : removeItem(1) removeItem(2) removeItem(3)
+
+        AppHandler -> Backpack : addItem(new CollectableItem(4, "Legendary key", ...))
+        AppHandler -> UserQueryResult : setResult("All keys found... They are merging together... You now have the legendary key!")
+        AppHandler -> UserQueryResult : setSuccess(true)
+    else
+        AppHandler -> UserQueryResult : setResult("Item equipped")
+        AppHandler -> UserQueryResult : setSuccess(true)
+    end
+else
+    AppHandler -> UserQueryResult : setResult("Before pick up this item, you need to equip the item " + requiredEntityID)
+    AppHandler -> UserQueryResult : setSuccess(false)
+end
+
+
+alt Exception
+    AppHandler -> UserQueryResult : setResult(e.getMessage())
+    AppHandler -> UserQueryResult : setSuccess(false)
+end
+
+
+
+AppHandler -> CommandPanelHandler : notifyObservers(new UIEvent())
+
+deactivate AppHandler
+deactivate AppState
+deactivate GameState
+deactivate Map
+deactivate Location
+deactivate CollectableItem
+deactivate Pirate
+deactivate Backpack
+deactivate UserQueryResult
+@enduml

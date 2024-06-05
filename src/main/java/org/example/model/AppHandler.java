@@ -12,8 +12,8 @@ import org.example.util.Event;
 import org.example.util.SaveEvent;
 import org.example.util.UIEvent;
 import org.example.view.handlers.CommandPanelHandler;
-import org.example.view.handlers.GraphicsPanelHandler;
 import org.example.util.GameStateTranslator;
+import org.example.view.panels.GraphicsPanel;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -94,7 +94,7 @@ public class AppHandler implements Observable {
     private void notifyUI() {
 
         for (Observer o : observers) {
-            if(o instanceof CommandPanelHandler || o instanceof GraphicsPanelHandler) {
+            if(o instanceof CommandPanelHandler || o instanceof GraphicsPanel) {
                 try{
                     o.update();
                 } catch(AWSException e) {   // Exception handled also here because thrown by Observer.update()
@@ -191,7 +191,7 @@ public class AppHandler implements Observable {
     public void exitToMenu() {
         appState.setWindowToMenu();
 
-        appState.getLastUserQueryResult().setResult("Exiting the game.");
+        appState.getLastUserQueryResult().setResult("Exiting the game.\n\n");
         appState.getLastUserQueryResult().setSuccess(true);
 
         notifyObservers(new UIEvent());
@@ -247,6 +247,7 @@ public class AppHandler implements Observable {
 
                     } catch(RunOutOfLivesException e) {   // exception thrown if the pirate ends its lives
                         GameOver();
+                        return;
                     }
                 }
             }
@@ -262,6 +263,7 @@ public class AppHandler implements Observable {
             // if pirate reaches the treasure island (location with id = 0)
             if(appState.getGameState().getMap().getPirateLocationID() == 0) {
                 Win();
+                return;
             }
         }
         // if trying to move on locations not directly reachable from the current one
@@ -353,7 +355,9 @@ public class AppHandler implements Observable {
         appState.getLastUserQueryResult().setResult("GameOver: you've died.");
         appState.getLastUserQueryResult().setSuccess(false);
 
-        appState.setWindowToMenu();
+        // Game Over graphics for a few time
+        appState.setWindowToGameOver();
+        notifyObservers(new UIEvent());
     }
 
     /*
@@ -368,7 +372,9 @@ public class AppHandler implements Observable {
         appState.getLastUserQueryResult().setResult("Congrats! You won!");
         appState.getLastUserQueryResult().setSuccess(true);
 
-        appState.setWindowToMenu();
+        // Game Win graphics for a few time
+        appState.setWindowToGameWin();
+        notifyObservers(new UIEvent());
     }
 
     // return the number of currently collected keys in the backpack
