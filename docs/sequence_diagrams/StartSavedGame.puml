@@ -1,0 +1,86 @@
+@startuml
+
+actor User
+
+participant MenuState
+participant LoadGameState
+participant AppHandler
+participant AWSHandler
+participant AppState
+participant GameStateTranslator
+participant UserQueryResult
+
+activate User
+activate MenuState
+
+MenuState -> User : display(CommandPanel)
+User -> MenuState : handleInput(CommandPanelHandler, String)
+
+activate LoadGameState
+
+alt "2"
+MenuState -> LoadGameState : context.setState(new LoadGameState())
+alt Invalid input
+LoadGameState --> MenuState : NumberFormatException
+end
+
+
+LoadGameState --> AppHandler : appHandler.getInstance().startSavedGame(int)
+activate AppHandler
+
+activate AWSHandler
+AppHandler --> AWSHandler : AWSHandler.getInstance().getSavedGames(int)
+AWSHandler -> AWSHandler : searchGame = loadFromS3()
+
+alt AWS failed connection
+AWSHandler --> AppHandler : AWSException
+end
+
+AWSHandler --> AppHandler : savedGameJson = AWSHandler.getInstance().getSavedGames(int)
+deactivate AWSHandler
+
+activate AppState
+
+AppHandler --> AppState : appState.setGameState(GameStateTranslator.jsonToGameState(GameState))
+
+activate GameStateTranslator
+
+AppState --> GameStateTranslator : GameStateTranslator.jsonToGameState(GameState)
+alt json == null
+GameStateTranslator --> AppState : IllegalArgumentException
+end
+GameStateTranslator -> AppState : json
+deactivate GameStateTranslator
+AppState -> AppState : setGameState(GameState)
+
+AppHandler --> AppState : appState.getLastUserQueryResult().setResult(String)
+AppState -> AppState : getLastUserQueryResult()
+
+activate UserQueryResult
+AppState --> UserQueryResult : setResult(String)
+AppHandler --> AppState : appState.getLastUserQueryResult().setSuccess(boolean)
+AppState -> AppState : getLastUserQueryResult()
+AppState --> UserQueryResult : setSuccess(boolean)
+
+deactivate UserQueryResult
+
+AppHandler --> AppState : appState.setWindowToGame()
+AppState -> AppState : setWindowToGame()
+
+deactivate AppState
+deactivate AppHandler
+
+
+LoadGameState --> MenuState : LoadGameState
+deactivate LoadGameState
+MenuState -> User : Start saved game
+deactivate MenuState
+deactivate User
+end
+
+
+
+
+
+
+@enduml
