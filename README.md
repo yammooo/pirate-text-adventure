@@ -52,5 +52,6 @@ mvn exec:java
 
 ## Documentation
 * [API Javadoc](): Documentation for the current release
+* [User Stories](docs/UserStories.md): This document includes the user stories and acceptance criteria
 * [Design document](docs/DesignDocument.md): This document includes the Domain Model, System Sequence Diagrams, Design Class Model, and Internal Sequence Diagrams
-* [System Test Document](): This document reports the validation of the system tests
+* [System Test Document](docs/SystemTestReport.md): This document reports the validation of the system tests
