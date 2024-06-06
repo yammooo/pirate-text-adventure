@@ -1,4 +1,4 @@
-package org.example.pair;
+package org.example.newgamecreator.utils;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;

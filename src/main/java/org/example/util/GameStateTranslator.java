@@ -4,7 +4,7 @@ import com.google.gson.GsonBuilder;
 import org.example.model.GameState;
 import com.google.gson.Gson;
 import org.example.pair.Pair;
-import org.example.pair.PairAdapter;
+import org.example.newgamecreator.utils.PairAdapter;
 
 public class GameStateTranslator {
 

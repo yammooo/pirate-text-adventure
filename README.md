@@ -52,5 +52,5 @@ mvn exec:java
 
 ## Documentation
 * [API Javadoc](): Documentation for the current release
-* [Design document](): This document includes the Domain Model, System Sequence Diagrams, Design Class Model, and Internal Sequence Diagrams
+* [Design document](docs/DesignDocument.md): This document includes the Domain Model, System Sequence Diagrams, Design Class Model, and Internal Sequence Diagrams
 * [System Test Document](): This document reports the validation of the system tests
