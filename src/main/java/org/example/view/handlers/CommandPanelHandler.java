@@ -18,6 +18,19 @@ public class CommandPanelHandler implements Observer {
     private InteractionState currentState;
 
     /**
+     * Constructor for the CommandPanelHandler.
+     * It initializes the command panel and sets the initial state to MenuState.
+     *
+     * @param commandPanel The command panel to be handled.
+     */
+    public CommandPanelHandler(CommandPanel commandPanel) {
+        System.out.println("Creating CommandPanelHandler");
+        this.commandPanel = commandPanel;
+        this.currentState = new MenuState();
+        this.currentState.display(commandPanel);
+    }
+
+    /**
      * This method is called when the observed object is changed.
      * It updates the state of the application based on the user's input and the current window state.
      */
@@ -41,19 +54,6 @@ public class CommandPanelHandler implements Observer {
         } else if (windowState == WindowState.GAME_OVER || windowState == WindowState.GAME_WIN) {
             setState(new EndGameState());
         }
-    }
-
-    /**
-     * Constructor for the CommandPanelHandler.
-     * It initializes the command panel and sets the initial state to MenuState.
-     *
-     * @param commandPanel The command panel to be handled.
-     */
-    public CommandPanelHandler(CommandPanel commandPanel) {
-        System.out.println("Creating CommandPanelHandler");
-        this.commandPanel = commandPanel;
-        this.currentState = new MenuState();
-        this.currentState.display(commandPanel);
     }
 
     /**

@@ -281,7 +281,6 @@ public class AWSHandler implements Observer {
         } catch (Exception e) {
             throw new AWSException("Error occurred: Failed to communicate to AWS.");
         }
-
     }
 
     // Overwrite an existing game
