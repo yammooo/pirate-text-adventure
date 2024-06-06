@@ -13,29 +13,21 @@ public class MainFrame extends JFrame{
     private GraphicsPanel graphicsPanel;
 
     public MainFrame() {
+
+        // Initialize panels
+        commandPanel = new CommandPanel();
+        graphicsPanel = new GraphicsPanel();
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                // Initialize panels
-                commandPanel = new CommandPanel();
-                graphicsPanel = new GraphicsPanel();
-
-                AppHandler.getInstance().addObserver(graphicsPanel);
 
                 // Set layout manager
                 setLayout(new BorderLayout());
 
-
                 // Add panels to the frame
                 add(graphicsPanel, BorderLayout.NORTH);
                 add(commandPanel, BorderLayout.CENTER);
-
-                // Initialize controllers with references to their panels
-                CommandPanelHandler commandPanelHandler = new CommandPanelHandler(commandPanel);
-                AppHandler.getInstance().addObserver(commandPanelHandler);
-
-                // Set controllers to panels
-                commandPanel.setHandler(commandPanelHandler);
 
                 pack();
 
@@ -50,6 +42,9 @@ public class MainFrame extends JFrame{
     }
 
     public CommandPanel getCommandPanel() {
-        return commandPanel;
+        return this.commandPanel;
+    }
+    public GraphicsPanel getGraphicsPanel() {
+        return this.graphicsPanel;
     }
 }

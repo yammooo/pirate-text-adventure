@@ -16,7 +16,7 @@ public class CommandPanel extends JPanel {
     private String currentMessage;
     private int currentCharIndex;
     private final Queue<String> messageQueue = new LinkedList<>();
-    private CommandPanelHandler commandPanelHandler;
+    private final CommandPanelHandler commandPanelHandler;
 
     public CommandPanel() {
         setLayout(new BorderLayout());
@@ -49,10 +49,9 @@ public class CommandPanel extends JPanel {
             }
         });
         add(inputField, BorderLayout.SOUTH);
-    }
 
-    public void setHandler(CommandPanelHandler handler) {
-        this.commandPanelHandler = handler;
+        // Initialize controllers with references to their panels
+        this.commandPanelHandler = new CommandPanelHandler(this);
     }
 
     public void showSystemMessage(String message) {
@@ -86,5 +85,9 @@ public class CommandPanel extends JPanel {
             }
             timer.start();
         }
+    }
+
+    public CommandPanelHandler getCommandPanelHandler() {
+        return this.commandPanelHandler;
     }
 }

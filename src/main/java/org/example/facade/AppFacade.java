@@ -16,6 +16,7 @@ public class AppFacade {
         appHandler = AppHandler.getInstance();
 
         appHandler.addObserver(awsHandler);
+        appHandler.addObserver(mainFrame.getCommandPanel().getCommandPanelHandler());
+        appHandler.addObserver(mainFrame.getGraphicsPanel());
     }
-
 }
