@@ -51,7 +51,7 @@ Map --> AppHandler : obstacle if exists
         AppHandler -> AWSHandler : notifyObservers(new SaveEvent());
         activate AWS
         AWSHandler -> AWS : save the current appSate.GameState
-        AWS --> AWSHandler : trhows possible AWSException
+        AWS --> AWSHandler : throws possible AWSException
         deactivate AWS
         deactivate AWSHandler
         else lose the fight against obstacle
@@ -69,7 +69,7 @@ Map --> AppHandler : obstacle if exists
     AppHandler -> AWSHandler : notifyObservers(new SaveEvent());
     activate AWS
     AWSHandler -> AWS : save the current appSate.GameState
-    AWS --> AWSHandler : trhows possible AWSException
+    AWS --> AWSHandler : throws possible AWSException
     deactivate AWS
     deactivate AWSHandler
     end
