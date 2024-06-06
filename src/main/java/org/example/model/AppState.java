@@ -44,4 +44,12 @@ public class AppState {
     public void setWindowToGame() {
         currentWindow = WindowState.GAME;
     }
+
+    public void setWindowToGameOver() {
+        currentWindow = WindowState.GAME_OVER;
+    }
+
+    public void setWindowToGameWin() {
+        currentWindow = WindowState.GAME_WIN;
+    }
 }

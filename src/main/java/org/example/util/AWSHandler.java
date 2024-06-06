@@ -79,9 +79,10 @@ public class AWSHandler implements Observer {
                 .build();
 
         // Generate a unique name for the JSON file
-        String keyName = "game-" + UUID.randomUUID() + ".json";
+        String gameTitle = "game-" + UUID.randomUUID();
+        String keyName =  gameTitle + ".json";
 
-        AppState.getInstance().getGameState().setTitle(keyName);
+        AppState.getInstance().getGameState().setTitle(gameTitle);
         String jsonContent = GameStateTranslator.gameStateToJson(AppState.getInstance().getGameState()); // The JSON content
 
         // Upload the JSON content to S3
@@ -284,8 +285,7 @@ public class AWSHandler implements Observer {
     }
 
     // Overwrite an existing game
-    public void saveAnExistingGame(String json, String file) throws AWSException {
-        String fileName = file.substring(0, file.lastIndexOf(".")); // File name without extension
+    public void saveAnExistingGame(String json, String fileName) throws AWSException {
 
         // Read credentials from the configuration file
         Properties properties = new Properties();
@@ -348,8 +348,7 @@ public class AWSHandler implements Observer {
     }
 
     // Delete an existing instance: File name without extension
-    public void deleteGame(String file) throws AWSException {
-        String fileName = file.substring(0, file.lastIndexOf("."));
+    public void deleteGame(String fileName) throws AWSException {
 
         // Read credentials from the configuration file
         Properties properties = new Properties();

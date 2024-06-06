@@ -1,0 +1,105 @@
+@startuml
+
+actor User
+
+participant CommandPanel
+participant GraphicsPanel
+participant CommandPanelHandler
+participant AppHandler
+participant UserQueryResult
+participant AppState
+participant GameState
+participant Map
+participant Pirate
+participant AWSHandler
+
+database AWS
+
+User -> CommandPanel : move
+activate CommandPanel
+CommandPanel -> CommandPanelHandler : handleUserInput(userInput)
+deactivate CommandPanel
+activate CommandPanelHandler
+CommandPanelHandler -> AppHandler : move(locationID)
+deactivate CommandPanelHandler
+activate AppHandler
+activate UserQueryResult
+activate AppState
+activate GameState
+activate Map
+AppHandler -> Map : getLocationByID(currentLocationID)
+Map --> AppHandler : source location
+AppHandler -> Map : getLocationByID(destinationLocationID)
+Map --> AppHandler : destination location
+
+alt destination == null
+AppHandler -> UserQueryResult : setResult("No location with the selected location ID.") and setSuccess(false)
+else source.getID() == destination.getID()
+AppHandler -> UserQueryResult : setResult("You're already on this location.") and setSuccess(false)
+else source.isAdjacentLocation(destination)
+AppHandler -> Map : getObstacleByLocationsID(source.getID(), destination.getID())
+Map --> AppHandler : obstacle if exists
+    activate Pirate
+    alt trying to reach the treasure island without having the legendary key
+    AppHandler -> UserQueryResult : setResult("To reach the treasure island you have to collect all 3 keys in order to pass through the portal.") and setSuccess(false)
+    else pirate encounters an obstacle
+        alt item required to defeat the obstacle is equipped
+        AppHandler -> Map : setPirateLocationID(destination.getID())
+        AppHandler -> Map : removeObstacleByLocationsID(source.getID(), destination.getID())
+        AppHandler -> UserQueryResult : setResult("Obstacle warning: you won the fight. New location reached.") and setSuccess(true)
+        activate AWSHandler
+        AppHandler -> AWSHandler : notifyObservers(new SaveEvent());
+        activate AWS
+        AWSHandler -> AWS : save the current appSate.GameState
+        AWS --> AWSHandler : trhows possible AWSException
+        deactivate AWS
+        deactivate AWSHandler
+        else lose the fight against obstacle
+        AppHandler -> Pirate : setCurrentLives(appState.getGameState().getPirate().getCurrentLives() - 1)
+        deactivate Pirate
+        AppHandler -> UserQueryResult : setResult("Obstacle warning: you lost the fight. You remain on the same location.") and setSuccess(false)
+            alt pirate die
+            AppHandler -> AppHandler : GameOver()
+            end
+        end
+    else no obstacles in the path source-destination
+    AppHandler -> Map : setPirateLocationID(destination.getID())
+    AppHandler -> UserQueryResult : setResult("New location reached.") and setSuccess(true)
+    activate AWSHandler
+    AppHandler -> AWSHandler : notifyObservers(new SaveEvent());
+    activate AWS
+    AWSHandler -> AWS : save the current appSate.GameState
+    AWS --> AWSHandler : trhows possible AWSException
+    deactivate AWS
+    deactivate AWSHandler
+    end
+
+    alt pirate reaches the treasure island
+    AppHandler -> AppHandler : Win()
+    end
+else trying to move to not adjacent locations
+AppHandler -> UserQueryResult : setResult("You can't move to that location from the current one.") and setSuccess(false)
+end
+
+deactivate UserQueryResult
+deactivate AppState
+deactivate GameState
+deactivate Map
+
+activate CommandPanelHandler
+AppHandler --> CommandPanelHandler : notifyObservers(new UIEvent())
+activate CommandPanel
+CommandPanelHandler --> CommandPanel : update the output
+deactivate CommandPanelHandler
+CommandPanel --> User : show changes via CommandPanel
+deactivate CommandPanel
+
+activate GraphicsPanel
+AppHandler --> GraphicsPanel : notifyObservers(new UIEvent())
+deactivate AppHandler
+GraphicsPanel --> User : show changes via Graphic UI
+deactivate GraphicsPanel
+
+
+
+@enduml

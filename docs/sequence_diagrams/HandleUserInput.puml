@@ -1,0 +1,30 @@
+@startuml
+actor User
+
+participant CommandPanel
+participant CommandPanelHandler
+participant CurrentState
+
+User -> CommandPanel: input
+CommandPanel -> CommandPanelHandler: handleUserInput(userInput)
+CommandPanelHandler -> CurrentState: handleInput(userInput)
+alt UserInput: menu change
+    CurrentState -> CommandPanelHandler: setState(new InteractionState())
+    CommandPanelHandler -> CurrentState: display()
+else UserInput: action that requires AppState change
+    CurrentState -> AppHandler: AppHandler.method()
+    AppHandler -> CommandPanelHandler: update()
+    CommandPanelHandler -> CommandPanel: showSystemMessage(resultFromAppHandler)
+    CommandPanel -> User: displays message
+    CurrentState -> CommandPanelHandler: setState(new InteractionState())
+    CommandPanelHandler -> CurrentState: display()
+else UserInput: invalid input
+    CurrentState -> CommandPanel: display error message
+    CommandPanel -> User: displays error message
+    CurrentState -> CurrentState: display()
+end
+
+CurrentState -> CommandPanel: showSystemMessage(message)
+CommandPanel -> User: displays message
+
+@enduml
