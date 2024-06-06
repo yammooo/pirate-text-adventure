@@ -8,4 +8,19 @@ import static org.mockito.Mockito.*;
 
 public class CommandPanelHandlerTest {
 
+    @Test
+    void update() {
+    }
+
+    @Test
+    void handleUserInput() {
+    }
+
+    @Test
+    void setState() {
+    }
+
+    @Test
+    void getCommandPanel() {
+    }
 }
