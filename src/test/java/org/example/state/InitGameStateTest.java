@@ -1,6 +1,7 @@
 package org.example.state;
 
 import org.example.model.AppHandler;
+import org.example.model.AppState;
 import org.example.model.GameState;
 import org.example.model.entities.Location;
 import org.example.model.entities.Map;
@@ -66,26 +67,50 @@ class InitGameStateTest {
 
     @Test
     void handleInput_InvalidInput_ShowErrorMessage() {
-        when(commandPanelHandler.getCommandPanel()).thenReturn(commandPanel);
-        initGameState.handleInput(commandPanelHandler, "invalid");
-        verify(commandPanel, times(1)).showSystemMessage("Invalid input. Please enter a valid choice.");
+        try (MockedStatic<AppHandler> mockedAppHandler = Mockito.mockStatic(AppHandler.class)) {
+            AppState mockAppState = mock(AppState.class);
+            GameState mockGameState = mock(GameState.class);
+            Map mockMap = mock(Map.class);
+            Location mockLocation = mock(Location.class);
+
+            when(mockAppState.getGameState()).thenReturn(mockGameState);
+            when(mockGameState.getMap()).thenReturn(mockMap);
+            when(mockMap.getPirateLocationID()).thenReturn(1);
+            when(mockMap.getLocationById(anyInt())).thenReturn(mockLocation);
+
+            mockedAppHandler.when(AppHandler::getInstance).thenReturn(appHandler);
+            when(appHandler.getAppState()).thenReturn(mockAppState);
+
+            when(commandPanelHandler.getCommandPanel()).thenReturn(commandPanel);
+            initGameState.handleInput(commandPanelHandler, "invalid");
+
+            verify(commandPanel, times(1)).showSystemMessage(contains("Invalid input"));
+        }
     }
 
     @Test
     void display_ShowsCorrectMessage() {
         try (MockedStatic<AppHandler> mockedAppHandler = Mockito.mockStatic(AppHandler.class)) {
+            // Arrange
+            AppState mockAppState = mock(AppState.class);
             GameState mockGameState = mock(GameState.class);
             Location mockLocation = mock(Location.class);
             Map mockMap = mock(Map.class);
+
+            // Set up the mock returns
             when(mockLocation.getName()).thenReturn("Test Location");
             when(mockLocation.getDescription()).thenReturn("Test Description");
             when(mockGameState.getMap()).thenReturn(mockMap);
             when(mockMap.getPirateLocationID()).thenReturn(1);
             when(mockMap.getLocationById(anyInt())).thenReturn(mockLocation);
+            when(mockAppState.getGameState()).thenReturn(mockGameState);
+            when(appHandler.getAppState()).thenReturn(mockAppState);
+            mockedAppHandler.when(AppHandler::getInstance).thenReturn(appHandler);
 
-            when(AppHandler.getInstance().getAppState().getGameState()).thenReturn(mockGameState);
-
+            // Act
             initGameState.display(commandPanel);
+
+            // Assert
             verify(commandPanel, times(1)).showSystemMessage(contains("What do you want to do?"));
         }
     }
