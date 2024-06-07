@@ -9,7 +9,7 @@
 
 ## 1. Domain Model
 
-![Domain Model](domain_model/DomainModel.png)
+![Domain Model](domain_model/DomainModel.jpg)
 
 ## 2. System Sequence Diagrams
 
