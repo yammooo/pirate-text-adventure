@@ -6,8 +6,6 @@ import org.example.observer.Observer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 public class GraphicsPanel extends JPanel implements Observer {
     private Image backgroundImage;
@@ -16,38 +14,35 @@ public class GraphicsPanel extends JPanel implements Observer {
     private final Image pirateImage = new ImageIcon("src/main/resources/assets/images/pirate.gif").getImage();
 
 
-    // Screen settings
-    final int originalTileSize = 16; // 16x16 pixels
-    final int scale = 3;
-
-    public final int tileSize = originalTileSize * scale; // 48x48 pixels
-    final int maxScreenCols = 12;
-    final int maxScreenRows = 12;
-    final int screenWidth = tileSize * maxScreenCols; // 576 pixels
-    final int screenHeight = tileSize * maxScreenRows; // 576 pixels
-
     public GraphicsPanel() {
         // Panel setup
 
-        setPreferredSize(new Dimension(screenWidth, screenHeight));
+        //setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         setFocusable(true);
 
         setBackgroundImage("src/main/resources/assets/images/menu-background-image.png");
 
-        // to repaint graphics when panel is resized
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                repaint();
-            }
-        });
+//        // to repaint graphics when panel is resized
+//        this.addComponentListener(new ComponentAdapter() {
+//            @Override
+//            public void componentResized(ComponentEvent e) {
+//                repaint();
+//            }
+//        });
     }
 
     @Override
     public void update() {
         repaint();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        Dimension size = super.getPreferredSize();
+        int newSize = Math.min(size.width, size.height);
+        return new Dimension(newSize, newSize);
     }
 
     public void setBackgroundImage(String imagePath) {
