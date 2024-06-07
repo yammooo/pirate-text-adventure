@@ -43,6 +43,20 @@ After building the project, run the main application:
 mvn exec:java
 ```
 
+## AWS Settings
+
+If you would like your game to save to AWS S3, you will need to set up an AWS account and configure the necessary settings. Follow the steps below to set up AWS S3 for saving and loading game states:
+
+1. Sign in into your AWS account or create a new one.
+2. Search for "S3" in the services search bar and click on "S3" to create a new bucket.
+3. Create a new bucket with a unique name and configure the settings as needed.
+4. Search for "IAM" in the services search bar and click on "IAM" to create a new IAM user.
+5. Create a new IAM user with programmatic access and attach a policy that allows access to the S3 bucket.
+6. Save the access key ID and secret access key for the new IAM user.
+7. Modify the `credentials.properties` file with your AWS credentials.
+8. In the `AWSHandler` class, change the bucket name to the name of your S3 bucket.
+9. In the `AWSHandler` class, change the region to the region of your S3 bucket.
+
 ## Main Functions Reused from Existing Libraries
 
 - **Java Swing**: Used for creating the graphical user interface for the game.

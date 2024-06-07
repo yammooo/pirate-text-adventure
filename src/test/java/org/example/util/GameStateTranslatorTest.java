@@ -1,6 +1,7 @@
 package org.example.util;
 
 import com.google.gson.JsonSyntaxException;
+import org.example.json_translator.GameStateTranslator;
 import org.example.model.entities.*;
 import org.example.pair.Pair;
 import org.junit.jupiter.api.Test;

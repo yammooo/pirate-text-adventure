@@ -13,21 +13,19 @@ interface Observable {
     + notifyObservers(event: Event): void
 }
 
-' Event Classes
-class Event {}
-class UIEvent extends Event {}
-class SaveEvent extends Event {}
-
 ' WindowState
 enum WindowState {
     MENU
     GAME
+    GAME_OVER
+    GAME_WIN
 }
 
 ' Main Frame and Panels
 class MainFrame {
     - commandPanel: CommandPanel
     - graphicsPanel: GraphicsPanel
+    + getters(): ...
 }
 
 MainFrame -|> JFrame
@@ -35,17 +33,24 @@ MainFrame --> CommandPanel
 MainFrame --> GraphicsPanel
 
 class CommandPanel {
+    - displayArea: JTextArea
+    - inputField: JTextField
+    - currentMessage: String
+    - messageQueue: Queue<String>
     - commandPanelHandler: CommandPanelHandler
-    + setHandler(handler: CommandPanelHandler): void
+    + CommandPanel()
+    + showSystemMessage(message: String)
+    + getCommandPanelHandler(): CommandPanelHandler
 }
 
 
 
 CommandPanel -|> JPanel
-CommandPanel --- CommandPanelHandler
+CommandPanel <--> CommandPanelHandler
 
 class CommandPanelHandler implements Observer {
     - commandPanel: CommandPanel
+    - interactionState: InteractionState
     + handleUserInput(userInput: String): void
     + setState(state: InteractionState): void
 }
@@ -53,7 +58,17 @@ class CommandPanelHandler implements Observer {
 CommandPanelHandler ------> AppHandler
 
 class GraphicsPanel implements Observer {
-    + draw(): void
+    - screenWidth: int
+    - screenHeight: int
+    + GraphicsPanel()
+    + update(): void
+    + setBackgroundImage(imagePath: String): void
+    + displayMenu(g2: Graphics2D): void
+    + displayGameOver(g2: Graphics2D): void
+    + displayGameWin(g2: Graphics2D): void
+    + displayGame(g2: Graphics2D): void
+    - drawHearts(g2: Graphics2D): void
+    - drawBackpackStatus(g2: Graphics2D): void
 }
 
 GraphicsPanel -|> JPanel
@@ -68,8 +83,14 @@ class AppFacade {
 
 class AppHandler implements Observable {
     - AppHandler instance
+    - observers: ArrayList<Observer>
+    - appState: AppState
     + {static} getInstance(): AppHandler
     + getAppState(): AppState
+    + addObserver(o: Observer): void
+    + removeObserver(o: Observer): void
+    + notifyObservers(): void
+    + notifyObservers(e: Event): void
     + startNewGame(): void
     + startSavedGame(gameID: int): void
     + getSavedGames(): int
@@ -77,11 +98,8 @@ class AppHandler implements Observable {
     + move(locationID: int): void
     + pickUpItem(entityID: int): void
     + dropItem(entityID: int): void
-    + getHelp(): String
-    + getDialogue(entityID: int): String
-    + viewEntity(entityID: int): String
-    + notifyUI(): void
-    + notifySave(): void
+    - gameOver(): void
+    - win(): void
 }
 
 AppHandler --> AppState
@@ -89,13 +107,17 @@ AppFacade --> AWSHandler
 AppFacade ---> MainFrame
 
 class AppState {
-    + {static} getInstance(): AppState
     - AppState instance
     - lastUserQueryResult: UserQueryResult
     - gameState: GameState
     - currentWindow: WindowState
-    + getGameState(): void
-    + getCurrentWindow(): WindowState
+    + {static} getInstance(): AppState
+    + getters(): ...
+    + setGameState(gameState: GameState): void
+    + setWindowToMenu(): void
+    + setWindowToGame(): void
+    + setWindowToGameOver(): void
+    + setWindowToGameWin(): void
 }
 
 
@@ -106,8 +128,7 @@ AppState --> GameState
 class UserQueryResult {
     - result: String
     - success: boolean
-    + getResult(): String
-    + getSuccess(): boolean
+    + getters(): ...
     + setResult(result: String): void
     + setSuccess(success: boolean): void
 }
@@ -116,21 +137,35 @@ AppState --> UserQueryResult
 
 
 class GameState {
+    - title: String
     - pirate: Pirate
     - map: Map
-    + getPirate(): Pirate
-    + getMap(): Map
+    + getters(): ...
 }
 
 class AWSHandler implements Observer {
-    + saveToS3(json: String): void
-    + loadFromS3(): String
+    - {static} instance: AWSHandler
+    - CREDENTIALS_FILE_PATH: String
+    - bucketName: String
+    + {static} getInstance(): AWSHandler
+    + update(): void
+    + saveAsNewGame(): void
+    + countSavedGames(): int
+    + loadFromS3(): ArrayList<String>
+    + getSavedGames(gameID: int): String
+    + saveAnExistingGame(json: String, fileName: String): void
+    + deleteGame(fileName: String): void
+    - saveToS3(json: String): void
+    - downloadFileContent(s3Client: S3Client, bucketName: String, key: String): String
+    - getGamesTitles(): ArrayList<String>
 }
 
 AWSHandler ------> AppHandler
 
 ' Translator
 class GameStateTranslator {
+    - {static} builder: GsonBuilder
+    - {static} gson: Gson
     + {static} jsonToGameState(json: String): GameState
     + {static} gameStateToJson(gameState: GameState): String
 }
@@ -140,11 +175,10 @@ AWSHandler --> GameStateTranslator
 
 ' Game Entities
 class Pirate {
+    - maxLives: int
     - lives: int
     - backpack: Backpack
-    + getMaxLives(): int
-    + getcurrentLives(): int
-    + getBackpack(): Backpack
+    + getters(): ...
 }
 
 Pirate --> Backpack
@@ -152,19 +186,23 @@ Pirate --> Backpack
 class Backpack {
     - maxWeight: int
     - items: ArrayList<CollectableItem>
+    + getters(): ...
     + addItem(item: CollectableItem): void
     + removeItem(id: int): void
-    + getMaxWeight(): int
-    + getTotalWeight(): int
+    + isItemEquipped(id: int): boolean
+    + getItems(): ArrayList<CollectableItem>
+    + getItemById(id: int): CollectableItem
 }
 
 class Map {
     - locations: ArrayList<Location>
     - obstacles: Map<Pair<int, int>, Obstacle>
     - currentPirateLocationID: int
+    + getters(): ...
     + getLocationById(id: int): Location
     + getObstacleByLocationsID(int, int): Obstacle
     + getPirateLocationID(id: int): int
+    + removeObstacleByLocationsID(id1: int, id2: int): Obstacle
 }
 
 Map--> Obstacle
@@ -176,13 +214,18 @@ class Location {
     - id: int
     - name: String
     - description: String
-    - entities: ArrayList<Entity>
+    - items: ArrayList<CollectableItem>
+    - viewables: ArrayList<ViewableItem>
+    - npcs: ArrayList<NPC>
     - adjacentLocations: ArrayList<int>
-    + getID(): int
-    + getName(): String
-    + getDescription(): String
-    + getEntities(): List<Entity>
-    + getAdjacentLocationIDs(): List<int>
+    + getters(): ...
+    + getEntityById(int): Entity
+    + getAllEntities(): ArrayList<Entity>
+    + addCollectableItem(CollectableItem): void
+    + isAdjacentLocation(Location): boolean
+    + getCollectableItemByID(int): CollectableItem
+    + addAdjacentLocation(int): void
+    + removeItem(int): void
 }
 
 Map --> Location
@@ -191,16 +234,13 @@ interface Entity {
     - ID: int
     - name: String
     - description: String
-    + getID(): int
-    + getName(): String
-    + getDescription(): String
+    + getters(): ...
 }
 
 class CollectableItem implements Entity {
     - weight: int
     - requiredEntityID: int
-    + getWeight(): int
-    + getRequiredEntityID(): int
+    + getters(): ...
 }
 
 class ViewableItem implements Entity {
@@ -208,18 +248,15 @@ class ViewableItem implements Entity {
 
 class NPC implements Entity {
     - dialogue: String
-    + getDialogue(): int
+    + getters(): ...
 }
 
 class Obstacle implements Entity {
     - itemToDefeatID: int
-    + getItemToDefeatID(): int
+    + getters(): ...
 }
 
 Location --> Entity
-
-class InvalidRequestException implements Exception {
-}
 
 ' State Pattern
 interface InteractionState {
@@ -228,7 +265,4 @@ interface InteractionState {
 }
 
 CommandPanelHandler --> InteractionState
-
-class ConcreteState implements InteractionState {}
-
 @enduml

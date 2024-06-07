@@ -1,4 +1,4 @@
-package org.example.newgamecreator.utils;
+package org.example.json_translator;
 
 import com.google.gson.*;
 import org.example.pair.Pair;

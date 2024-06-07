@@ -1,10 +1,9 @@
-package org.example.util;
+package org.example.json_translator;
 
 import com.google.gson.GsonBuilder;
 import org.example.model.GameState;
 import com.google.gson.Gson;
 import org.example.pair.Pair;
-import org.example.newgamecreator.utils.PairAdapter;
 
 public class GameStateTranslator {
 

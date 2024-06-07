@@ -1,7 +1,7 @@
 package org.example.newgamecreator;
 import org.example.model.GameState;
 import org.example.model.entities.*;
-import org.example.util.GameStateTranslator;
+import org.example.json_translator.GameStateTranslator;
 
 import java.io.FileWriter;
 import java.io.IOException;

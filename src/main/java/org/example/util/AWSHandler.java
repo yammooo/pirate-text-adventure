@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import org.example.exceptions.AWSException;
+import org.example.json_translator.GameStateTranslator;
 import org.example.model.AppState;
 import org.example.observer.Observer;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;

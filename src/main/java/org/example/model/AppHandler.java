@@ -12,7 +12,7 @@ import org.example.util.Event;
 import org.example.util.SaveEvent;
 import org.example.util.UIEvent;
 import org.example.view.handlers.CommandPanelHandler;
-import org.example.util.GameStateTranslator;
+import org.example.json_translator.GameStateTranslator;
 import org.example.view.panels.GraphicsPanel;
 
 import java.io.BufferedReader;
@@ -56,17 +56,6 @@ public class AppHandler implements Observable {
     @Override
     public void removeObserver(Observer o) {
         observers.remove(o);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (Observer o : observers) {
-            try{
-                o.update();
-            } catch(AWSException e) {
-                System.err.println(e.getMessage());
-            }
-        }
     }
 
     @Override
@@ -246,7 +235,7 @@ public class AppHandler implements Observable {
                         notifyObservers(new SaveEvent());
 
                     } catch(RunOutOfLivesException e) {   // exception thrown if the pirate ends its lives
-                        GameOver();
+                        gameOver();
                         return;
                     }
                 }
@@ -262,7 +251,7 @@ public class AppHandler implements Observable {
 
             // if pirate reaches the treasure island (location with id = 0)
             if(appState.getGameState().getMap().getPirateLocationID() == 0) {
-                Win();
+                win();
                 return;
             }
         }
@@ -346,7 +335,7 @@ public class AppHandler implements Observable {
     /*
      * when a pirate dies, then the user loses: game instance saved in the AWS will be deleted
      */
-    private void GameOver() {
+    private void gameOver() {
         try{
             AWSHandler.getInstance().deleteGame(appState.getGameState().getTitle());
         } catch(AWSException e) {
@@ -363,7 +352,7 @@ public class AppHandler implements Observable {
     /*
      * when a pirate reaches the treasure island, then the user wins: game instance saved in the AWS will be deleted
      */
-    private void Win() {
+    private void win() {
         try{
             AWSHandler.getInstance().deleteGame(appState.getGameState().getTitle());
         } catch(AWSException e) {
