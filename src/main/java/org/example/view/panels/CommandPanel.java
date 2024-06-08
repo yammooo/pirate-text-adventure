@@ -31,14 +31,16 @@ public class CommandPanel extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(displayArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(0, 300)); // Fixed height for displayArea
         add(scrollPane, BorderLayout.CENTER);
 
         inputField = new JTextField();
-        inputField.setFont(new Font("Monospaced", Font.PLAIN, 30));
+        inputField.setFont(new Font("Monospaced", Font.PLAIN, 16));
         inputField.setBackground(Color.BLACK);
         inputField.setForeground(Color.WHITE);
         inputField.setCaretColor(Color.WHITE);
         inputField.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        inputField.setPreferredSize(new Dimension(0, 30)); // Fixed height for inputField
         inputField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

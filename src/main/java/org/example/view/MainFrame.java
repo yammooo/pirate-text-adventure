@@ -1,7 +1,5 @@
 package org.example.view;
 
-import org.example.model.AppHandler;
-import org.example.view.handlers.CommandPanelHandler;
 import org.example.view.panels.CommandPanel;
 import org.example.view.panels.GraphicsPanel;
 
@@ -9,8 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame{
-    private CommandPanel commandPanel;
-    private GraphicsPanel graphicsPanel;
+    private final CommandPanel commandPanel;
+    private final GraphicsPanel graphicsPanel;
 
     public MainFrame() {
 
@@ -21,20 +19,30 @@ public class MainFrame extends JFrame{
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                // Get screen size
+                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+                int frameHeight = (int) (screenSize.height * 0.8);
+                int commandPanelHeight = commandPanel.getPreferredSize().height;
+                int graphicsPanelSize = frameHeight - commandPanelHeight;
 
                 // Set layout manager
                 setLayout(new BorderLayout());
 
-                // Add panels to the frame
-                add(graphicsPanel, BorderLayout.NORTH);
-                add(commandPanel, BorderLayout.CENTER);
+                // GraphicsPanel setup
+                graphicsPanel.setPreferredSize(new Dimension(graphicsPanelSize, graphicsPanelSize));
+                add(graphicsPanel, BorderLayout.CENTER);
 
-                pack();
+                // CommandPanel setup
+                add(commandPanel, BorderLayout.SOUTH);
 
-                // JFrame setup
-                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                setResizable(true);
+                // Set frame size
+                int frameWidth = graphicsPanelSize;
+                setSize(new Dimension(frameWidth, frameHeight));
+                setResizable(false);
+
+                // Set frame parameters
                 setTitle("Pirate Text Adventure");
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 setLocationRelativeTo(null);
                 setVisible(true);
             }
