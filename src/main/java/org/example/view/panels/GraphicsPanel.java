@@ -17,7 +17,6 @@ public class GraphicsPanel extends JPanel implements Observer {
     public GraphicsPanel() {
         // Panel setup
 
-        //setPreferredSize(new Dimension(screenWidth, screenHeight));
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         setFocusable(true);
