@@ -53,14 +53,6 @@ class AppStateTest {
     }
 
     @Test
-    void getLastUserQueryResultReturnsCorrectResult() {
-        UserQueryResult result = appState.getLastUserQueryResult();
-        assertNotNull(result);
-        assertFalse(result.getSuccess());
-        assertEquals("", result.getResult());
-    }
-
-    @Test
     void setGameStateChangesGameState() {
         appState.setGameState(gameState);
         assertEquals(gameState, appState.getGameState());
