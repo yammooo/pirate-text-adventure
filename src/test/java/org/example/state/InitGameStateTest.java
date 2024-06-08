@@ -17,16 +17,22 @@ import static org.mockito.Mockito.*;
 
 class InitGameStateTest {
 
+    @Mock
     private AppHandler appHandler;
+
+    @Mock
     private CommandPanelHandler commandPanelHandler;
+
+    @Mock
     private CommandPanel commandPanel;
+
     private InitGameState initGameState;
 
     @BeforeEach
     void setUp() {
         appHandler = mock(AppHandler.class);
-        commandPanel = mock(CommandPanel.class);
         commandPanelHandler = mock(CommandPanelHandler.class);
+        commandPanel = mock(CommandPanel.class);
         initGameState = new InitGameState();
     }
 

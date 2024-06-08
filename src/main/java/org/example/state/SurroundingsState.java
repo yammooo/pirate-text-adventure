@@ -21,8 +21,10 @@ public class SurroundingsState implements InteractionState {
 
         try {
 
+            Map map = AppHandler.getInstance().getAppState().getGameState().getMap();
+
             int entityId = Integer.parseInt(input);
-            entity = AppHandler.getInstance().getAppState().getGameState().getMap().getLocationById(AppHandler.getInstance().getAppState().getGameState().getMap().getPirateLocationID()).getEntityById(entityId);
+            entity = map.getLocationById(map.getPirateLocationID()).getEntityById(entityId);
             context.setState(new EntitySelectState(entity));
 
         } catch (NumberFormatException e) {
