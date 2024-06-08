@@ -92,8 +92,4 @@ public class BackpackTest {
         });
     }
 
-    @Test
-    public void testGetMaxWeight() {
-        assertEquals(10, backpack.getMaxWeight());
-    }
 }

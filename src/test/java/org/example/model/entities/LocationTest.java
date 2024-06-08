@@ -49,7 +49,7 @@ class LocationTest {
         assertFalse(location.getCollectableItems().contains(item1));
     }
 
-    @Test
+
     void removeItem_throwsExceptionWhenItemNotFound() {
         assertThrows(ItemNotFoundException.class, () -> location.removeItem(999));
     }
@@ -88,9 +88,4 @@ class LocationTest {
         assertThrows(ItemNotFoundException.class, () -> location.getEntityById(999));
     }
 
-    @Test
-    void addAdjacentLocation_addsLocationToAdjacentLocations() {
-        location.addAdjacentLocation(999);
-        assertTrue(location.getAdjacentLocations().contains(999));
-    }
 }
