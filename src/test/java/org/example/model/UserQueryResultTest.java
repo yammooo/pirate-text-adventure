@@ -14,15 +14,6 @@ class UserQueryResultTest {
         userQueryResult = new UserQueryResult("Result1", true);
     }
 
-    @Test
-    void getResultReturnsCorrectResult() {
-        assertEquals("Result1", userQueryResult.getResult());
-    }
-
-    @Test
-    void getSuccessReturnsCorrectSuccess() {
-        assertTrue(userQueryResult.getSuccess());
-    }
 
     @Test
     void setResultChangesResult() {

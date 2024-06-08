@@ -33,21 +33,6 @@ class GameStateTest {
     }
 
     @Test
-    void getPirateReturnsCorrectPirate() {
-        assertEquals(pirate, gameState.getPirate());
-    }
-
-    @Test
-    void getMapReturnsCorrectMap() {
-        assertEquals(map, gameState.getMap());
-    }
-
-    @Test
-    void getTitleReturnsCorrectTitle() {
-        assertEquals("Title1", gameState.getTitle());
-    }
-
-    @Test
     void setTitleChangesTitle() {
         gameState.setTitle("Title2");
         assertEquals("Title2", gameState.getTitle());

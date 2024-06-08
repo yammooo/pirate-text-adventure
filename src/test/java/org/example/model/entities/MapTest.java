@@ -28,6 +28,7 @@ class MapTest {
         map = new Map(locations, obstacles, 1);
     }
 
+
     @Test
     void getLocationByIdReturnsCorrectLocation() {
         assertEquals(location1, map.getLocationById(1));

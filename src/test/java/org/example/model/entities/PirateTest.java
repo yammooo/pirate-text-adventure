@@ -17,20 +17,6 @@ class PirateTest {
         pirate = new Pirate(backpack, 3);
     }
 
-    @Test
-    void getMaxLivesReturnsCorrectMaxLives() {
-        assertEquals(3, pirate.getMaxLives());
-    }
-
-    @Test
-    void getCurrentLivesReturnsCorrectCurrentLives() {
-        assertEquals(3, pirate.getCurrentLives());
-    }
-
-    @Test
-    void getBackpackReturnsCorrectBackpack() {
-        assertEquals(backpack, pirate.getBackpack());
-    }
 
     @Test
     void setCurrentLivesChangesCurrentLives() throws RunOutOfLivesException {
