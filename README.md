@@ -53,9 +53,8 @@ If you would like your game to save to AWS S3, you will need to set up an AWS ac
 4. Search for "IAM" in the services search bar and click on "IAM" to create a new IAM user.
 5. Create a new IAM user with programmatic access and attach a policy that allows access to the S3 bucket.
 6. Save the access key ID and secret access key for the new IAM user.
-7. Modify the `credentials.properties` file with your AWS credentials.
-8. In the `AWSHandler` class, change the bucket name to the name of your S3 bucket.
-9. In the `AWSHandler` class, change the region to the region of your S3 bucket.
+7. Modify the [`credentials.properties`](src/main/resources/AWS/credentials.properties) file with your AWS credentials.
+8. Modify the [`config.properties`](src/main/resources/AWS/config.properties) file with your S3 bucket name and region.
 
 ## Main Functions Reused from Existing Libraries
 
