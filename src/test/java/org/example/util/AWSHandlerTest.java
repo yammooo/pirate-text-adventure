@@ -42,7 +42,7 @@ class AWSHandlerTest {
 
     @Test
     void saveAnExistingGame() {
-        assertThrows(AWSException.class, () -> awsHandler.saveAnExistingGame("Sono matteo", "example-4702d0f6-3ad8-4a1f-9b8f-1b1f99a61859"));
+        assertThrows(AWSException.class, () -> awsHandler.saveAnExistingGame("TEST", "example-4702d0f6-3ad8-4a1f-9b8f-1b1f99a61859"));
     }
 
     @Test
