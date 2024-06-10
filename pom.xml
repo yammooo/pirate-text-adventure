@@ -35,6 +35,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.3.0</version>
+                <configuration>
+                    <excludePackageNames>
+                        org.example;
+                        org.example.newgamecreator;
+                        org.example.newgamecreator*
+                    </excludePackageNames>
+                </configuration>
             </plugin>
         </plugins>
     </build>
