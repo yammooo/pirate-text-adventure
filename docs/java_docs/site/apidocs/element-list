@@ -1,0 +1,13 @@
+org.example.exceptions
+org.example.facade
+org.example.json_translator
+org.example.model
+org.example.model.entities
+org.example.model.entities.enums
+org.example.observer
+org.example.pair
+org.example.state
+org.example.util
+org.example.view
+org.example.view.handlers
+org.example.view.panels
