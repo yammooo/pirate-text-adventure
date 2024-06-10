@@ -106,6 +106,4 @@ public class GraphicsPanelTest {
         g2d.dispose();
     }
 
-    // Additional tests for displayMenu, displayGameOver, displayGameWin, displayGame, drawHearts, and drawBackpackStatus methods
-
 }
