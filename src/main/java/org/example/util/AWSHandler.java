@@ -17,16 +17,19 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
-
 public class AWSHandler implements Observer {
 
-    // Configuration file path
+    // Configuration file paths
     private final String CREDENTIALS_FILE_PATH = "src/main/resources/AWS/credentials.properties";
-    private final String bucketName = "pirateprojectbucket"; // The bucket name
+    private final String CONFIG_FILE_PATH = "src/main/resources/AWS/config.properties";
+
+    private String bucketName; // The bucket name
+    private Region region; // The AWS region
 
     private static AWSHandler instance = null;
 
     private AWSHandler() {
+        loadConfig();
     }
 
     public static AWSHandler getInstance() {
@@ -36,29 +39,33 @@ public class AWSHandler implements Observer {
         return instance;
     }
 
-    //Update method
+    // Load configuration properties
+    private void loadConfig() {
+        Properties properties = new Properties();
+        try (FileInputStream input = new FileInputStream(CONFIG_FILE_PATH)) {
+            properties.load(input);
+            this.bucketName = properties.getProperty("bucketName");
+            this.region = Region.of(properties.getProperty("region"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Update method
     @Override
     public void update() throws AWSException {
-
         if (AppState.getInstance().getGameState().getTitle().equals("New Game State")) {
-
-            //Save a new instance
+            // Save a new instance
             saveAsNewGame();
-
         } else {
             String json = GameStateTranslator.gameStateToJson(AppState.getInstance().getGameState());
-
-            //Overwrite an existed instance
+            // Overwrite an existed instance
             saveAnExistingGame(json, AppState.getInstance().getGameState().getTitle());
         }
-
     }
 
     // Save a new instance in S3
     private void saveAsNewGame() throws AWSException {
-
-        Region region = Region.EU_NORTH_1;
-
         // Read credentials from the configuration file
         Properties properties = new Properties();
         try (FileInputStream input = new FileInputStream(CREDENTIALS_FILE_PATH)) {
@@ -81,7 +88,7 @@ public class AWSHandler implements Observer {
 
         // Generate a unique name for the JSON file
         String gameTitle = "game-" + UUID.randomUUID();
-        String keyName =  gameTitle + ".json";
+        String keyName = gameTitle + ".json";
 
         AppState.getInstance().getGameState().setTitle(gameTitle);
         String jsonContent = GameStateTranslator.gameStateToJson(AppState.getInstance().getGameState()); // The JSON content
@@ -119,7 +126,7 @@ public class AWSHandler implements Observer {
 
         // Configure the S3 client with basic access credentials
         try (S3Client s3Client = S3Client.builder()
-                .region(Region.EU_NORTH_1)
+                .region(region)
                 .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
                 .build()) {
 
@@ -174,7 +181,7 @@ public class AWSHandler implements Observer {
 
         // Configure the S3 client with basic access credentials
         try (S3Client s3Client = S3Client.builder()
-                .region(Region.EU_NORTH_1)
+                .region(region)
                 .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
                 .build()) {
 
@@ -241,7 +248,7 @@ public class AWSHandler implements Observer {
 
         // Configure the S3 client with basic access credentials
         try (S3Client s3Client = S3Client.builder()
-                .region(Region.EU_NORTH_1)
+                .region(region)
                 .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
                 .build()) {
 
@@ -274,7 +281,7 @@ public class AWSHandler implements Observer {
         return fileNames;
     }
 
-    //Return a specific json content
+    // Return a specific JSON content
     public String getSavedGames(int gameID) throws AWSException {
         ArrayList<String> searchGame = loadFromS3();
         try {
@@ -303,7 +310,7 @@ public class AWSHandler implements Observer {
 
         // Configure the S3 client with basic access credentials
         try (S3Client s3Client = S3Client.builder()
-                .region(Region.EU_NORTH_1)
+                .region(region)
                 .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
                 .build()) {
 
@@ -366,7 +373,7 @@ public class AWSHandler implements Observer {
 
         // Configure the S3 client with basic access credentials
         try (S3Client s3Client = S3Client.builder()
-                .region(Region.EU_NORTH_1)
+                .region(region)
                 .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
                 .build()) {
 
@@ -405,7 +412,8 @@ public class AWSHandler implements Observer {
                 throw new AWSException("Error occurred: Failed to communicate to AWS.");
             }
 
-
+        } catch (Exception e) {
+            throw new AWSException("Error occurred: Failed to communicate to AWS.");
         }
     }
 }
