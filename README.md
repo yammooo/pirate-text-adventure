@@ -64,7 +64,7 @@ If you would like your game to save to AWS S3, you will need to set up an AWS ac
 - **AWS SDK for Java**: Used for saving and loading game states to and from AWS S3.
 
 ## Documentation
-* [API Javadoc](): Documentation for the current release
-* [User Stories](docs/UserStories.md): This document includes the user stories and acceptance criteria
-* [Design document](docs/DesignDocument.md): This document includes the Domain Model, System Sequence Diagrams, Design Class Model, and Internal Sequence Diagrams
-* [System Test Document](docs/SystemTestReport.md): This document reports the validation of the system tests
+* [API Javadoc](https://html-preview.github.io/?url=https://github.com/yammooo/pirate-text-adventure/blob/master/docs/java_docs/site/apidocs/index.html): Documentation for the current release
+* [User Stories](docs/user_stories/UserStories.md): This document includes the user stories and acceptance criteria
+* [Design document](docs/design_document/DesignDocument.md): This document includes the Domain Model, System Sequence Diagrams, Design Class Model, and Internal Sequence Diagrams
+* [System Test Document](docs/system_test_report/SystemTestReport.md): This document reports the validation of the system tests
