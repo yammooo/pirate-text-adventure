@@ -8,7 +8,7 @@ import org.example.newgamecreator.map_creation.boriana_island.CoconutForest;
 import org.example.newgamecreator.map_creation.boriana_island.DarkHouse;
 import org.example.newgamecreator.map_creation.rosita_island.AbandonedHouse;
 import org.example.newgamecreator.map_creation.rosita_island.PinkTree;
-import org.example.newgamecreator.map_creation.volcania_island.PinkBeach;
+import org.example.newgamecreator.map_creation.rosita_island.PinkBeach;
 import org.example.newgamecreator.map_creation.volcania_island.TreasureIsland;
 import org.example.newgamecreator.map_creation.volcania_island.Volcano;
 import org.example.newgamecreator.map_creation.volcania_island.WhiteBeach;
@@ -18,7 +18,7 @@ import org.example.model.entities.Obstacle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.example.newgamecreator.map_creation.rosita_island.GoldenBeach.createGoldenBeach;
+import static org.example.newgamecreator.map_creation.volcania_island.GoldenBeach.createGoldenBeach;
 
 public class MapCreator {
 

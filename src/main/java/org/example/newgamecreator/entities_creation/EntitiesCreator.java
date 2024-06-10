@@ -2,6 +2,7 @@ package org.example.newgamecreator.entities_creation;
 
 import org.example.model.entities.CollectableItem;
 import org.example.model.entities.NPC;
+import org.example.model.entities.ViewableItem;
 
 public class EntitiesCreator {
 
@@ -52,7 +53,38 @@ public class EntitiesCreator {
         return new CollectableItem(SWORD_ID, "Sword", "A sharp viking longsword... how did it end up here?", 2, NON_REQUIRED);
     }
 
+
+
     // Viewable items
+    public static ViewableItem createSharkTeeth(){
+        return new ViewableItem(idCounter++, "Shark teeth", "On the beach there are several shark teeth... what is luring in the water?");
+    }
+
+    public static ViewableItem createSmokedEels(){
+        return new ViewableItem (idCounter++, "Smoked eels", "Looks like the locals here eat loads of eels... what is under those waves?");
+    }
+
+    public static ViewableItem createweirdDrawing(){
+        return new ViewableItem (idCounter++, "Weird drawing", "It represents three circles in a blue background each with a red X on top...");
+    }
+
+    public static ViewableItem createkeyChain1(){
+        return new ViewableItem(idCounter++, "Small Keychain", "The incision reads 1/3...");
+    }
+
+    public static ViewableItem createkeyChain2(){
+        return new ViewableItem(idCounter++, "Small Keychain", "The incision reads 2/3...");
+    }
+
+    public static ViewableItem createkeyChain3(){
+        return new ViewableItem(idCounter++, "Small Keychain", "The incision reads 3/3...");
+    }
+
+    public static ViewableItem createLabel(){
+        return new ViewableItem(idCounter++, "Label", "Careful... the ladder is really heavy");
+    }
+
+
 
     // Collectable items
 
@@ -100,6 +132,8 @@ public class EntitiesCreator {
         return new CollectableItem(FIREPLACE_ID, "Fireplace", "If you wish to search this place you must turn the light on.", 1, WOOD_ID);
     }
 
+
+
     // NPCs
 
     public static NPC createOldSage() {
@@ -114,8 +148,6 @@ public class EntitiesCreator {
         return new NPC(idCounter++, "Seagull", "An old seagull that lives nearby.", "You've come for the key hidden in the shed haven't you... you'll need some light to see inside there..");
     }
 
-
-    // Obstacles
 
 
 }

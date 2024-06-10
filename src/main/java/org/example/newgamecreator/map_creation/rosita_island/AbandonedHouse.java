@@ -16,6 +16,7 @@ public class AbandonedHouse {
         ArrayList<ViewableItem> viewableItems = new ArrayList<>();
         ArrayList<Integer> adjacentLocations = new ArrayList<>();
 
+        viewableItems.add(EntitiesCreator.createLabel());
         collectableItems.add(EntitiesCreator.createLadder());
 
         return new Location(locationId,"Abandoned House","An old looking abandoned house with shattered windows and a shed", collectableItems, viewableItems, npcs, adjacentLocations);
