@@ -17,6 +17,11 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.*;
 
+/**
+ * The AWSHandler class is responsible for handling interactions with AWS S3,
+ * including saving, loading, and deleting game state data. It implements the Observer
+ * interface to update game states.
+ */
 public class AWSHandler implements Observer {
 
     // Configuration file paths
@@ -28,10 +33,19 @@ public class AWSHandler implements Observer {
 
     private static AWSHandler instance = null;
 
+    /**
+     * Private constructor to enforce singleton pattern.
+     * Initializes the configuration by loading properties from a file.
+     */
     private AWSHandler() {
         loadConfig();
     }
 
+    /**
+     * Returns the singleton instance of AWSHandler.
+     *
+     * @return the singleton instance of AWSHandler.
+     */
     public static AWSHandler getInstance() {
         if (instance == null) {
             instance = new AWSHandler();
@@ -39,7 +53,9 @@ public class AWSHandler implements Observer {
         return instance;
     }
 
-    // Load configuration properties
+    /**
+     * Loads configuration properties from a file.
+     */
     private void loadConfig() {
         Properties properties = new Properties();
         try (FileInputStream input = new FileInputStream(CONFIG_FILE_PATH)) {
@@ -51,20 +67,26 @@ public class AWSHandler implements Observer {
         }
     }
 
-    // Update method
+    /**
+     * Updates the game state in S3. Saves a new game state or updates an existing one.
+     *
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     @Override
     public void update() throws AWSException {
         if (AppState.getInstance().getGameState().getTitle().equals("New Game State")) {
-            // Save a new instance
             saveAsNewGame();
         } else {
             String json = GameStateTranslator.gameStateToJson(AppState.getInstance().getGameState());
-            // Overwrite an existed instance
             saveAnExistingGame(json, AppState.getInstance().getGameState().getTitle());
         }
     }
 
-    // Save a new instance in S3
+    /**
+     * Saves a new game state in S3 with a unique title.
+     *
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     private void saveAsNewGame() throws AWSException {
         // Read credentials from the configuration file
         Properties properties = new Properties();
@@ -106,7 +128,12 @@ public class AWSHandler implements Observer {
         }
     }
 
-    // Count the number of saved games in S3 without extension .json
+    /**
+     * Counts the number of saved games in S3 with the .json extension.
+     *
+     * @return the number of saved games, or -1 if no JSON files are found.
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     public int countSavedGames() throws AWSException {
         int jsonFileCount = 0;
 
@@ -161,7 +188,12 @@ public class AWSHandler implements Observer {
         return jsonFileCount == 0 ? -1 : jsonFileCount; // If no JSON file is found, return -1
     }
 
-    // Return an ArrayList with all contents of all saved games
+    /**
+     * Loads all saved game contents from S3.
+     *
+     * @return an ArrayList containing the contents of all saved games.
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     public ArrayList<String> loadFromS3() throws AWSException {
         ArrayList<String> fileContents = new ArrayList<>();
 
@@ -215,7 +247,15 @@ public class AWSHandler implements Observer {
         return fileContents;
     }
 
-    // Download the content of one specific saved game
+    /**
+     * Downloads the content of a specific saved game from S3.
+     *
+     * @param s3Client the S3 client used for the operation.
+     * @param bucketName the name of the S3 bucket.
+     * @param key the key of the object to download.
+     * @return the content of the file as a String.
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     private String downloadFileContent(S3Client s3Client, String bucketName, String key) throws AWSException {
         try (InputStreamReader streamReader = new InputStreamReader(
                 s3Client.getObject(GetObjectRequest.builder().bucket(bucketName).key(key).build()));
@@ -228,7 +268,12 @@ public class AWSHandler implements Observer {
         }
     }
 
-    // Return all games title contained in S3
+    /**
+     * Returns the titles of all saved games contained in S3.
+     *
+     * @return an ArrayList of game titles.
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     public ArrayList<String> getGamesTitles() throws AWSException {
         ArrayList<String> fileNames = new ArrayList<>();
 
@@ -281,7 +326,13 @@ public class AWSHandler implements Observer {
         return fileNames;
     }
 
-    // Return a specific JSON content
+    /**
+     * Returns the content of a specific saved game by its ID.
+     *
+     * @param gameID the ID of the game to retrieve.
+     * @return the content of the saved game as a String.
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     public String getSavedGames(int gameID) throws AWSException {
         ArrayList<String> searchGame = loadFromS3();
         try {
@@ -291,7 +342,13 @@ public class AWSHandler implements Observer {
         }
     }
 
-    // Overwrite an existing game
+    /**
+     * Overwrites an existing game in S3 with new content.
+     *
+     * @param json the new content of the game in JSON format.
+     * @param fileName the name of the file to overwrite.
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     public void saveAnExistingGame(String json, String fileName) throws AWSException {
 
         // Read credentials from the configuration file
@@ -354,7 +411,12 @@ public class AWSHandler implements Observer {
         }
     }
 
-    // Delete an existing instance: File name without extension
+    /**
+     * Deletes an existing game from S3.
+     *
+     * @param fileName the name of the file to delete (without extension).
+     * @throws AWSException if there is an error during the AWS S3 operation.
+     */
     public void deleteGame(String fileName) throws AWSException {
 
         // Read credentials from the configuration file

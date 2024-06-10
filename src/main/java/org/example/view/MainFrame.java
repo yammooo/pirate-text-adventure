@@ -6,10 +6,20 @@ import org.example.view.panels.GraphicsPanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame extends JFrame{
+/**
+ * The MainFrame class is a JFrame that serves as the main window for the application.
+ * It contains a CommandPanel and a GraphicsPanel, and is responsible for initializing
+ * and arranging these panels within the frame.
+ */
+public class MainFrame extends JFrame {
     private final CommandPanel commandPanel;
     private final GraphicsPanel graphicsPanel;
 
+    /**
+     * Constructs a new MainFrame.
+     * Initializes the CommandPanel and GraphicsPanel, sets up the layout,
+     * and configures the frame parameters.
+     */
     public MainFrame() {
 
         // Initialize panels
@@ -49,9 +59,20 @@ public class MainFrame extends JFrame{
         });
     }
 
+    /**
+     * Returns the CommandPanel of this frame.
+     *
+     * @return the CommandPanel of this frame.
+     */
     public CommandPanel getCommandPanel() {
         return this.commandPanel;
     }
+
+    /**
+     * Returns the GraphicsPanel of this frame.
+     *
+     * @return the GraphicsPanel of this frame.
+     */
     public GraphicsPanel getGraphicsPanel() {
         return this.graphicsPanel;
     }
