@@ -12,7 +12,7 @@ import java.util.Map;
 
 /**
  * PairObstacleMapAdapter is a custom TypeAdapter used for serializing and deserializing HashMaps
- * with Pair<Integer, Integer> keys and Obstacle values. This adapter allows Gson to properly convert
+ * with Pair&lt;Integer, Integer&gt; keys and Obstacle values. This adapter allows Gson to properly convert
  * HashMaps to and from JSON format.
  */
 public class PairObstacleMapAdapter extends TypeAdapter<HashMap<Pair<Integer, Integer>, Obstacle>> {
