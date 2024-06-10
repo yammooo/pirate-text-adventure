@@ -8,21 +8,22 @@ import org.example.newgamecreator.entities_creation.EntitiesCreator;
 
 import java.util.ArrayList;
 
-public class PinkBeach {
+public class GoldenBeach {
 
-    public static Location createPinkBeach(int locationId) {
+    public static Location createGoldenBeach(int locationId) {
         ArrayList<NPC> npcs = new ArrayList<>();
         ArrayList<CollectableItem> collectableItems = new ArrayList<>();
         ArrayList<ViewableItem> viewableItems = new ArrayList<>();
         ArrayList<Integer> adjacentLocations = new ArrayList<>();
 
+        viewableItems.add(EntitiesCreator.createSharkTeeth());
+        viewableItems.add(EntitiesCreator.createweirdDrawing());
 
-        collectableItems.add(EntitiesCreator.createPassionFruit());
-        collectableItems.add(EntitiesCreator.createBottle());
+        collectableItems.add(EntitiesCreator.createShell());
+        collectableItems.add(EntitiesCreator.createShovel());
+        collectableItems.add(EntitiesCreator.createSpear());
 
-        npcs.add(EntitiesCreator.createOldSage());
-
-        return new Location(locationId,"Pink Beach","A beach with pink petals and leaves all over it.", collectableItems, viewableItems, npcs, adjacentLocations);
+        return new Location(locationId,"Golden Beach","A suspiciously empty beach.", collectableItems, viewableItems, npcs, adjacentLocations);
     }
 
 }

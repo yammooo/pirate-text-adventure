@@ -15,6 +15,8 @@ public class WhiteBeach {
         ArrayList<ViewableItem> viewableItems = new ArrayList<>();
         ArrayList<Integer> adjacentLocations = new ArrayList<>();
 
+        viewableItems.add(EntitiesCreator.createSmokedEels());
+
         collectableItems.add(EntitiesCreator.createShell());
         collectableItems.add(EntitiesCreator.createSword());
 

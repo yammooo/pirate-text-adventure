@@ -15,7 +15,7 @@ public class Volcano {
         ArrayList<ViewableItem> viewableItems = new ArrayList<>();
         ArrayList<Integer> adjacentLocations = new ArrayList<>();
 
-
+        viewableItems.add(EntitiesCreator.createkeyChain3());
 
         collectableItems.add(EntitiesCreator.createGoldenKey());
 

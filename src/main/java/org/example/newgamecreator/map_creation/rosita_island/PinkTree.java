@@ -19,6 +19,7 @@ public class PinkTree {
 
         collectableItems.add(EntitiesCreator.createPinkKey());
         collectableItems.add(EntitiesCreator.createPinkLeaf());
+        viewableItems.add(EntitiesCreator.createkeyChain1());
 
         npcs.add(EntitiesCreator.createPinkMonkey());
 

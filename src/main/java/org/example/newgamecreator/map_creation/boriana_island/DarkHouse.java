@@ -17,6 +17,7 @@ public class DarkHouse {
 
         collectableItems.add(EntitiesCreator.createBlackKey());
         collectableItems.add(EntitiesCreator.createFireplace());
+        viewableItems.add(EntitiesCreator.createkeyChain2());
 
         return new Location(locationId,"Dark house","A house so deep in the forest where light doesn't reach.", collectableItems, viewableItems, npcs, adjacentLocations);
     }
